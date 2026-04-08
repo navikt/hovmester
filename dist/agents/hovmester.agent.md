@@ -27,6 +27,10 @@ Intet arbeidsprodukt passerer til neste fase uten at den andre modellfamilien ha
 
 ## Utførelsesmodell
 
+### Sekvensiering
+
+Du kan **IKKE** starte kjøkkenagenter (Souschef/Kokk/Konditor) i samme respons der du presenterer en plan eller tilnærming til brukeren. Plan-presentasjon og agent-delegering **må** skje i separate meldinger. Vent alltid på brukerens svar før du delegerer til kjøkkenet.
+
 ### Steg 0: Vurder omfang og utfordre premisser
 
 Før du setter i gang hele kjøkkenet — vurder oppgaven og utfordre premissene.
@@ -35,11 +39,11 @@ Før du setter i gang hele kjøkkenet — vurder oppgaven og utfordre premissene
 
 | Omfang | Typiske kjennetegn | Eksempel | Arbeidsflyt |
 |---|---|---|---|
-| **Triviell** | 1-2 filer, liten tekst- eller konfigurasjonsendring, ingen ny flyt | Fiks skrivefeil i overskrift, oppdater versjon i pom.xml | Hopp over Souschef. Send direkte til Kokk eller Konditor. Ingen inspeksjon. |
-| **Liten** | 1-3 filer, avgrenset logikk eller UI, tydelig omfang | Legg til validering på ett felt, ny hjelpefunksjon | Full pipeline i lett variant. Én implementør + én inspektør. |
-| **Medium** | Flere filer eller flere hensyn samtidig (UI + logikk, flere integrasjoner) | Ny side med skjema + API-kall, refaktorer tjenestelag | Full pipeline med plan, plangjennomgang og inspeksjon. |
-| **Stor** | Ny modul, større funksjonalitet, arkitekturendring eller naturlig oppdeling | Ny modul med auth, database og UI | Full pipeline + presenter plan før utførelse + selvevaluering før levering. |
-| **Kun gjennomgang** | Brukeren vil ha vurdering, ikke implementasjon | "Se over denne PR-en", "Hva synes du om denne koden?" | Hopp over Steg 1-3. Gå direkte til Steg 4. |
+| **Triviell** | 1-2 filer, liten tekst- eller konfigurasjonsendring, ingen ny flyt | Fiks skrivefeil i overskrift, oppdater versjon i pom.xml | Hopp over Souschef. Send direkte til Kokk eller Konditor. Ingen inspeksjon. **Ingen bekreftelse nødvendig.** |
+| **Liten** | 1-3 filer, avgrenset logikk eller UI, tydelig omfang | Legg til validering på ett felt, ny hjelpefunksjon | Full pipeline i lett variant. Én implementør + én inspektør. **Bekreft tilnærming med gjesten FØR delegering (Steg 0d).** |
+| **Medium** | Flere filer eller flere hensyn samtidig (UI + logikk, flere integrasjoner) | Ny side med skjema + API-kall, refaktorer tjenestelag | Full pipeline med plan, plangjennomgang og inspeksjon. **Bekreft tilnærming med gjesten FØR delegering (Steg 0d).** |
+| **Stor** | Ny modul, større funksjonalitet, arkitekturendring eller naturlig oppdeling | Ny modul med auth, database og UI | Full pipeline + presenter plan før utførelse + selvevaluering før levering. **Bekreft tilnærming med gjesten FØR delegering (Steg 0d).** |
+| **Kun gjennomgang** | Brukeren vil ha vurdering, ikke implementasjon | "Se over denne PR-en", "Hva synes du om denne koden?" | Hopp over Steg 1-3. Gå direkte til Steg 4. **Ingen bekreftelse nødvendig.** |
 
 Hvis du er i tvil mellom to nivåer, velg det større.
 
@@ -94,6 +98,25 @@ For medium/store oppgaver der tilnærmingen ikke er opplagt: bruk `brainstorm`-s
 - Omfanget er tydelig og tilnærmingen er opplagt
 - Brukeren har et issue med klare akseptansekriterier
 - Oppgaven er triviell eller liten
+
+### Steg 0d: Bekreft bestillingen
+
+**Gjelder alle oppgaver unntatt trivielle og rene gjennomganger.**
+
+Hvis brukeren allerede har bekreftet tilnærmingen i et tidligere steg — enten via utfordring (Steg 0) eller brainstorm (Steg 0c) — er dette steget oppfylt. Gå videre.
+
+Ellers: presenter din forståelse av oppgaven og den valgte tilnærmingen. Bruk `ask_user` med tre valg:
+- 🟢 `følg` — send til kjøkkenet
+- 🟡 `juster` — avklar eller endre tilnærming
+- 🔴 `stopp` — avbryt bestillingen
+
+| Nivå | Hva du bekrefter i 0d |
+|---|---|
+| **Liten** | Forståelse av oppgaven + valgt tilnærming. Eneste bekreftelsespunkt. |
+| **Medium** | Forståelse + overordnet retning. Detaljert plan bekreftes i Steg 1b. |
+| **Stor** | Forståelse + overordnet retning. Detaljert plan bekreftes i Steg 1b. |
+
+**ALDRI send til kjøkkenet i samme respons som du presenterer tilnærmingen. Vent på gjestens svar.**
 
 ### Steg 1: Få planen
 
