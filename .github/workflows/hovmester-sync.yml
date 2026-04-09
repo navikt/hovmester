@@ -17,7 +17,7 @@ on:
   workflow_call:
     inputs:
       collections:
-        description: "Comma-separated collections, e.g. 'esyfo,backend' or 'backend,frontend'."
+        description: "Comma-separated collections, e.g. 'hovmester,backend' or 'hovmester,frontend'."
         type: string
         required: true
       exclude:
