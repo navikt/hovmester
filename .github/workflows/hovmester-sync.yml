@@ -30,10 +30,10 @@ on:
         required: false
         default: ''
       automerge_app_id:
-        description: "GitHub App ID for PR creation and auto-merge."
-        type: number
+        description: "GitHub App ID for PR creation and auto-merge. Required together with APP_PRIVATE_KEY secret. Leave empty to disable auto-merge."
+        type: string
         required: false
-        default: 2906300
+        default: ''
     secrets:
       APP_PRIVATE_KEY:
         description: "GitHub App private key for auto-approve and auto-merge."
@@ -96,7 +96,13 @@ jobs:
         id: check-secret
         env:
           HAS_SECRET: ${{ secrets.APP_PRIVATE_KEY }}
-        run: echo "available=$([ -n "$HAS_SECRET" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          APP_ID: ${{ inputs.automerge_app_id }}
+        run: |
+          if [ -n "$HAS_SECRET" ] && [ -n "$APP_ID" ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Generate app token
         if: steps.check-secret.outputs.available == 'true'
