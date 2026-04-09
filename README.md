@@ -23,7 +23,8 @@ jobs:
     with:
       collections: "hovmester,backend"   # eller "hovmester,frontend", "hovmester,backend,frontend"
       github_project: "navikt/123"       # valgfritt — auto-linker nye issues til prosjektet
-    # secrets:                           # valgfritt — gir auto-merge
+    # automerge_app_id: "12345678"       # valgfritt — gir auto-merge (krever begge)
+    # secrets:
     #   APP_PRIVATE_KEY: ${{ secrets.AUTOMERGE_APP_PRIVATE_KEY }}
 ```
 
