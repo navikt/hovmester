@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import shutil
 import sys
 from dataclasses import asdict, dataclass, field
@@ -54,6 +55,26 @@ class SyncDiff:
 # ---------------------------------------------------------------------------
 # Core functions
 # ---------------------------------------------------------------------------
+
+
+def transform_issue_template(content: str, github_project: str) -> str:
+    """Substitute or strip the ${GITHUB_PROJECT} placeholder in issue templates.
+
+    Template files under dist/issue-templates/ MUST use the exact format:
+        projects: ["${GITHUB_PROJECT}"]
+    (double quotes, no extra whitespace inside the brackets). The stripping
+    regex is tied to this format — if the template format changes, update
+    the regex accordingly.
+    """
+    if github_project:
+        return content.replace("${GITHUB_PROJECT}", github_project)
+    # Strip the entire projects line when no project is configured
+    return re.sub(
+        r'^projects:\s*\["\$\{GITHUB_PROJECT\}"\]\s*\n',
+        '',
+        content,
+        flags=re.MULTILINE,
+    )
 
 
 def build_file_mapping(source: Path) -> dict[str, Path]:

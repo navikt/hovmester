@@ -486,3 +486,42 @@ class TestExclude:
         assert ".github/skills/kafka-topic/SKILL.md" not in mapping  # excluded
 
 
+# ---------------------------------------------------------------------------
+# Template transform
+# ---------------------------------------------------------------------------
+
+
+class TestTransformIssueTemplate:
+    def test_substitutes_placeholder_when_project_set(self) -> None:
+        from sync import transform_issue_template
+
+        content = 'name: Bug\nprojects: ["${GITHUB_PROJECT}"]\nbody:\n  - ...\n'
+        result = transform_issue_template(content, "navikt/123")
+        assert 'projects: ["navikt/123"]' in result
+        assert "${GITHUB_PROJECT}" not in result
+
+    def test_strips_projects_line_when_project_empty(self) -> None:
+        from sync import transform_issue_template
+
+        content = 'name: Bug\nprojects: ["${GITHUB_PROJECT}"]\nbody:\n  - ...\n'
+        result = transform_issue_template(content, "")
+        assert "projects:" not in result
+        assert "name: Bug" in result
+        assert "body:" in result
+
+    def test_preserves_surrounding_content(self) -> None:
+        from sync import transform_issue_template
+
+        content = 'name: Bug\ndescription: Report a bug\nprojects: ["${GITHUB_PROJECT}"]\ntype: Bug\n'
+        result = transform_issue_template(content, "navikt/999")
+        assert "name: Bug" in result
+        assert "description: Report a bug" in result
+        assert "type: Bug" in result
+        assert 'projects: ["navikt/999"]' in result
+
+    def test_no_placeholder_content_unchanged(self) -> None:
+        from sync import transform_issue_template
+
+        content = "name: Bug\ndescription: Plain template without projects line\n"
+        result = transform_issue_template(content, "navikt/123")
+        assert result == content
