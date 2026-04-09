@@ -134,8 +134,8 @@ def resolve_collections(
     collections_data = yaml.safe_load(collections_path.read_text(encoding="utf-8")) or {}
     requested = {c.strip() for c in collections_input.split(",")}
 
-    # common is always included
-    requested.add("common")
+    # hovmester is always included
+    requested.add("hovmester")
 
     allowed: dict[str, set[str]] = {
         "agents": set(),

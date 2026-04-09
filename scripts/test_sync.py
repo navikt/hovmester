@@ -1,4 +1,4 @@
-"""Tests for sync.py — copilot-kitchen file sync logic."""
+"""Tests for sync.py — hovmester file sync logic."""
 
 from __future__ import annotations
 
@@ -301,7 +301,7 @@ class TestApplySync:
 # ---------------------------------------------------------------------------
 
 COLLECTIONS_YML = """\
-common:
+hovmester:
   agents:
     - hovmester
     - kokk
@@ -334,7 +334,7 @@ class TestCollections:
         _write(root / "collections.yml", COLLECTIONS_YML)
         _write(root / "dist" / "agents" / "hovmester.agent.md", "hovmester")
         _write(root / "dist" / "agents" / "kokk.agent.md", "kokk")
-        _write(root / "dist" / "agents" / "konditor.agent.md", "konditor")  # NOT in common
+        _write(root / "dist" / "agents" / "konditor.agent.md", "konditor")  # NOT in hovmester
         _write(root / "dist" / "instructions" / "security.instructions.md", "security")
         _write(root / "dist" / "instructions" / "kotlin.instructions.md", "kotlin")
         _write(root / "dist" / "skills" / "brainstorm" / "SKILL.md", "brainstorm")
@@ -345,7 +345,7 @@ class TestCollections:
         _write(root / "dist" / "skills" / "aksel-design" / "references" / "tokens.md", "tokens")
         _write(root / "dist" / "skills" / "accessibility" / "SKILL.md", "a11y")
         _write(root / "dist" / "issue-templates" / "bug.yml", "bug")
-        _write(root / "dist" / "issue-templates" / "feature.yml", "feature")  # NOT in common
+        _write(root / "dist" / "issue-templates" / "feature.yml", "feature")  # NOT in hovmester
         _write(root / "dist" / "PULL_REQUEST_TEMPLATE.md", "pr template")
         return root
 
@@ -356,37 +356,37 @@ class TestCollections:
         filtered = filter_mapping_by_collections(mapping, allowed)
         assert len(filtered) == len(mapping)
 
-    def test_common_only(self, tmp_path: Path) -> None:
+    def test_hovmester_only(self, tmp_path: Path) -> None:
         source = self._make_full_source(tmp_path)
         mapping = build_file_mapping(source)
-        allowed = resolve_collections(source, "common")
+        allowed = resolve_collections(source, "hovmester")
         filtered = filter_mapping_by_collections(mapping, allowed)
 
-        # Should have common agents but NOT konditor
+        # Should have hovmester agents but NOT konditor
         assert ".github/agents/hovmester.agent.md" in filtered
         assert ".github/agents/kokk.agent.md" in filtered
         assert ".github/agents/konditor.agent.md" not in filtered
 
-        # Should have common skills but NOT backend/frontend skills
+        # Should have hovmester skills but NOT backend/frontend skills
         assert ".github/skills/brainstorm/SKILL.md" in filtered
         assert ".github/skills/kafka-topic/SKILL.md" not in filtered
         assert ".github/skills/aksel-design/SKILL.md" not in filtered
 
-        # Should have common instructions but NOT kotlin
+        # Should have hovmester instructions but NOT kotlin
         assert ".github/instructions/security.instructions.md" in filtered
         assert ".github/instructions/kotlin.instructions.md" not in filtered
 
-        # Should have common issue templates but NOT feature
+        # Should have hovmester issue templates but NOT feature
         assert ".github/ISSUE_TEMPLATE/bug.yml" in filtered
         assert ".github/ISSUE_TEMPLATE/feature.yml" not in filtered
 
         # PR template
         assert ".github/PULL_REQUEST_TEMPLATE.md" in filtered
 
-    def test_common_backend(self, tmp_path: Path) -> None:
+    def test_hovmester_backend(self, tmp_path: Path) -> None:
         source = self._make_full_source(tmp_path)
         mapping = build_file_mapping(source)
-        allowed = resolve_collections(source, "common,backend")
+        allowed = resolve_collections(source, "hovmester,backend")
         filtered = filter_mapping_by_collections(mapping, allowed)
 
         # Backend skills included
@@ -397,10 +397,10 @@ class TestCollections:
         # Frontend skills NOT included
         assert ".github/skills/aksel-design/SKILL.md" not in filtered
 
-    def test_common_frontend(self, tmp_path: Path) -> None:
+    def test_hovmester_frontend(self, tmp_path: Path) -> None:
         source = self._make_full_source(tmp_path)
         mapping = build_file_mapping(source)
-        allowed = resolve_collections(source, "common,frontend")
+        allowed = resolve_collections(source, "hovmester,frontend")
         filtered = filter_mapping_by_collections(mapping, allowed)
 
         # Frontend skills included (with references)
@@ -410,14 +410,14 @@ class TestCollections:
         # Backend NOT included
         assert ".github/skills/kafka-topic/SKILL.md" not in filtered
 
-    def test_common_always_implicit(self, tmp_path: Path) -> None:
+    def test_hovmester_always_implicit(self, tmp_path: Path) -> None:
         source = self._make_full_source(tmp_path)
         mapping = build_file_mapping(source)
-        # Only specify "backend" — common should be included implicitly
+        # Only specify "backend" — hovmester should be included implicitly
         allowed = resolve_collections(source, "backend")
         filtered = filter_mapping_by_collections(mapping, allowed)
 
-        assert ".github/agents/hovmester.agent.md" in filtered  # from common
+        assert ".github/agents/hovmester.agent.md" in filtered  # from hovmester
         assert ".github/skills/kafka-topic/SKILL.md" in filtered  # from backend
 
 
@@ -478,11 +478,11 @@ class TestExclude:
         _write(source / "dist" / "PULL_REQUEST_TEMPLATE.md", "pr")
 
         mapping = build_file_mapping(source)
-        allowed = resolve_collections(source, "common,backend")
+        allowed = resolve_collections(source, "hovmester,backend")
         mapping = filter_mapping_by_collections(mapping, allowed)
         mapping = filter_mapping_by_exclude(mapping, "kafka-topic")
 
-        assert ".github/skills/brainstorm/SKILL.md" in mapping  # common
+        assert ".github/skills/brainstorm/SKILL.md" in mapping  # hovmester
         assert ".github/skills/kafka-topic/SKILL.md" not in mapping  # excluded
 
 
