@@ -11,7 +11,6 @@ import argparse
 import hashlib
 import json
 import re
-import shutil
 import sys
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
@@ -448,20 +447,24 @@ def _find_extra_files_in_owned_skills(
 
 
 def apply_sync(
-    mapping: dict[str, tuple[Path, str]], target_root: Path, source_sha: str = ""
+    mapping: dict[str, tuple[Path, str]],
+    target_root: Path,
+    source_sha: str = "",
+    github_project: str = "",
 ) -> SyncDiff:
     """Apply the full sync: copy new/changed, remove stale, write manifest."""
-    diff = compute_diff(mapping, target_root)
+    diff = compute_diff(mapping, target_root, github_project)
     current_files = set(mapping.keys())
 
-    # Copy added and changed files
+    # Copy added and changed files (via helper so template transforms apply)
     failed: set[str] = set()
     for target_rel in diff.added + diff.changed:
-        source_path, _source_rel = mapping[target_rel]
+        source_path, source_rel = mapping[target_rel]
         target_path = target_root / target_rel
         target_path.parent.mkdir(parents=True, exist_ok=True)
         try:
-            shutil.copy2(source_path, target_path)
+            content = _read_source_content(source_path, source_rel, github_project)
+            target_path.write_bytes(content)
         except OSError as e:
             print(f"WARNING: Failed to copy {target_rel}: {e}", file=sys.stderr)
             failed.add(target_rel)
