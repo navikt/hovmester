@@ -182,7 +182,7 @@ def filter_mapping_by_exclude(
     Exclude names are matched against:
     - Agent filenames (e.g. 'hovmester.agent.md')
     - Instruction filenames (e.g. 'kotlin.instructions.md')
-    - Skill directory names (e.g. 'tech-stack' matches all files under that skill)
+    - Skill directory names (e.g. 'kafka-topic' matches all files under that skill)
     - Issue template filenames (e.g. 'bug.yml')
     """
     if not exclude_input:
@@ -475,7 +475,7 @@ def main() -> None:
     )
     parser.add_argument(
         "--exclude", type=str, default=None,
-        help="Comma-separated names to exclude (e.g. 'tech-stack,kafka-topic').",
+        help="Comma-separated names to exclude (e.g. 'kafka-topic,grill-me').",
     )
     args = parser.parse_args()
 

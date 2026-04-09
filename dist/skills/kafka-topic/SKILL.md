@@ -1,11 +1,11 @@
 ---
 name: kafka-topic
-description: Sett opp Kafka-topic, consumer og producer for team-esyfo — mønstre, idempotens, feilhåndtering, NAIS-konfig og testing
+description: Sett opp Kafka-topic, consumer og producer — mønstre, idempotens, feilhåndtering, NAIS-konfig og testing
 ---
 
 # Kafka — Topic, Consumer og Producer
 
-Team eSyfo bruker **plain Apache Kafka clients** — ikke Rapids & Rivers.
+Teamet bruker **plain Apache Kafka clients** — ikke Rapids & Rivers.
 
 ## Fremgangsmåte
 

@@ -10,7 +10,6 @@ applyTo: "**/*.kt"
 - Logging: Sjekk eksisterende loggemønster i repoet (`KotlinLogging`, `kv()`-felter, MDC)
 - Metrikker: Micrometer / Prometheus
 - Autentiseringstesting: MockOAuth2Server
-- Se `tech-stack`-skillen for teamets bibliotekpreferanser
 
 ## Framework-spesifikke skills
 

@@ -17,11 +17,11 @@ on:
   workflow_call:
     inputs:
       collections:
-        description: "Comma-separated collections, e.g. 'common,backend'. Default: all files."
+        description: "Comma-separated collections, e.g. 'esyfo,backend' or 'backend,frontend'."
         type: string
-        required: false
+        required: true
       exclude:
-        description: "Comma-separated names to exclude, e.g. 'tech-stack,kafka-topic'."
+        description: "Comma-separated names to exclude, e.g. 'kafka-topic,grill-me'."
         type: string
         required: false
       automerge_app_id:

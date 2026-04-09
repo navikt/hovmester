@@ -5,7 +5,7 @@ description: Opprett en Flyway-databasemigrering etter riktige konvensjoner
 
 # Flyway-migrering
 
-Opprett en ny Flyway-migreringsfil etter team-esyfos konvensjoner.
+Opprett en ny Flyway-migreringsfil etter teamets konvensjoner.
 
 ## Steg
 

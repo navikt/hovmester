@@ -67,11 +67,11 @@ max_over_time(task_queue_size{app="my-app"}[10m])
 ### Enkel filtrering
 
 ```logql
-{app="my-app", namespace="team-esyfo"} |= "ERROR"
+{app="my-app", namespace="your-team"} |= "ERROR"
 ```
 
 ```logql
-{app="my-app", namespace="team-esyfo"} | json | level="error"
+{app="my-app", namespace="your-team"} | json | level="error"
 ```
 
 ### Aggregering
@@ -79,7 +79,7 @@ max_over_time(task_queue_size{app="my-app"}[10m])
 Feil per container per minutt:
 
 ```logql
-sum(rate({app="my-app", namespace="team-esyfo"} |= "ERROR" [1m])) by (container)
+sum(rate({app="my-app", namespace="your-team"} |= "ERROR" [1m])) by (container)
 ```
 
 Strukturerte logs gruppert på event-type:
@@ -95,7 +95,7 @@ sum by (event_type) (
 Når logger inneholder `trace_id`, kan du hente alle loggene for et trace:
 
 ```logql
-{app="my-app", namespace="team-esyfo"}
+{app="my-app", namespace="your-team"}
 | json
 | trace_id="2f2f2264a8b6df9f8b3d614f4c9ce111"
 ```

@@ -1,53 +1,11 @@
 ---
-description: "GitHub Actions CI/CD-standarder — SHA-pinning, Nais deploy, sikkerhet og Team eSyfos gjenbrukbare workflows"
+description: "GitHub Actions CI/CD-standarder — SHA-pinning, Nais deploy, sikkerhet"
 applyTo: ".github/workflows/**"
 ---
 
-# GitHub Actions — Team eSyfo
+# GitHub Actions — Nav
 
-Standarder for CI/CD-workflows med GitHub Actions på Nais.
-
-## Team eSyfos gjenbrukbare workflows
-
-Team eSyfo har et felles repo med gjenbrukbare workflows: [`navikt/teamesyfo-github-actions-workflows`](https://github.com/navikt/teamesyfo-github-actions-workflows)
-
-### Tilgjengelige workflows
-
-| Workflow | Bruksområde |
-|----------|-------------|
-| `boot-jar-app.yaml` | Spring Boot / Ktor backend (JAR) |
-| `jar-app.yaml` | Generisk JAR-app |
-| `fss-boot-jar-app.yaml` | FSS Spring Boot-app |
-| `next-app-v2.yaml` | Next.js frontend |
-| `next-app.yaml` | Next.js frontend (legacy) |
-| `vite-mikrofrontend.yaml` | Vite-basert mikrofrontend |
-| `dependabot-automerge.yaml` | Auto-merge Dependabot PR-er |
-| `merge-dependabot-pr.yaml` | Merge Dependabot PR |
-| `label-dependabot-pr.yaml` | Label Dependabot PR |
-
-### Tilgjengelige actions (composite)
-
-| Action | Bruksområde |
-|--------|-------------|
-| `boot-jar-to-docker` | Bygg Spring Boot JAR → Docker image |
-| `jar-to-docker` | Bygg JAR → Docker image |
-| `build-next-app` | Bygg Next.js-app |
-| `next-to-docker` | Next.js → Docker image |
-| `gradle-cached` | Gradle-bygg med caching |
-| `npm-cached` | npm install med caching |
-| `setup-pnpm` | pnpm-oppsett |
-| `playwright-e2e` | Playwright E2E-tester |
-
-### Bruk i workflow
-
-```yaml
-jobs:
-  build-and-deploy:
-    uses: navikt/teamesyfo-github-actions-workflows/.github/workflows/boot-jar-app.yaml@main
-    secrets: inherit
-```
-
-**Sjekk alltid repoet for oppdatert dokumentasjon og tilgjengelige inputs.**
+Standarder for CI/CD-workflows med GitHub Actions på Nais. Sjekk om teamet har et repo med gjenbrukbare workflows før du skriver egne.
 
 ## Action Pinning
 
@@ -97,7 +55,7 @@ jobs:
       - uses: nais/docker-build-push@v0
         id: docker-build-push
         with:
-          team: team-esyfo
+          team: <myteam>
 
   deploy-dev:
     needs: build
@@ -171,7 +129,7 @@ jobs:
 - Sett eksplisitte `permissions` per job
 - Bruk `timeout-minutes` på alle jobs
 - Bruk `concurrency` for deploy-workflows
-- Sjekk teamesyfo-github-actions-workflows for gjenbrukbare workflows før du skriver egen
+- Sjekk teamets gjenbrukbare workflows før du skriver egen
 
 ### Spør først
 - Nye secrets eller environment variables

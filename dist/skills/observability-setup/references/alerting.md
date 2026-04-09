@@ -101,7 +101,7 @@ metadata:
 spec:
   receivers:
     slack:
-      channel: "#team-esyfo-alerts"
+      channel: "#your-team-alerts"
       prependText: "@here "
   alerts:
     - alert: HighErrorRate

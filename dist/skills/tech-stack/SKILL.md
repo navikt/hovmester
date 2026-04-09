@@ -48,7 +48,6 @@ Sjekk NAIS-manifest (`nais.yaml`) for hvilke som brukes i det aktuelle repoet.
 |---|---|
 | **Språk** | TypeScript (strict) |
 | **UI-lib** | Aksel (`@navikt/ds-react`, `@navikt/ds-tokens`, `@navikt/aksel-icons`) |
-| **Spacing** | Aksel tokens (`space-4`, `space-8`, etc.) — aldri Tailwind padding/margin |
 | **Testing** | Vitest + Testing Library |
 | **Auth** | `@navikt/oasis` |
 | **Tall-formatering** | Norsk locale (mellomrom som tusenskilletegn) |

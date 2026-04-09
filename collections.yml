@@ -1,5 +1,5 @@
 # Collections — maps named groups to copilot customization files.
-# Used by the sync workflow when callers specify: collections: "common,backend"
+# Used by the sync workflow when callers specify: collections: "esyfo,backend"
 # 'common' is always included implicitly. Omitting collections syncs all files.
 
 common:
@@ -25,15 +25,17 @@ common:
     - pull-request
     - security-review
     - tdd
-    - tech-stack
+  issue_templates:
+    - config
+  pull_request_template: PULL_REQUEST_TEMPLATE.md
+
+esyfo:
   issue_templates:
     - feature
     - bug
     - story
     - task
     - epic
-    - config
-  pull_request_template: PULL_REQUEST_TEMPLATE.md
 
 backend:
   instructions:

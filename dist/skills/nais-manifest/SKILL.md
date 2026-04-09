@@ -24,7 +24,7 @@ apiVersion: nais.io/v1alpha1
 kind: Application
 metadata:
   name: {app-name}
-  namespace: {team-namespace}  # Read from existing manifest, e.g. team-esyfo
+  namespace: {team-namespace}  # Read from existing manifest
   labels:
     team: {team-namespace}
 spec:

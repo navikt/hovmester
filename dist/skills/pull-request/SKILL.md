@@ -1,9 +1,9 @@
 ---
 name: pull-request
-description: Opprett pull requests med semantisk tittel, issue-kobling og sjekkliste etter Team eSyfos arbeidsflyt
+description: Opprett pull requests med semantisk tittel, issue-kobling og sjekkliste
 ---
 
-# Pull request — Team eSyfo
+# Pull request
 
 Opprett konsistente, godt strukturerte pull requests som kobles til issues og følger teamets arbeidsflyt.
 

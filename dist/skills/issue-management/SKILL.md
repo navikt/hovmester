@@ -1,11 +1,11 @@
 ---
 name: issue-management
-description: Opprett og administrer GitHub Issues, epics, sub-issues og prosjektstatus på Team eSyfos GitHub Projects-board
+description: Opprett og administrer GitHub Issues, epics, sub-issues og avhengigheter
 ---
 
-# Issue-håndtering — Team eSyfo
+# Issue-håndtering
 
-Opprett og håndter GitHub Issues knyttet til GitHub Projects-boardet til Team eSyfo i `navikt`-organisasjonen.
+Opprett og håndter GitHub Issues med epics, sub-issues og avhengigheter.
 
 ## Arbeidsflyt
 
@@ -45,27 +45,9 @@ gh api repos/navikt/REPO_NAVN/issues \
   --jq '.html_url'
 ```
 
-Legg deretter issuet til i GitHub Projects-boardet til Team eSyfo.
-
-Se `references/projects.md` for prosjektnummer og feltoppdatering.
 Se `references/issue-types.md` for detaljer om issue-typer.
 
-### 5. Sett project-felter
-
-Ved programmatisk opprettelse, legg issue i prosjektet og sett riktige felter manuelt.
-
-**Statuser:**
-| Status | Bruk |
-|--------|------|
-| **Backlog** | Nyopprettede issues |
-| **Plukk meg! 🙌** | Klar til å plukkes opp |
-| **Jeg jobbes med! ⚒️** | Under arbeid |
-| **Monday epics 🎯** | Aktive epics |
-| **Done** | Ferdig |
-
-**Typer:** Bug, Epic, Feature, Story, Task
-
-### 6. Epic-håndtering
+### 5. Epic-håndtering
 
 For store oppgaver som brytes ned:
 
@@ -74,7 +56,6 @@ For store oppgaver som brytes ned:
 3. Koble sub-issues til epicen via GitHubs sub-issues-API
 4. Koble avhengigheter via dependencies-API-et
 5. Inkluder også `Del av epic: #EPIC_NUMMER` og `Avhenger av #NNN` i issue-teksten for lesbarhet
-6. Sett epicen til **Monday epics 🎯** hvis den skal jobbes med nå
 
 #### Sub-issues skal være selvstendige
 
@@ -84,7 +65,7 @@ Hvert sub-issue skal inneholde nok kontekst til at noen kan plukke det opp uten 
 - Avhengigheter til andre issues
 - Akseptansekriterier
 
-### 7. Epic-workflow og progresjon
+### 6. Epic-workflow og progresjon
 
 Når en epic skal løses stegvis:
 
@@ -100,12 +81,9 @@ Når en epic skal løses stegvis:
 4. **Løs oppgaven** — følg normal arbeidsflyt for valgt issue
 5. **Gjenta** — etter fullføring, vurder neste kjørbare oppgave
 
-### 8. Ferdigmelding på issues
+### 7. Ferdigmelding på issues
 
-Etter at et issue er løst:
-
-1. Oppdater prosjektstatus til **Done**
-2. Legg igjen en ferdigmelding på issuet
+Etter at et issue er løst, legg igjen en ferdigmelding:
 
 ```bash
 gh issue comment ISSUE_NUMMER --repo navikt/REPO --body "COMMENT_BODY"
@@ -131,16 +109,15 @@ Ferdigmeldingen skal være strukturert og kortfattet:
 
 Bruk en kort inspeksjonsoppsummering i kommentaren — ikke en full ASCII-rapport med mindre brukeren eksplisitt ønsker det.
 
-### 9. Lukk epic automatisk
+### 8. Lukk epic automatisk
 
 Etter at et sub-issue er lukket, sjekk om alle sub-issues i epicen er fullført.
 
 Hvis ingen åpne sub-issues gjenstår:
 1. Legg igjen en oppsummerende kommentar på epicen
 2. Lukk epicen
-3. Sett status til **Done** i prosjektet
 
-### 10. Issue-kobling i PR-er
+### 9. Issue-kobling i PR-er
 
 Når arbeidet resulterer i en PR:
 
@@ -159,7 +136,6 @@ Relates to #ISSUE_NUMMER
 ```
 Er oppgaven stor nok for en epic?
 ├── Ja → Opprett Epic + underliggende issues
-│   ├── Skal jobbes med nå? → Sett epic til "Monday epics 🎯"
 │   └── Hvert sub-issue: selvstendig, med avhengigheter og akseptansekriterier
 └── Nei → Opprett frittstående issue
     └── Type? → Feature / Story / Task / Bug

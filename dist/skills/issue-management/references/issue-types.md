@@ -6,7 +6,7 @@ Bruk MCP `issue_write` med `type`-parameter for oppretting/oppdatering av issue 
 
 Bruk MCP `list_issue_types` for å oppdage tilgjengelige typer før du setter verdi.
 
-- Team eSyfo bruker org-typer: `Bug`, `Epic`, `Feature`, `Story`, `Task`
+- Vanlige org-typer: `Bug`, `Epic`, `Feature`, `Story`, `Task`
 
 ## Fallback (gh api)
 
