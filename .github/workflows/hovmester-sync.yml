@@ -1,6 +1,6 @@
-name: Copilot Config Sync
+name: Hovmester Sync
 
-# Reusable workflow that syncs copilot customization files from copilot-kitchen.
+# Reusable workflow that syncs copilot customization files from hovmester.
 #
 # Creates a PR with changed files. If APP_PRIVATE_KEY is provided, the PR is
 # auto-approved and queued for merge — same pattern as dependabot-automerge.
@@ -35,7 +35,7 @@ on:
         required: false
 
 concurrency:
-  group: copilot-config-sync
+  group: hovmester-sync
   cancel-in-progress: true
 
 permissions:
@@ -44,7 +44,7 @@ permissions:
 
 jobs:
   sync:
-    name: Sync copilot customizations
+    name: Sync hovmester customizations
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -53,7 +53,7 @@ jobs:
 
       - name: Shallow clone source repo
         run: |
-          git clone --depth 1 https://github.com/${{ github.repository_owner }}/copilot-kitchen.git /tmp/source
+          git clone --depth 1 https://github.com/${{ github.repository_owner }}/hovmester.git /tmp/source
           echo "SOURCE_SHA=$(git -C /tmp/source rev-parse HEAD)" >> "$GITHUB_ENV"
 
       - name: Install dependencies
@@ -104,12 +104,12 @@ jobs:
         uses: peter-evans/create-pull-request@c0f553fe549906ede9cf27b5156039d195d2ece0 # v8.1.0
         with:
           token: ${{ steps.app-token.outputs.token || github.token }}
-          commit-message: "chore: sync copilot customizations from copilot-kitchen"
-          title: "chore: sync copilot customizations"
+          commit-message: "chore: sync hovmester customizations"
+          title: "chore: sync hovmester customizations"
           body: |
-            Syncs copilot customization files from [copilot-kitchen](https://github.com/${{ github.repository_owner }}/copilot-kitchen).
+            Syncs copilot customization files from [hovmester](https://github.com/${{ github.repository_owner }}/hovmester).
 
-            **Source:** `${{ github.repository_owner }}/copilot-kitchen@${{ env.SOURCE_SHA }}`
+            **Source:** `${{ github.repository_owner }}/hovmester@${{ env.SOURCE_SHA }}`
 
             **Changes:**
             ```
@@ -117,8 +117,8 @@ jobs:
             ```
 
             ---
-            🤖 Created automatically by the Copilot Config Sync workflow.
-          branch: copilot-config-sync
+            🤖 Created automatically by the Hovmester Sync workflow.
+          branch: hovmester-sync
           delete-branch: true
           labels: dependencies
 
@@ -129,7 +129,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           PR_NUMBER: ${{ steps.pr.outputs.pull-request-number }}
-        run: gh pr review "$PR_NUMBER" --approve --body "Auto-approved copilot config sync."
+        run: gh pr review "$PR_NUMBER" --approve --body "Auto-approved hovmester sync."
 
       - name: Enable auto-merge
         if: steps.pr.outputs.pull-request-number && steps.check-secret.outputs.available == 'true'
