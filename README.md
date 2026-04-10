@@ -282,9 +282,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
         run: |
-          gh pr review "$PR_NUMBER" --approve --body "Auto-approved: file scope verified ✅"
-          gh pr merge "$PR_NUMBER" --auto --squash
+          gh pr review "$PR_NUMBER" --repo "$REPO" --approve --body "Auto-approved: file scope verified ✅"
+          gh pr merge "$PR_NUMBER" --repo "$REPO" --auto --squash
 ```
 
 </details>
