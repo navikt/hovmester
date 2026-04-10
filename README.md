@@ -154,9 +154,13 @@ Appen trenger:
 
 Lagre deretter:
 
-- App ID som repository variable: `HOVMESTER_APP_ID`
-- Appens bot-login som repository variable: `HOVMESTER_APP_BOT_LOGIN` (for eksempel `my-sync-app[bot]`)
 - Private key som secret: `HOVMESTER_APP_PRIVATE_KEY`
+- App ID og bot-login — velg **ett** av alternativene:
+
+| | App ID | Bot-login |
+|---|---|---|
+| **Variabler** (enklere å bytte App) | Variabel `HOVMESTER_APP_ID` | Variabel `HOVMESTER_APP_BOT_LOGIN` (f.eks. `my-sync-app[bot]`) |
+| **Hardkoding** (færre manuelle steg) | Direkte i sync-workflow: `pr_app_id: "123456"` | Direkte i verify-workflow |
 
 Repoet må også ha dette slått på:
 
@@ -177,7 +181,7 @@ jobs:
     with:
       collections: "frontend"
       github_project: "navikt/157"         # valgfritt
-      pr_app_id: ${{ vars.HOVMESTER_APP_ID }}
+      pr_app_id: ${{ vars.HOVMESTER_APP_ID }}  # eller hardkodet: "123456"
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.HOVMESTER_APP_PRIVATE_KEY }}
 ```
@@ -220,7 +224,7 @@ jobs:
           HEAD_REF: ${{ github.head_ref }}
           HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
           PR_AUTHOR: ${{ github.event.pull_request.user.login }}
-          EXPECTED_PR_AUTHOR: ${{ vars.HOVMESTER_APP_BOT_LOGIN }}
+          EXPECTED_PR_AUTHOR: ${{ vars.HOVMESTER_APP_BOT_LOGIN }}  # eller hardkodet: "my-sync-app[bot]"
           REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
@@ -286,6 +290,8 @@ jobs:
 </details>
 
 > `pull_request_target` er trygt her fordi workflowen aldri sjekker ut PR-branchen. Den leser bare filstier via GitHub API og bruker repoets egne workflow-fil fra default branch.
+>
+> **Hardkoding:** Hvis du hardkoder bot-login, erstatt `${{ vars.HOVMESTER_APP_BOT_LOGIN }}` med en string (f.eks. `"my-sync-app[bot]"`) i både `EXPECTED_PR_AUTHOR` og `if`-betingelsen i approve-steget.
 
 **Steg 4 — Sett branch protection**
 
