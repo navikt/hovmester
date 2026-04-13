@@ -207,14 +207,14 @@ on:
   pull_request_target:
     types: [opened, synchronize, reopened]
 
-permissions:
-  contents: write
-  pull-requests: write
-
 jobs:
   verify-hovmester-sync:
+    if: github.head_ref == 'hovmester-sync' && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - name: Verify file scope
         env:
@@ -248,7 +248,7 @@ jobs:
             --paginate --jq '.[] | .filename, (.previous_filename // empty)')
 
           if [ -z "$FILES" ]; then
-            echo "::warning::No files found — skipping (possible API issue)"
+            echo "::error::No files found from pull request files API; failing closed"
             exit 1
           fi
 
