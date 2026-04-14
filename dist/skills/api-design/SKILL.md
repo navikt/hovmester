@@ -26,7 +26,7 @@ spec:
 ```
 
 ### Regler
-- **Aldri** tom `inbound` på intern-API (da blir det effektivt åpent for eget namespace).
+- **Aldri** tom `inbound` på intern-API uten å mene det: tom inbound stenger API-et helt (Nais krever eksplisitt liste — også for kallere i samme namespace).
 - **Aldri** `*` wildcard uten eksplisitt begrunnelse + sikkerhetsreview.
 - Koordiner med konsumerende team **før** du legger dem til — de må også ha `outbound`-regel mot deg.
 - Fjern konsumenter som ikke lenger bruker API-et (revideres kvartalsvis).
