@@ -84,58 +84,7 @@ spec:
 
 ## OWASP Top 10
 
-### A01: Broken Access Control
-
-```kotlin
-// ✅ Sjekk at bruker har tilgang til ressursen
-@GetMapping("/api/vedtak/{id}")
-fun getVedtak(@PathVariable id: UUID): ResponseEntity<VedtakDTO> {
-    val bruker = hentInnloggetBruker()
-    val vedtak = vedtakService.findById(id)
-    if (vedtak.brukerId != bruker.id) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).build()
-    }
-    return ResponseEntity.ok(vedtak.toDTO())
-}
-
-// ❌ Ingen tilgangskontroll (IDOR)
-@GetMapping("/api/vedtak/{id}")
-fun getVedtak(@PathVariable id: UUID) = vedtakService.findById(id)
-```
-
-### A03: Injection
-
-```kotlin
-// ✅ Parameterisert spørring
-jdbcTemplate.query("SELECT * FROM bruker WHERE fnr = ?", mapper, fnr)
-
-// ❌ String-sammenslåing
-jdbcTemplate.query("SELECT * FROM bruker WHERE fnr = '$fnr'", mapper)
-```
-
-### A05: Security Misconfiguration
-
-```kotlin
-// ✅ CORS kun for kjente domener
-@Bean
-fun corsFilter() = CorsFilter(CorsConfiguration().apply {
-    allowedOrigins = listOf("https://my-app.intern.nav.no")
-    allowedMethods = listOf("GET", "POST")
-})
-
-// ❌ Åpen CORS
-allowedOrigins = listOf("*")
-```
-
-### A07: Cross-Site Scripting (XSS)
-
-```tsx
-// ✅ React escaper automatisk
-<BodyShort>{bruker.navn}</BodyShort>
-
-// ❌ Raw HTML injection
-<div dangerouslySetInnerHTML={{ __html: userInput }} />
-```
+Se `references/owasp-examples.md` for Kotlin/Spring-eksempler på A01 (Broken Access Control / IDOR), A03 (Injection), A05 (Security Misconfiguration / CORS) og A07 (XSS). Sjekkliste under dekker minstekrav.
 
 ## GDPR og personvern
 
@@ -157,15 +106,7 @@ Se `references/api-security.md` for Kotlin/Spring-eksempler og mer detaljerte m�
 
 ## Filopplasting
 
-```kotlin
-// ✅ Valider filtype, størrelse og magic bytes
-fun validateUpload(file: MultipartFile) {
-    require(file.size <= 10 * 1024 * 1024) { "Fil for stor (maks 10 MB)" }
-    require(file.contentType in ALLOWED_TYPES) { "Ugyldig filtype" }
-    val bytes = file.bytes.take(8).toByteArray()
-    require(verifyMagicBytes(bytes, file.contentType!!)) { "Filinnhold matcher ikke type" }
-}
-```
+Valider filtype, størrelse og magic bytes. Eksempel i `references/owasp-examples.md`.
 
 ## Avhengigheter
 
@@ -211,5 +152,4 @@ npm audit fix
 | auth-overview skill | JWT-validering, TokenX, ID-porten, Maskinporten |
 | `references/gdpr-privacy.md` | GDPR, personvern, retention, anonymisering og CEF-auditlogging |
 | `references/api-security.md` | API-sikkerhet, headere, CORS, cookies, STRIDE og hendelseshåndtering |
-
-For GDPR-detaljer, se `references/gdpr-privacy.md`. For API-sikkerhet, se `references/api-security.md`.
+| `references/owasp-examples.md` | Kotlin/Spring-eksempler for OWASP Top 10 og filopplasting |

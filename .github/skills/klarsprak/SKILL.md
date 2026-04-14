@@ -50,49 +50,25 @@ Start med konklusjonen. Bakgrunn og kontekst kommer etterpå.
 
 ## AI-markører
 
-Fjern mønstre som avslører KI-generert tekst.
+Fjern mønstre som avslører KI-generert tekst. Kort oversikt her; fyldig liste i `references/ai-markorer.md`.
 
-### Svulstige ord
+### Svulstige ord — kort oversikt
 
 | AI-markør | Gjør i stedet |
 |-----------|---------------|
 | "banebrytende", "revolusjonerende" | Konkrete beskrivelser |
 | "robust", "helhetlig", "sømløs" | Skriv om eller dropp |
 | "spiller en avgjørende rolle" | Gå rett på sak |
-| "effektivisere prosessen" | Si hvilken prosess og hvordan |
-| "digital transformasjon" | Si hva som endres konkret |
-| "sikre at" | "passe på", "gjøre X mulig" |
-| "sørge for at" | "gjøre", "passe på" |
-| "muliggjøre" | "gjøre mulig", "gi rom for" |
-| "understreke behovet for" | Si behovet direkte |
-| "hensynta" | "ta hensyn til" |
+| "muliggjøre", "tilrettelegge for" | Si hva som skjer |
+| "sikre at", "sørge for at" | "passe på", "gjøre" |
 | "implementere" | "innføre", "ta i bruk", "lage" |
-| "ivareta" | "ta vare på", "følge opp" |
-| "tilrettelegge for" | "legge til rette for", "gjøre det enklere" |
-| "understøtte" | "støtte" |
+| "ivareta", "understøtte" | "ta vare på", "støtte" |
 
-### Åpnings- og avslutningsfraser (kutt disse)
+### Åpninger og overgangsord — kort
 
-- "det er verdt å merke seg", "det er viktig å påpeke"
-- "la oss utforske", "la oss dykke ned i"
-- "oppsummert kan man si at", "avslutningsvis"
+Kutt åpnings- og avslutningsfraser ("det er verdt å merke seg", "la oss utforske", "avslutningsvis"). Unngå "Videre", "I tillegg", "Dessuten" som paragrafåpner — bruk heller konkrete subjekter ("Teamet ...", "Koden ..."). Fjern oppsummeringssetninger som bare gjentar det du har skrevet.
 
-### Strukturelle mønstre
-
-- Fjern oppsummeringssetninger som bare gjentar det du har skrevet
-- Ikke tving balanse mellom alternativer når ett er bedre
-- Varier grammatisk struktur i kulepunkter
-- Ikke overforklar ting som er åpenbare for målgruppa
-
-### Overgangsord og setningsbinding
-
-Varier overgangene mellom setninger og avsnitt. Unngå å starte mange setninger etter hverandre med:
-
-- "Videre", "I tillegg", "Dessuten"
-- "Det er viktig å", "Det er verdt å"
-- "For å sikre at", "Med tanke på"
-
-Bruk i stedet konkrete subjekter: "Teamet ...", "Koden ...", "Tjenesten ..."
+Se `references/ai-markorer.md` for utvidet liste og strukturelle mønstre.
 
 ## Fagtermer
 
@@ -165,47 +141,7 @@ For commit-meldinger, se `conventional-commit`-skillen. For PR-beskrivelser, se 
 
 ## Før og etter
 
-```
-❌ Det er viktig å påpeke at Kubernetes representerer et betydelig skritt
-   fremover innen container-orkestrering.
-
-✅ Kubernetes orkestrerer containere. Vi bruker det til å kjøre og
-   skalere appene våre i clusteret.
-```
-
-```
-❌ Vi må adressere dette problemet og ta eierskap til prosessen.
-
-✅ Vi må fikse dette. Teamet har ansvar for å finne en løsning.
-```
-
-```
-❌ Operasjonen kunne ikke gjennomføres grunnet manglende
-   obligatoriske feltverdier i skjemaet.
-
-✅ Du må fylle ut alle påkrevde felt før du kan sende inn.
-```
-
-### README → rett på sak
-
-```
-❌ Dette prosjektet representerer et innovativt verktøy som
-   muliggjør effektiv håndtering av søknader. Det er utviklet
-   med tanke på å sette brukeren i sentrum.
-
-✅ Behandler søknader om foreldrepenger. Bygget med Kotlin/Ktor,
-   deployes til Nais.
-```
-
-### Unødvendig oppsummering → kutt
-
-```
-❌ Vi har nå gjennomgått de ulike aspektene ved migrasjonen.
-   Som vi har sett, er det flere viktige hensyn å ta. Oppsummert
-   kan man si at en vellykket migrering krever grundig planlegging.
-
-✅ (Kutt hele avsnittet. Leseren har allerede lest det du oppsummerer.)
-```
+Se `references/for-og-etter.md` for fyldige eksempler: stive formuleringer, README-rydding, unødvendige oppsummeringer.
 
 ## Grenser
 
