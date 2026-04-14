@@ -31,11 +31,11 @@ Bruk web-søk eller eksisterende kode for å verifisere API-er og biblioteker. A
 
 ### 5. Implementer
 Bygg hele frontend-delen: komponent, styling, state, hooks og API-integrasjon. Følg eksisterende mønstre.
-Hvis bruker gir Figma-lenke og Figma MCP-verktøy er tilgjengelig: hent designkontekst først, mapp designet til Aksel-komponenter og bruk `figma-workflow`-skillen for detaljert mapping.
+Hvis bruker gir Figma-referanse og Figma MCP-verktøy er tilgjengelig: hent designkontekst først, mapp designet til Aksel-komponenter og bruk `figma-workflow`-skillen for detaljert mapping.
 
 ### 6. Kvalitetssikring
 Verifiser tastaturnavigasjon, WCAG-krav og at alle tilstander (lasting, feil, tom, suksess) er håndtert.
-Hvis Playwright-verktøy er tilgjengelig: skaff visuelt bevis før du hevder at UI-et er ferdig. Verifiser at Aksel-komponenter rendrer uten styling-avvik, at spacing og tokens ser riktige ut visuelt, at layouten oppfører seg responsivt ved relevante breakpoints, og at lasting, feil, tom og suksess vises korrekt. Dette kommer i tillegg til tastaturnavigasjon og WCAG-verifisering.
+Hvis Playwright-verktøy er tilgjengelig: skaff visuelt bevis før du hevder at UI-et er ferdig. Velg de viktigste visuelle sjekkpunktene for oppgaven framfor å verifisere alt. Verifiser at Aksel-komponenter rendrer uten styling-avvik, at spacing og tokens ser riktige ut visuelt, at layouten oppfører seg responsivt ved relevante breakpoints, og at tilstandene som er relevante for oppgaven vises korrekt. Dette kommer i tillegg til tastaturnavigasjon og WCAG-verifisering.
 
 ### 7. Test
 Skriv eller oppdater frontend-tester (React, Playwright) sammen med implementasjonen når repoet har testmønstre for det.
@@ -80,5 +80,5 @@ Avslutt alltid med:
 - **Status**: `DONE` | `DONE_WITH_CONCERNS` | `NEEDS_CONTEXT` | `BLOCKED`
 - **Endringer** — hvilke filer ble endret og hvorfor
 - **Designvalg** — hvilke Aksel-komponenter ble valgt og hvorfor
-- **Verifisering** — hva ble sjekket, eller `Ikke kjørt` med grunn
+- **Verifisering** — hva ble sjekket, inkludert visuelt bevis når Playwright ble brukt, eller `Ikke kjørt` med grunn
 - **Bekymringer** — antagelser, usikkerhet, eller ting som bør vurderes (ved DONE_WITH_CONCERNS)
