@@ -196,5 +196,3 @@ Se `references/for-og-etter.md` for fyldige eksempler: feiloversatt fagterm, sti
 - [Designsystemets tekstpraksis](https://designsystemet.no/no/blog/shared-guidelines-for-text/) — UI-tekst
 - [Termportalen](https://www.termportalen.no/) — norske faguttrykk (UiB/Språkrådet)
 - Adam Tzur / AIavisen og Kommunikasjonsforeningen — norske AI-markører og crowdsourcede lister
-</content>
-</invoke>

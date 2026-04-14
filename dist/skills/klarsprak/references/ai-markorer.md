@@ -64,5 +64,3 @@ Disse brukes mye oftere i KI-generert norsk enn i naturlig norsk.
 - "Furthermore", "Moreover", "Additionally" — aldri i norsk tekst
 
 Bruk heller konkrete subjekter: "Teamet ...", "Koden ...", "Tjenesten ..."
-</content>
-</invoke>

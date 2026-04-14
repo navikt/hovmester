@@ -3,7 +3,6 @@
 
 import os
 import re
-import pytest
 import yaml
 
 REPO_ROOT = os.path.join(os.path.dirname(__file__), "..")
@@ -34,7 +33,7 @@ def test_all_skills_have_valid_frontmatter():
         skill_md = os.path.join(skills_dir, skill_name, "SKILL.md")
         if not os.path.isfile(skill_md):
             continue
-        with open(skill_md) as f:
+        with open(skill_md, encoding="utf-8") as f:
             content = f.read()
         assert content.startswith("---\n"), f"{skill_name}: missing frontmatter"
         end = content.find("\n---\n", 4)
@@ -57,7 +56,7 @@ def test_no_duplicate_skill_names():
         skill_md = os.path.join(skills_dir, skill_name, "SKILL.md")
         if not os.path.isfile(skill_md):
             continue
-        with open(skill_md) as f:
+        with open(skill_md, encoding="utf-8") as f:
             content = f.read()
         if not content.startswith("---\n"):
             continue
@@ -78,7 +77,7 @@ def test_all_references_exist():
         skill_md = os.path.join(skills_dir, skill_name, "SKILL.md")
         if not os.path.isfile(skill_md):
             continue
-        with open(skill_md) as f:
+        with open(skill_md, encoding="utf-8") as f:
             body = f.read()
         for ref_name in ref_pattern.findall(body):
             ref_path = os.path.join(skills_dir, skill_name, "references", ref_name)
@@ -98,7 +97,7 @@ def test_no_agent_refs_in_dist():
     )
     violations = []
     for abspath, relpath in _iter_md_files(DIST):
-        with open(abspath) as f:
+        with open(abspath, encoding="utf-8") as f:
             for i, line in enumerate(f, 1):
                 if pattern.search(line):
                     violations.append(f"{relpath}:{i}: {line.strip()}")
@@ -116,7 +115,7 @@ def test_no_real_fnr_in_dist():
     fnr_pattern = re.compile(r"\b[1-9]\d{10}\b")
     violations = []
     for abspath, relpath in _iter_md_files(DIST):
-        with open(abspath) as f:
+        with open(abspath, encoding="utf-8") as f:
             for i, line in enumerate(f, 1):
                 for match in fnr_pattern.finditer(line):
                     violations.append(f"{relpath}:{i}: {match.group(0)} in: {line.strip()}")
@@ -130,12 +129,17 @@ def test_no_unpinned_actions_in_dist():
     markert som eksempler (`❌` bad-example-marker, eller kommentar med
     `erstatt` / `example`).
     """
-    # (?<![\w/]) sikrer at "nais/deploy/actions/deploy@v2" IKKE matcher —
-    # nais/*-actions er dokumentert unntak fra SHA-pinning.
-    action_pattern = re.compile(r"(?<![\w/])actions/[a-z0-9\-]+@(v\d+|main|master)\b")
+    # Matcher <org>/<repo>@(v<N>|main|master) for alle 3rd-party actions
+    # (actions/*, aquasecurity/*, docker/*, osv.).
+    # (?<![\w/]) sikrer at sub-paths som "nais/deploy/actions/deploy@v2"
+    # ikke dobbelt-matcher. (?!nais/) allowlister nais/*-actions som er
+    # dokumentert unntak fra SHA-pinning-kravet.
+    action_pattern = re.compile(
+        r"(?<![\w/])(?!nais/)[\w.-]+/[\w.-]+@(v\d+|main|master)\b"
+    )
     violations = []
     for abspath, relpath in _iter_md_files(DIST):
-        with open(abspath) as f:
+        with open(abspath, encoding="utf-8") as f:
             lines = f.readlines()
         for i, line in enumerate(lines, 1):
             if not action_pattern.search(line):
@@ -169,7 +173,7 @@ def test_skill_line_cap():
         skill_md = os.path.join(skills_dir, skill_name, "SKILL.md")
         if not os.path.isfile(skill_md):
             continue
-        with open(skill_md) as f:
+        with open(skill_md, encoding="utf-8") as f:
             lines = sum(1 for _ in f)
         if lines > 200:
             violations.append(f"{skill_name}: {lines} lines (cap: 200)")
@@ -207,7 +211,7 @@ def test_github_mirror_parity_with_dist():
         if not os.path.isfile(gh_path):
             missing.append(relpath)
             continue
-        with open(dist_path) as a, open(gh_path) as b:
+        with open(dist_path, encoding="utf-8") as a, open(gh_path, encoding="utf-8") as b:
             if a.read() != b.read():
                 mismatched.append(relpath)
     problems = []
