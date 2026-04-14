@@ -125,12 +125,8 @@ Appen trenger:
 Lagre deretter:
 
 - Private key som secret: `HOVMESTER_APP_PRIVATE_KEY`
-- App ID og bot-login — velg **ett** av alternativene:
-
-| | App ID | Bot-login |
-|---|---|---|
-| **Variabler** (enklere å bytte App) | Variabel `HOVMESTER_APP_ID` | Variabel `HOVMESTER_APP_BOT_LOGIN` (f.eks. `my-sync-app[bot]`) |
-| **Hardkoding** (færre manuelle steg) | Direkte i sync-workflow: `pr_app_id: "123456"` | Direkte i verify-workflow |
+- App ID — du bruker den direkte i sync-workflowen (`pr_app_id: "123456"`)
+- Bot-login — du bruker den i verify-workflowen (f.eks. `my-sync-app[bot]`)
 
 Repoet må også ha dette slått på:
 
@@ -151,7 +147,7 @@ jobs:
     with:
       collections: "frontend"
       github_project: "navikt/157"         # valgfritt
-      pr_app_id: ${{ vars.HOVMESTER_APP_ID }}  # eller hardkodet: "123456"
+      pr_app_id: "123456"                  # din GitHub Apps ID
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.HOVMESTER_APP_PRIVATE_KEY }}
 ```
@@ -194,7 +190,7 @@ jobs:
           HEAD_REF: ${{ github.head_ref }}
           HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
           PR_AUTHOR: ${{ github.event.pull_request.user.login }}
-          EXPECTED_PR_AUTHOR: ${{ vars.HOVMESTER_APP_BOT_LOGIN }}  # eller hardkodet: "my-sync-app[bot]"
+          EXPECTED_PR_AUTHOR: "my-sync-app[bot]"  # din GitHub Apps bot-login
           REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
@@ -253,7 +249,7 @@ jobs:
           echo "✅ All files within hovmester sync scope"
 
       - name: Approve and enable auto-merge
-        if: github.head_ref == 'hovmester-sync' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.user.login == vars.HOVMESTER_APP_BOT_LOGIN
+        if: github.head_ref == 'hovmester-sync' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.user.login == 'my-sync-app[bot]'
         env:
           GH_TOKEN: ${{ github.token }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
@@ -268,8 +264,6 @@ jobs:
 > `pull_request_target` er trygt her fordi workflowen aldri sjekker ut PR-branchen. Den leser bare filstier via GitHub API og bruker repoets egne workflow-fil fra default branch.
 >
 > `merge_group`-triggeren er en no-op som lar merge queue passere — verifiseringen skjer allerede på `pull_request_target`. Uten denne vil `verify-hovmester-sync` blokkere merge queue med "Expected — Waiting for status".
->
-> **Hardkoding:** Hvis du hardkoder bot-login, erstatt `${{ vars.HOVMESTER_APP_BOT_LOGIN }}` med en string (f.eks. `"my-sync-app[bot]"`) i både `EXPECTED_PR_AUTHOR` og `if`-betingelsen i approve-steget.
 
 **Steg 4 — Sett branch protection**
 
