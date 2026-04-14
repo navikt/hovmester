@@ -15,6 +15,7 @@ hovmester:
     - docker
     - github-actions
   skills:
+    - accessibility-review
     - brainstorm
     - conventional-commit
     - grill-me
