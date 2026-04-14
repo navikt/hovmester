@@ -140,7 +140,7 @@ tokenx:
   enabled: true                 # On-behalf-of for innlogget bruker
 ```
 
-For ren maskin-til-maskin: bruk Maskinporten. Systembrukere er legacy.
+For ren maskin-til-maskin uten personkontekst: bruk Maskinporten. For partner-integrasjoner som må handle på vegne av en virksomhet i Altinn, bruk Altinn 3 systembruker (Maskinporten + systembruker-token).
 
 ## Ingress — velg riktig domene
 
