@@ -1,6 +1,6 @@
 {
   "source": "navikt/hovmester",
-  "source_sha": "30bee87ebac9971bf55b4db409b22fe32cb1be09",
+  "source_sha": "7b46294c78820ded925f79334886c06dce73692e",
   "files": [
     ".github/ISSUE_TEMPLATE/bug.yml",
     ".github/ISSUE_TEMPLATE/config.yml",
@@ -50,6 +50,8 @@
     ".github/skills/klarsprak/references/ai-markorer.md",
     ".github/skills/klarsprak/references/for-og-etter.md",
     ".github/skills/kotlin-ktor/SKILL.md",
+    ".github/skills/kotlin-ktor/references/error-handling.md",
+    ".github/skills/kotlin-ktor/references/paginering-og-validering.md",
     ".github/skills/kotlin-spring/SKILL.md",
     ".github/skills/lumi-survey/SKILL.md",
     ".github/skills/lumi-survey/references/avansert-konfigurasjon.md",
