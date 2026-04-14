@@ -31,95 +31,65 @@ Dette er nok hvis du vil ha sync-PRer og merge manuelt. Hvis du vil auto-merg'e 
 
 Hvis repoet ditt har required CI-checks på PRer, anbefaler vi også App-oppsettet under. Da opprettes sync-PRer som vanlige PRer og trigger CI normalt.
 
-## Hva du får
+## Agenter
 
 Bruk **@hovmester** som inngang til alt — den koordinerer planlegging, implementasjon og kodegjennomgang automatisk.
 
-```
-                        ┌─────────────┐
-                        │  Hovmester  │ Orkestrator (Opus)
-                        │     🍽️      │ Tar imot bestillingen
-                        └──────┬──────┘
-                               │
-                    ┌──────────┼──────────┐
-                    ▼                     ▼
-             ┌────────────┐        ┌────────────┐
-             │  Souschef  │        │ Brainstorm  │
-             │     📋     │        │     💡      │
-             │ Planlegger │        │ Utforsker   │
-             │   (Opus)   │        │   (skill)   │
-             └─────┬──────┘        └─────────────┘
-                   │
-          ┌────────┴────────┐
-          ▼                 ▼
-   ┌────────────┐    ┌────────────┐
-   │    Kokk    │    │  Konditor  │
-   │    👨‍🍳     │    │     🎂     │
-   │  Backend   │    │  Frontend  │
-   │   (GPT)    │    │   (Opus)   │
-   └─────┬──────┘    └──────┬─────┘
-         │                  │
-         └────────┬─────────┘
-                  ▼
-   ┌──────────────────────────┐
-   │  Kryssmodell-inspeksjon  │
-   │         🔍 🔍            │
-   │ Claude inspects GPT work │
-   │ GPT inspects Opus work   │
-   └──────────┬───────────────┘
-              ▼
-       ┌────────────┐
-       │  Hovmester  │
-       │ konsoliderer│
-       │ 😊 😐 😞   │
-       └────────────┘
+```mermaid
+graph TD
+    U["🍽️ <b>Hovmester</b><br/>Orkestrator · Opus"]
+    S["📋 Souschef<br/>Planlegger · Opus"]
+    K["👨‍🍳 Kokk<br/>Backend-utvikler · GPT"]
+    KO["🎂 Konditor<br/>Frontend-utvikler · Opus"]
+    IC["🔬 Inspektør-Claude<br/>Reviewer for GPT-kode"]
+    IG["🔬 Inspektør-GPT<br/>Reviewer for Opus-kode"]
+
+    U -- planlegging --> S
+    U -- backend --> K
+    U -- frontend --> KO
+    K -.-> IC -.-> U
+    KO -.-> IG -.-> U
 ```
 
 | Agent | Rolle | Modell |
 |-------|-------|--------|
-| **@hovmester** 🍽️ | Orkestrator — tar imot bestillingen, delegerer, konsoliderer inspeksjon | Opus |
-| **@kokk** 👨‍🍳 | Backend — API, tjenester, database, Kafka, infrastruktur | GPT |
-| **@konditor** 🎂 | Frontend — UI, Aksel, tilgjengelighet, state | Opus |
-| *@souschef* 📋 | *(internt)* Planlegger — lager implementasjonsplaner | Opus |
-| *@inspektør-claude* 🔬 | *(internt)* Kryssmodell-reviewer for GPT-arbeid | Opus |
-| *@inspektør-gpt* 🔬 | *(internt)* Kryssmodell-reviewer for Opus-arbeid | GPT |
+| **@hovmester** 🍽️ | Orkestrator — mottar forespørselen, delegerer, konsoliderer | Opus |
+| **@kokk** 👨‍🍳 | Backend-utvikler — API, tjenester, database, Kafka, infra | GPT |
+| **@konditor** 🎂 | Frontend-utvikler — UI, Aksel, tilgjengelighet, state | Opus |
+| *@souschef* 📋 | *(intern)* Planlegger — utforsker kodebasen, lager implementasjonsplaner | Opus |
+| *@inspektør-claude* 🔬 | *(intern)* Kryssmodell-reviewer — Opus gjennomgår GPT-kode | Opus |
+| *@inspektør-gpt* 🔬 | *(intern)* Kryssmodell-reviewer — GPT gjennomgår Opus-kode | GPT |
 
-> Oppgaver delegeres som vertikale funksjonssnitt — én agent eier hele funksjonen. Kryssmodell-review fanger blindsoner: Opus gjennomgår GPT-kode, GPT gjennomgår Opus-kode.
+> Én agent eier hele funksjonssnitt vertikalt. Kryssmodell-review fanger blindsoner: Opus gjennomgår GPT-kode og omvendt.
 
 ## Collections
 
-| Collection | Innhold |
+Collections grupperer instruksjoner, skills og agenter i navngitte pakker du velger ved oppsett. `hovmester`-collectionen inkluderes alltid automatisk.
+
+| Collection | Beskrivelse |
 |---|---|
-| `hovmester` (alltid inkludert) | 6 agenter, 3 Nav-brede instructions, 13 skills (inkl. nav-troubleshoot, nav-architecture-review, accessibility-review), issue templates, PR-mal |
-| `backend` | Kotlin instruction + 7 backend-skills (Ktor, Spring, Flyway, Kafka, Postgres, API-design, auth) |
-| `frontend` | Frontend og accessibility instructions + 4 frontend-skills (Aksel, auth, Lumi, accessibility-review) |
+| `hovmester` *(alltid inkludert)* | Orkestrator-agentene, Nav-brede instruksjoner (sikkerhet, Docker, GitHub Actions), 13 generiske skills og issue-/PR-templates |
+| `backend` | Kotlin-instruksjon + 7 backend-skills (Ktor, Spring, Flyway, Kafka, Postgres, API-design, auth) |
+| `frontend` | Frontend- og tilgjengelighets-instruksjoner + 4 frontend-skills (Aksel, auth, Lumi, accessibility-review) |
 
 **Eksempler:**
 - `"backend"` — backend-repo
 - `"frontend"` — frontend-repo
 - `"backend,frontend"` — fullstack-repo
-- `"hovmester"` — bare orkestratoren og generiske ting (ingen rammeverk-spesifikke skills)
+- *(ingen collection utover hovmester)* — bare orkestratoren og generiske skills
 
 ## Konfigurasjon
 
 | Input | Beskrivelse | Påkrevd |
 |---|---|---|
-| `collections` | Kommaseparert liste over collections. Gyldige valg er `hovmester`, `backend`, `frontend`. `hovmester` er alltid inkludert, så du skriver vanligvis `"backend"`, `"frontend"` eller `"backend,frontend"`. | Ja |
-| `exclude` | Kommaseparert liste over konkrete ting som skal utelates fra de valgte collectionene, f.eks. `"kafka-topic,epic"` eller `"task,story"`. | Nei |
+| `collections` | Kommaseparert liste over collections (`backend`, `frontend`, eller `backend,frontend`). `hovmester` er alltid inkludert. | Ja |
+| `exclude` | Kommaseparert liste over ting som skal utelates, f.eks. `"kafka-topic,epic"`. | Nei |
 | `github_project` | Valgfritt GitHub Project i format `owner/number`, f.eks. `"navikt/123"`. Fjern linjen hvis teamet ikke bruker GitHub Projects. | Nei |
 | `pr_app_id` | GitHub App ID for PR-opprettelse. Anbefalt når du bruker auto-merge eller har required CI-checks. | Nei |
 
 | Secret | Beskrivelse |
 |---|---|
 | `APP_PRIVATE_KEY` | GitHub App private key for PR-opprettelse. Brukes sammen med `pr_app_id`. |
-
-Vanlige valg:
-
-- Backend-repo: `collections: "backend"`
-- Frontend-repo: `collections: "frontend"`
-- Fullstack-repo: `collections: "backend,frontend"`
-- Bare hovmester-oppsettet: `collections: "hovmester"`
-- Ingen GitHub Projects: fjern `github_project` helt
 
 ### Issue templates
 
@@ -324,11 +294,9 @@ Det er hele oppsettet. Når hovmester lager en sync-PR:
 
 ## Slik fungerer det
 
-Workflowen kjøres på cron (eller manuell trigger), sammenligner ditt repos `.github/`-katalog med den valgte collectionen i hovmester, og oppretter en PR hvis noe har endret seg. Hvis `pr_app_id` + `APP_PRIVATE_KEY` er satt, opprettes PRen av GitHub Appen; ellers brukes `GITHUB_TOKEN`. Manifest-fila `.github/.hovmester-manifest.json` sporer hvilke filer som er "eid" av hovmester så stale filer fjernes automatisk.
+Workflowen kjøres på cron (eller manuell trigger), sammenligner ditt repos `.github/`-katalog med den valgte collectionen, og oppretter en PR hvis noe har endret seg. Manifest-fila `.github/.hovmester-manifest.json` sporer hvilke filer som er eid av hovmester, så stale filer fjernes automatisk.
 
-Workflowen endrer aldri filer utenfor `.github/`, og `.github/workflows/` er alltid ekskludert — workflows eier du selv.
-
-Synkede filer forvaltes av hovmester — ikke rediger dem manuelt. Lag egne filer for repo-spesifikke tilpasninger.
+Workflowen endrer aldri filer utenfor `.github/`, og `.github/workflows/` er alltid ekskludert — workflows eier du selv. Synkede filer forvaltes av hovmester — ikke rediger dem manuelt, lag egne filer for repo-spesifikke tilpasninger.
 
 ## Bidra
 
