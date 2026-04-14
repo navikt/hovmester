@@ -1,46 +1,68 @@
-# AI-markører — utvidet liste
+# AI-markører — fyldig oversikt
 
-Mønstre som avslører KI-generert tekst. Se SKILL.md for kort oversikt.
+Mønstre som avslører KI-generert tekst. Rens bort eller varier.
 
-## Svulstige ord — utvidet
+## Svulstige ord og uttrykk
 
 | AI-markør | Gjør i stedet |
 |-----------|---------------|
-| "banebrytende", "revolusjonerende" | Konkrete beskrivelser |
-| "robust", "helhetlig", "sømløs" | Skriv om eller dropp |
+| "banebrytende", "revolusjonerende", "innovativ" | Konkrete beskrivelser |
+| "representerer et betydelig skritt fremover" | Si hva det faktisk gjør |
+| "robust", "helhetlig", "sømløs", "holistisk" | Skriv om eller dropp |
 | "spiller en avgjørende rolle" | Gå rett på sak |
+| "dette understreker behovet for" | Si behovet direkte |
+| "har tatt verden med storm" | Dropp helt |
 | "effektivisere prosessen" | Si hvilken prosess og hvordan |
+| "sette brukeren i sentrum" | Forklar hva dere faktisk gjør for brukeren |
 | "digital transformasjon" | Si hva som endres konkret |
-| "sikre at" | "passe på", "gjøre X mulig" |
-| "sørge for at" | "gjøre", "passe på" |
-| "muliggjøre" | "gjøre mulig", "gi rom for" |
-| "understreke behovet for" | Si behovet direkte |
-| "hensynta" | "ta hensyn til" |
-| "implementere" | "innføre", "ta i bruk", "lage" |
-| "ivareta" | "ta vare på", "følge opp" |
-| "tilrettelegge for" | "legge til rette for", "gjøre det enklere" |
-| "understøtte" | "støtte" |
+| "muliggjør", "tilrettelegger for" | Si hva som skjer |
 
-## Åpnings- og avslutningsfraser (kutt disse)
+## Engelske AI-ord som siver inn i norsk
+
+Disse brukes mye oftere i KI-generert norsk enn i naturlig norsk.
+
+- **delve into** → "fordype seg i" (overbrukt — skriv heller bare innholdet)
+- **leverage** → "utnytte", "bruke" (ikke "leverere")
+- **realm** → "område", "felt" (ikke "rike" eller "sfære")
+- **underscore** → "understreke" (overbrukt — si poenget direkte)
+- **crucial** → "avgjørende" (overbrukt — si hvorfor)
+- **landscape** → "landskap" (overbrukt metafor — si "markedet", "feltet", "situasjonen")
+- **foster** → "fremme" (overbrukt — si hva du gjør konkret)
+- **navigate** → "navigere" (overbrukt metafor — si "håndtere", "forholde seg til")
+- **streamline** → "effektivisere" (overbrukt — si hva som blir enklere)
+
+## Åpnings- og avslutningsfraser — kutt
 
 - "det er verdt å merke seg", "det er viktig å påpeke"
+- "i dagens verden", "i en verden der"
 - "la oss utforske", "la oss dykke ned i"
-- "oppsummert kan man si at", "avslutningsvis"
-- "i dagens verden"
+- "oppsummert kan man si at", "kort sagt", "avslutningsvis"
+- "det finnes flere aspekter ved dette"
+- "det bør nevnes at", "husk at"
+
+## Tegnsetting som AI-markører
+
+- **Em-dash (—) i annethvert kulepunkt** er et tydelig AI-tegn. Bruk sjelden. Varier med kolon, parentes eller omskriving.
+- **Kolon i hver eneste overskrift** (`Deploy: slik gjør vi det`) er AI-mønster. Varier overskriftsform.
+- **Overforbruk av semikolon** — i norsk teknisk tekst er semikolon sjelden naturlig. Del opp eller bruk punktum.
+- **Utropstegn i teknisk tekst** — dropp.
 
 ## Strukturelle mønstre
 
-- Fjern oppsummeringssetninger som bare gjentar det du har skrevet
-- Ikke tving balanse mellom alternativer når ett er bedre
-- Varier grammatisk struktur i kulepunkter
-- Ikke overforklar ting som er åpenbare for målgruppa
+- Fjern oppsummeringssetninger som bare gjentar det du allerede har skrevet
+- Ikke tving balanse mellom alternativer når ett er bedre ("begge har sine fordeler")
+- Varier grammatisk struktur i kulepunkter — identisk form er et AI-tegn
+- Ikke definer ting leseren allerede vet
+- Ikke gjenta et poeng med andre ord rett etter du har sagt det
+- Dropp "Derfor er X så viktig"-formatet som rettferdiggjør forrige setning uten å tilføre noe
+- Ikke overforklar det åpenbare
 
-## Overgangsord og setningsbinding
+## Overgangsord
 
-Varier overgangene mellom setninger og avsnitt. Unngå å starte mange setninger etter hverandre med:
+- "Videre", "Dessuten", "I tillegg" som paragrafåpner — bruk sjelden
+- "I lys av dette", "Når det gjelder" — gå rett på sak
+- "Furthermore", "Moreover", "Additionally" — aldri i norsk tekst
 
-- "Videre", "I tillegg", "Dessuten"
-- "Det er viktig å", "Det er verdt å"
-- "For å sikre at", "Med tanke på"
-
-Bruk i stedet konkrete subjekter: "Teamet ...", "Koden ...", "Tjenesten ..."
+Bruk heller konkrete subjekter: "Teamet ...", "Koden ...", "Tjenesten ..."
+</content>
+</invoke>
