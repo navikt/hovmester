@@ -11,15 +11,15 @@ Bruk denne skillen når du har en Figma-lenke eller Figma-referanse og skal impl
 
 ### 1. Hent designkontekst
 
-Bruk `get_design_context` på Figma-noden for å forstå struktur, hierarki og visuell intensjon.
+Hent struktur, hierarki og visuell intensjon fra Figma-noden via MCP-verktøyene.
 
 ### 2. Hent variabler
 
-Bruk `get_variable_defs` for å finne spacing-, farge- og typografivariabler som er brukt i designet.
+Finn spacing-, farge- og typografivariabler som er brukt i designet.
 
 ### 3. Sjekk Code Connect
 
-Bruk `get_code_connect_map` for å finne om Figma-noder allerede er koblet til `@navikt/ds-react`-komponenter. Når en mapping finnes — bruk den direkte.
+Sjekk om Figma-noder allerede er koblet til `@navikt/ds-react`-komponenter. Når en mapping finnes — bruk den direkte.
 
 ### 4. Mapp til Aksel
 
@@ -71,22 +71,18 @@ Sammenlign resultatet med Figma-originalen. Sjekk spacing, farger, typografi og 
 | Figma-verdi (px) | Aksel-token |
 |---|---|
 | 0 | `space-0` |
-| 2 | `space-05` |
-| 4 | `space-1` |
-| 8 | `space-2` |
-| 12 | `space-3` |
-| 16 | `space-4` |
-| 20 | `space-5` |
-| 24 | `space-6` |
-| 32 | `space-8` |
-| 40 | `space-10` |
-| 48 | `space-12` |
-| 64 | `space-16` |
-| 80 | `space-20` |
-| 96 | `space-24` |
-| 128 | `space-32` |
+| 4 | `space-4` |
+| 8 | `space-8` |
+| 12 | `space-12` |
+| 16 | `space-16` |
+| 20 | `space-20` |
+| 24 | `space-24` |
+| 32 | `space-32` |
+| 40 | `space-40` |
+| 48 | `space-48` |
+| 64 | `space-64` |
 
-Figma-variabelen `spacing/24` → `space-6`. Se etter variabelnavnet, ikke bare pikselverdien.
+I v8 er token-navnet pikselbasert: `spacing/24` i Figma → `space-24`. Fullstendig skala i `aksel-design`-skillens `tokens.md`.
 
 ### Farger: Figma-variabler → Aksel semantiske farger
 
@@ -95,8 +91,8 @@ Figma bruker Navs felles fargebibliotek med semantiske variabelnavn. Mapp til Ak
 | Figma-variabel (eksempel) | Aksel `background` / `borderColor` / CSS |
 |---|---|
 | `surface/default` | `background="default"` |
-| `surface/subtle` | `background="neutral-subtle"` |
-| `surface/action` | `background="action-selected"` |
+| `surface/subtle` | `background="neutral-soft"` |
+| `surface/action` | `background="accent-soft"` |
 | `surface/success` | `background="success-soft"` |
 | `surface/warning` | `background="warning-soft"` |
 | `surface/danger` | `background="danger-soft"` |
@@ -112,7 +108,7 @@ Bruk `data-color` for fargeoverrides i spesielle kontekster. Aldri hardkod hex-v
 <div style={{ backgroundColor: "#E6F0FF", border: "1px solid #0067C5" }}>
 
 // ✅ Riktig — Aksel semantisk farge
-<Box background="action-soft" borderColor="action" borderWidth="1">
+<Box background="accent-soft" borderColor="accent" borderWidth="1">
 ```
 
 ### Komponenter: Figma → `@navikt/ds-react`
@@ -138,36 +134,9 @@ Bruk Code Connect-mappingen når den finnes. For vanlige elementer:
 
 ## Code Connect
 
-Code Connect kobler Figma-noder direkte til kodekomponenter. Når `get_code_connect_map` returnerer en mapping for en node, bruker du den eksakte komponenten som er spesifisert.
+Code Connect kobler Figma-noder direkte til `@navikt/ds-react`-komponenter. Når MCP-verktøyene returnerer en Code Connect-mapping for en node, bruker du den eksakte komponenten som er spesifisert.
 
-### Sett opp Code Connect i prosjektet
-
-Se [Figma Code Connect-docs](https://github.com/figma/code-connect) for oppsett. Kort:
-
-```bash
-pnpm add -D @figma/code-connect
-```
-
-```ts
-// figma.config.ts — koble Figma-komponent til kode
-import figma from "@figma/code-connect";
-import { Button } from "@navikt/ds-react";
-
-figma.connect(Button, "https://www.figma.com/file/...", {
-  props: {
-    variant: figma.enum("Variant", {
-      Primary: "primary",
-      Secondary: "secondary",
-      Tertiary: "tertiary",
-      Danger: "danger",
-    }),
-    children: figma.string("Label"),
-  },
-  example: (props) => <Button variant={props.variant}>{props.children}</Button>,
-});
-```
-
-Publiser med `npx figma connect publish`. Når dette er satt opp, returnerer `get_code_connect_map` den korrekte kodekomponenten for hver Figma-node.
+Sjekk alltid om mappingen allerede finnes før du oppretter en ny. For oppsett og publisering, se [Figma Code Connect-docs](https://github.com/figma/code-connect).
 
 ## Responsiv mapping
 
@@ -175,9 +144,9 @@ Figma viser ofte kun én breakpoint. Sjekk om det finnes flere frames for mobil/
 
 ```tsx
 // Figma: desktop har 3 kolonner, mobil har 1
-<HGrid columns={{ xs: 1, md: 3 }} gap={{ xs: "space-4", md: "space-6" }}>
+<HGrid columns={{ xs: 1, md: 3 }} gap={{ xs: "space-16", md: "space-24" }}>
   {items.map((item) => (
-    <Box key={item.id} padding="space-4" background="default" borderRadius="8" borderWidth="1" borderColor="neutral-subtle">
+    <Box key={item.id} padding="space-16" background="default" borderRadius="8" borderWidth="1" borderColor="neutral-subtle">
       {item.content}
     </Box>
   ))}
