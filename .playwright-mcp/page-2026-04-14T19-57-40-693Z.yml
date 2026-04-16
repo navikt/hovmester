@@ -1,0 +1,60 @@
+- application [ref=e2]:
+  - generic:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: ● Hovmester
+        - generic [ref=e7]: Fagtorsdag · 16.04.2026
+      - generic [ref=e8]:
+        - heading "Hov- mester" [level=1] [ref=e9]:
+          - text: Hov-
+          - text: mester
+        - paragraph [ref=e10]: Multi-agent Copilot-orkestrering for Nav
+      - generic [ref=e11]:
+        - generic [ref=e12]: Audun Sørheim
+        - generic [ref=e13]: github.com/navikt/hovmester
+    - generic:
+      - generic:
+        - generic:
+          - generic: 00 Agenda
+          - generic: 02 / 24
+        - generic:
+          - generic:
+            - generic: "01"
+            - generic: Rammen
+          - generic:
+            - generic: "02"
+            - generic: Arbeidsflytlaget
+          - generic:
+            - generic: "03"
+            - generic: Kunnskapslaget
+          - generic:
+            - generic: "04"
+            - generic: Fem overflater & distribusjon
+          - generic:
+            - generic: "05"
+            - generic: Demo
+    - generic:
+      - generic:
+        - generic:
+          - generic: 01 Rammen
+          - generic: 03 / 24
+        - generic:
+          - generic: Premiss
+          - paragraph:
+            - text: I Nav har vi
+            - emphasis: Copilot
+            - text: .
+          - paragraph: Ikke Claude Code. Ikke Cursor. Ikke Windsurf.
+          - paragraph:
+            - text: Spørsmålet er ikke
+            - emphasis: hvilken AI
+            - text: .
+          - paragraph:
+            - text: Spørsmålet er hvordan vi får Copilot til å gjøre
+            - emphasis: Nav-jobben
+            - text: best.
+    - text: → → →
+  - complementary:
+    - button "next slide" [ref=e17] [cursor=pointer]
+  - text: Speaker notes
+  - generic [ref=e20]: ● Hovmester Fagtorsdag · 16.04.2026 Hov- mester Multi-agent Copilot-orkestrering for Nav Audun Sørheim github.com/navikt/hovmester

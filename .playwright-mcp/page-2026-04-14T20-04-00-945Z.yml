@@ -1,0 +1,75 @@
+- application [ref=e2]:
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic: 05 Demo
+          - generic: 21 / 24
+        - generic: Sjekkpunkt
+        - heading [level=1]: Hva har hovmester gjort mens vi snakket?
+        - paragraph: → bytt til terminal
+    - generic:
+      - generic:
+        - generic:
+          - generic: 05 Demo
+          - generic: 22 / 24
+        - generic: Resultatet
+        - heading [level=1]: Diff.
+        - heading [level=1]: PR.
+        - heading [level=1]: Review-kommentarer.
+        - paragraph: → bytt til terminal / GitHub
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: 06 Observasjoner
+        - generic [ref=e7]: 23 / 24
+      - generic [ref=e8]: Tre observasjoner
+      - generic [ref=e9]:
+        - generic [ref=e10]:
+          - generic [ref=e11]: "01"
+          - paragraph [ref=e12]:
+            - text: Bake kunnskap inn i
+            - emphasis [ref=e13]: repoet
+            - text: ", ikke i prompten din."
+        - generic [ref=e14]:
+          - generic [ref=e15]: "02"
+          - paragraph [ref=e16]:
+            - text: Arbeidsflyt og kunnskap kan
+            - emphasis [ref=e17]: skilles
+            - text: . Da fornyes de uavhengig.
+        - generic [ref=e18]:
+          - generic [ref=e19]: "03"
+          - paragraph [ref=e20]:
+            - emphasis [ref=e21]: "\"KUN Copilot\""
+            - text: er en ramme, ikke en begrensning.
+    - generic:
+      - generic:
+        - generic:
+          - generic: 06 Avslutning
+          - generic: 24 / 24
+        - generic:
+          - generic:
+            - generic: Inspirasjon
+            - list:
+              - listitem:
+                - text: →
+                - strong: obra/superpowers
+                - emphasis: skill-frameworket bak alt
+              - listitem:
+                - text: →
+                - strong: burkeholland/anvil
+                - emphasis: evidence-first coding agent
+              - listitem:
+                - text: →
+                - strong: github/awesome-copilot
+                - emphasis: fellesskap + mønstre
+            - generic: Repo
+            - paragraph:
+              - strong: navikt/hovmester
+          - generic:
+            - heading [level=1]:
+              - emphasis: Spørsmål?
+  - complementary:
+    - button "previous slide" [ref=e25] [cursor=pointer]
+    - button "next slide" [ref=e27] [cursor=pointer]
+  - text: Speaker notes
+  - generic [ref=e31]: 06 Observasjoner 23 / 24 Tre observasjoner 01 Bake kunnskap inn i repoet , ikke i prompten din. 02 Arbeidsflyt og kunnskap kan skilles . Da fornyes de uavhengig. 03 "KUN Copilot" er en ramme, ikke en begrensning.

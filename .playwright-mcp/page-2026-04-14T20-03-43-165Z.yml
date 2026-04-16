@@ -1,0 +1,133 @@
+- application [ref=e2]:
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic: 02 Arbeidsflytlaget
+          - generic: 10 / 24
+        - heading [level=2]:
+          - text: Steg
+          - emphasis: 0–5
+        - generic:
+          - generic:
+            - generic: "00"
+            - generic:
+              - paragraph: Omfangsvurder. Utfordre premiss. Bekreft bestilling.
+              - paragraph: triviell → direkte til spesialist · stor → brainstorm + plan
+          - generic:
+            - generic: "01"
+            - generic:
+              - paragraph:
+                - text: Souschef planlegger.
+                - emphasis: HVA, ikke HVORDAN.
+          - generic:
+            - generic: "02"
+            - generic:
+              - paragraph: Fase-oppsplitting. Parallellitet der mulig.
+          - generic:
+            - generic: "03"
+            - generic:
+              - paragraph: Kjøkkenet jobber. Kurert kontekst inn.
+              - paragraph: DONE · DONE_WITH_CONCERNS · NEEDS_CONTEXT · BLOCKED
+          - generic:
+            - generic: "04"
+            - generic:
+              - paragraph: Kryssmodell-inspeksjon. Re-inspeksjon ved BLOCKER.
+          - generic:
+            - generic: "05"
+            - generic:
+              - paragraph: Servering. Diff · review-rapport · neste steg.
+        - paragraph: Hvert steg er en beslutningsgate. Triviell oppgave? Steg 1–2 droppes.
+    - generic:
+      - generic:
+        - generic:
+          - generic: 03 Kunnskapslaget
+          - generic: 11 / 24
+        - generic: 03 / KUNNSKAPSLAGET
+        - heading [level=1]:
+          - emphasis: hva
+          - text: som er riktig
+        - paragraph: i Nav.
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: 03 Kunnskapslaget
+        - generic [ref=e7]: 12 / 24
+      - heading "Instructions — path-scoped" [level=2] [ref=e8]:
+        - text: Instructions —
+        - emphasis [ref=e9]: path-scoped
+      - generic [ref=e10]:
+        - code [ref=e13]: "--- applyTo: \"**/*.kt\" --- # Kotlin-konvensjoner i Nav - Bruk `kotlin-spring` eller `kotlin-ktor` skills for detaljer - Følg Nav-standarden for feilhåndtering ..."
+        - generic [ref=e14]:
+          - paragraph [ref=e15]:
+            - strong [ref=e16]:
+              - text: Lastes kun når du rører en
+              - code [ref=e17]: .kt
+              - text: "-fil."
+          - paragraph [ref=e18]: Jobber du i React? Kotlin-reglene koster null tokens.
+          - paragraph [ref=e19]:
+            - code [ref=e20]: .github/instructions/*.instructions.md
+    - generic:
+      - generic:
+        - generic:
+          - generic: 03 Kunnskapslaget
+          - generic: 13 / 24
+        - heading [level=2]:
+          - text: Skills —
+          - emphasis: progressive disclosure
+        - img:
+          - generic:
+            - generic: NIVÅ 1 · ALLTID I KONTEKSTEN
+            - generic: name + description
+            - generic: ~50 tokens per skill · alle 23 synlige samtidig
+            - generic: TOKENS
+            - generic: ~1k
+          - generic: MATCHER OPPGAVEN?
+          - generic:
+            - generic: NIVÅ 2 · ON-DEMAND
+            - generic: hele SKILL.md
+            - generic: TOKENS
+            - generic: ~500
+          - generic: TRENGER MER?
+          - generic:
+            - generic: NIVÅ 3 · NÅR REFERERT
+            - generic: references/
+        - paragraph: 23 skills tilgjengelige. Kun det som trengs, lastes.
+    - generic:
+      - generic:
+        - generic:
+          - generic: 03 Kunnskapslaget
+          - generic: 14 / 24
+        - heading [level=2]:
+          - text: Collections —
+          - emphasis: teamets oppsett
+        - table:
+          - rowgroup:
+            - row:
+              - columnheader: Collection
+              - columnheader: Innhold
+              - columnheader: Typisk for
+          - rowgroup:
+            - row:
+              - cell:
+                - text: hovmester
+                - generic: alltid inkludert
+              - cell: Orkestrator-agenter · Nav-brede instructions · 13 generiske skills
+              - cell: Alle repoer
+            - row:
+              - cell: backend
+              - cell: "Kotlin-instructions · 7 skills: Ktor, Spring, Flyway, Kafka, Postgres, API-design, auth"
+              - cell: Backend-repo
+            - row:
+              - cell: frontend
+              - cell: "Frontend- og accessibility-instructions · 4 skills: Aksel, auth, Lumi, a11y-review"
+              - cell: Frontend-repo
+        - generic:
+          - generic:
+            - code: "with: collections: \"frontend\" # eller \"backend,frontend\""
+        - paragraph: Én linje i teamets workflow-fil.
+    - text: → → →
+  - complementary:
+    - button "previous slide" [ref=e24] [cursor=pointer]
+    - button "next slide" [ref=e26] [cursor=pointer]
+  - text: Speaker notes
+  - generic [ref=e30]: "03 Kunnskapslaget 12 / 24 Instructions — path-scoped --- applyTo: \"**/*.kt\" --- # Kotlin-konvensjoner i Nav - Bruk `kotlin-spring` eller `kotlin-ktor` skills for detaljer - Følg Nav-standarden for feilhåndtering ... Lastes kun når du rører en .kt -fil. Jobber du i React? Kotlin-reglene koster null tokens. .github/instructions/*.instructions.md"

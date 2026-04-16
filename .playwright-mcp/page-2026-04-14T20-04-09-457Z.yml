@@ -1,0 +1,65 @@
+- application [ref=e2]:
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic: 05 Demo
+          - generic: 22 / 24
+        - generic: Resultatet
+        - heading [level=1]: Diff.
+        - heading [level=1]: PR.
+        - heading [level=1]: Review-kommentarer.
+        - paragraph: → bytt til terminal / GitHub
+    - generic:
+      - generic:
+        - generic:
+          - generic: 06 Observasjoner
+          - generic: 23 / 24
+        - generic: Tre observasjoner
+        - generic:
+          - generic:
+            - generic: "01"
+            - paragraph:
+              - text: Bake kunnskap inn i
+              - emphasis: repoet
+              - text: ", ikke i prompten din."
+          - generic:
+            - generic: "02"
+            - paragraph:
+              - text: Arbeidsflyt og kunnskap kan
+              - emphasis: skilles
+              - text: . Da fornyes de uavhengig.
+          - generic:
+            - generic: "03"
+            - paragraph:
+              - emphasis: "\"KUN Copilot\""
+              - text: er en ramme, ikke en begrensning.
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: 06 Avslutning
+        - generic [ref=e7]: 24 / 24
+      - generic [ref=e8]:
+        - generic [ref=e9]:
+          - generic [ref=e10]: Inspirasjon
+          - list [ref=e11]:
+            - listitem [ref=e12]:
+              - text: →
+              - strong [ref=e13]: obra/superpowers
+              - emphasis [ref=e14]: skill-frameworket bak alt
+            - listitem [ref=e15]:
+              - text: →
+              - strong [ref=e16]: burkeholland/anvil
+              - emphasis [ref=e17]: evidence-first coding agent
+            - listitem [ref=e18]:
+              - text: →
+              - strong [ref=e19]: github/awesome-copilot
+              - emphasis [ref=e20]: fellesskap + mønstre
+          - generic [ref=e22]: Repo
+          - paragraph [ref=e23]:
+            - strong [ref=e24]: navikt/hovmester
+        - heading "Spørsmål?" [level=1] [ref=e26]:
+          - emphasis [ref=e27]: Spørsmål?
+  - complementary:
+    - button "previous slide" [ref=e31] [cursor=pointer]
+  - text: Speaker notes
+  - generic [ref=e35]: 06 Avslutning 24 / 24 Inspirasjon obra/superpowers skill-frameworket bak alt burkeholland/anvil evidence-first coding agent github/awesome-copilot fellesskap + mønstre Repo navikt/hovmester Spørsmål?
