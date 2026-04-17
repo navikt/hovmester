@@ -9,9 +9,13 @@ Strukturert gjennomgang av `navikt/copilot`-repoet for å finne oppdateringer ve
 
 ## Fremgangsmåte
 
+### 0. Les siste sync-state
+
+Les [references/upstream-state.md](references/upstream-state.md) først. Den inneholder siste sjekket commit-SHA og hva som ble adoptert/droppet. Hent kun commits **etter** den SHA-en fra `navikt/copilot`. Etter fullført gjennomgang, oppdater filen med ny SHA, dato og beslutninger.
+
 ### 1. Hent og sammenlign
 
-Klon eller oppdater `navikt/copilot` og sammenlign med hovmester:
+Hent nye commits fra `navikt/copilot` (etter siste synced SHA fra state-filen). Sammenlign også filstrukturen:
 
 ```bash
 # Sammenlign instruksjoner
@@ -112,6 +116,7 @@ Fokuser på disse kategoriene i denne rekkefølgen:
 - Oppdater `collections.yml` med nye filer i riktig collection
 - Kjør tester: `cd scripts && python3 -m pytest test_sync.py -v`
 - Verifiser at sync fungerer: `python3 scripts/sync.py --source . --target /tmp/test-repo --output /tmp/result.json`
+- **Oppdater [references/upstream-state.md](references/upstream-state.md)** med ny SHA, dato og beslutninger (adoptert/droppet med begrunnelse)
 
 ## Kjente forskjeller
 
