@@ -1,6 +1,6 @@
 # hovmester 🍽️
 
-Multi-agent Copilot-orkestrering for Nav-team. Én workflow-innlegging gir repoet ditt en orkestrator (hovmester), en planlegger (souschef), spesialister (kokk/konditor) og kryssmodell-reviewere (inspektører) — pluss Nav-brede instruksjoner, skills og issue-/PR-templates.
+Multi-agent Copilot-orkestrering for Nav-team. Én workflow gir repoet ditt en orkestrator (hovmester), en planlegger (souschef), spesialister (kokk/konditor) og kryssmodell-reviewere (inspektører) — pluss felles instruksjoner, skills og issue-/PR-templates.
 
 ## Kom i gang
 
@@ -68,7 +68,7 @@ Collections grupperer instruksjoner, skills og agenter i navngitte pakker du vel
 
 | Collection | Beskrivelse |
 |---|---|
-| `hovmester` *(alltid inkludert)* | Orkestrator-agentene, Nav-brede instruksjoner (sikkerhet, Docker, GitHub Actions), 13 generiske skills og issue-/PR-templates |
+| `hovmester` *(alltid inkludert)* | Orkestrator-agentene, felles instruksjoner (sikkerhet, Docker, GitHub Actions), 13 generiske skills og issue-/PR-templates |
 | `backend` | Kotlin-instruksjon + 7 backend-skills (Ktor, Spring, Flyway, Kafka, Postgres, API-design, auth) |
 | `frontend` | Frontend- og tilgjengelighets-instruksjoner + 4 frontend-skills (Aksel, auth, Lumi, accessibility-review) |
 
