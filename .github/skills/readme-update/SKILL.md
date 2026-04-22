@@ -31,11 +31,11 @@ Avklar minst dette før du skriver:
 
 | Seksjon | Når | Hva du må hente fra repoet |
 |---|---|---|
-| Tittel + badges | Alltid | Repo-navn, workflow-navn, faktisk stack |
-| Formålet med repoet | Alltid | Kort oppgavebeskrivelse fra kode, docs og manifest |
-| Mermaid-diagram | Hvis integrasjoner, auth eller flyt mellom tjenester | Faktiske flyter: bruker, app, API, Kafka, DB, TokenX |
-| Miljølenker | Hvis frontend med deploy | `ingresses`, docs eller eksisterende README |
-| Backend-API / backend-referanse | Hvis frontend | Hvilken backend som kalles, viktige endepunkter og auth |
+| Tittel + badges | Alltid | Repo-navn, workflow-navn, faktisk stack samt linter/formatter/testverktøy |
+| Formålet med repoet | Alltid | Se Formål-seksjonen |
+| Mermaid-diagram | Hvis integrasjoner, auth eller flyt mellom tjenester | Faktiske flyter: bruker, app, API, Kafka, DB, TokenX — velg bort diagram hvis en kort backend-liste er tydeligere |
+| Miljølenker | Hvis frontend med deploy | `ingresses`, docs eller eksisterende README — inkluder demo-lenke når den finnes |
+| Backend-API / backend-referanse | Hvis frontend | Se Backend-referanse-seksjonen |
 | API-oversikt | Hvis repoet eksponerer API | Metode, sti, beskrivelse, auth-info |
 | Kafka | Hvis consumer/producer | Topics, retning, lagring/videre publisering |
 | Mikrofronter-tabell | Hvis monorepo | App-navn, backend, deploybar enhet |
@@ -83,40 +83,53 @@ Bruk badges som speiler faktisk stack og workflows. CI-badge med repoets workflo
 
 Legg til teknologi-badges for repoets faktiske stack (shields.io med logo). Ta bare med det repoet bruker — ikke lag en komplett liste.
 
+Sjekk minst disse kategoriene før du velger badges:
+
+- **Framework/språk:** f.eks. React, Next.js, TypeScript, Kotlin, Spring Boot.
+- **Linter/formatter:** f.eks. Biome, ESLint, Prettier, ktlint.
+- **Tester:** f.eks. Vitest, Jest, Playwright, Cypress, JUnit.
+
 ## Mermaid-diagrammer
 
-Tilpass diagrammet til repoets faktiske arkitektur.
+Tilpass diagrammet til repoets faktiske arkitektur, men velg format etter informasjonsbehov:
 
-### Frontend
+- **Bruk Mermaid** når README må forklare flyt mellom flere tjenester, auth-hop, Kafka eller databaser.
+- **Bruk backend-endepunktliste i stedet** når en frontend hovedsakelig kaller 2–4 backender og leseren trenger konkrete referanser raskt.
+- **Ikke ta med begge** uten tydelig grunn; velg det som gjør avhengighetene enklest å forstå.
 
-```mermaid
-flowchart LR
-  U[Bruker] --> A[Frontend-app]
-  A -->|TokenX / cookies| B[Backend]
-  B --> D[(Data / eksterne tjenester)]
+Hvis du lager diagram:
+
+- **Frontend:** vis bruker, frontend-app, backend, auth-hop som TokenX/cookies og eventuelle data- eller eksterne tjenester.
+- **Backend:** vis Kafka-topics, backend-app, PostgreSQL, REST API og hvilke klienter som kaller API-et via TokenX eller Azure AD.
+- **Monorepo / mikrofronter:** vis nav-dekoratøren, vertsapp, relevante mikrofronter og hvilke backender de kobler seg til.
+
+## Backend-referanse-seksjonen
+
+Når du dokumenterer backender for en frontend, bruk listeformat — ikke tabell og ikke kodeblokk:
+
+```md
+### [isdialogmote](https://github.com/navikt/isdialogmote)
+
+Brev, innkallinger og referater.
+
+- **GET** `/api/v2/arbeidstaker/brev`
+- **GET** `/api/v2/narmesteleder/brev`
 ```
 
-### Backend
+Krav til format:
 
-```mermaid
-flowchart LR
-  K[Kafka-topics] --> A[Backend-app]
-  A --> DB[(PostgreSQL)]
-  A --> API[REST API]
-  F[Frontend / andre tjenester] -->|TokenX / Azure AD| API
-```
+- Lenk til backend-repoet i overskriften.
+- Beskriv kort hva tjenesten brukes til i denne frontendens kontekst.
+- List endepunkter som `- **METHOD** \`/path\``.
+- Ta bare med endepunkter eller kontrakter som faktisk er sentrale for brukerflatene.
 
-### Monorepo / mikrofronter
+## Formål-seksjonen
 
-```mermaid
-flowchart LR
-  U[Bruker] --> D[nav-dekoratøren]
-  D --> P[Vertsapp / Min side]
-  P --> M1[Mikrofrontend A]
-  P --> M2[Mikrofrontend B]
-  M1 -->|TokenX| B1[Backend A]
-  M2 -->|TokenX| B2[Backend B]
-```
+Formål skal forklare både produktet og brukerflatene:
+
+- Hvem er hovedmålgruppene?
+- Hvilke skjermbilder, oppgaver eller features bruker de?
+- Hvis flere roller bruker samme app, beskriv kort hva som er forskjellig per rolle.
 
 ## Eksempler fra malrepoer
 
