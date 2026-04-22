@@ -62,8 +62,9 @@ Avklar minst dette før du skriver:
 ### Ved ny README
 
 - Start med det viktigste: tittel, badges, formål, diagram og utvikling.
+- Bruk et beskrivende appnavn som tittel — ikke bare reponavnet. Eksempel: «Mikrofronter for Min side» i stedet for «esyfo-microfrontends».
 - Ta kun med seksjoner som repoet faktisk trenger.
-- Bruk repoets egne navn på apper, topics, databaser og miljøer.
+- Bruk repoets egne navn på apper, topics, databaser og miljøer i innholdet.
 
 ### Kvalitetsregler
 
