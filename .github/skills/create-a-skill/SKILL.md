@@ -5,126 +5,130 @@ description: Opprett nye agent-skills med riktig struktur, progressiv disclosure
 
 # Lage skills
 
-## 1. Velg scenario
+## Prosess
 
-| Scenario | Bruk når | Plassering | Registrering |
-|---|---|---|---|
-| **Repo-lokal** | Spesifikt for ett repo/team | `.github/skills/<navn>/SKILL.md` | Ingen |
-| **Hovmester** | Minst to Nav-team har nytte | `dist/skills/<navn>/SKILL.md` | `collections.yml` |
-| **Meta-skill** | Kun for hovmester-repoet selv | `.github/skills/<navn>/` i hovmester | Ingen |
+1. **Samle krav** — spør brukeren om:
+   - Hvilken oppgave/domene dekker skillen?
+   - Hvilke bruksscenarier skal den håndtere?
+   - Trenger den kjørbare skript eller kun instruksjoner?
+   - Finnes det referansemateriale som skal inkluderes?
 
-## 2. Skill eller instruction?
+2. **Skriv utkast** — opprett:
+   - SKILL.md med konsise instruksjoner (maks ~100 linjer)
+   - Referansefiler for utfyllende innhold
+   - Verktøyskript hvis det trengs deterministiske operasjoner
 
-- **Instruction**: auto-lastes via `applyTo`-glob, gjelder alltid for bestemte filer/teknologier
-- **Skill**: on-demand, lastes når oppgaven matcher
+3. **Gjennomgå med brukeren** — presenter utkastet og spør:
+   - Dekker dette bruksscenarier dine?
+   - Mangler noe, eller er noe uklart?
+   - Bør noen seksjoner være mer/mindre detaljerte?
 
-Hvis brukeren beskriver en fast regel per filtype → foreslå instruction i stedet.
-
-## 3. Prosess
-
-1. **Samle krav** — hvilken oppgave/domene, bruksscenarier, trenger den skript eller kun instruksjoner?
-2. **Skriv utkast** — SKILL.md maks ~100 linjer, referansefiler for utfyllende innhold, verktøyskript for deterministiske operasjoner
-3. **Gjennomgå med brukeren** — dekker det bruksscenarier? Mangler noe?
-
-## 4. Filstruktur
-
-Kebab-case mappenavn:
+## Filstruktur
 
 ```
 skill-navn/
 ├── SKILL.md           # Hovedinstruksjoner (påkrevd)
-├── references/        # Utfyllende dokumentasjon (ved behov)
+├── REFERENCE.md       # Utfyllende dokumentasjon (ved behov)
+├── EXAMPLES.md        # Brukseksempler (ved behov)
 └── scripts/           # Verktøyskript (ved behov)
+    └── helper.js
 ```
 
-Del opp når SKILL.md overskrider 100 linjer eller innholdet har distinkte domener.
-
-## 5. SKILL.md-mal
+## SKILL.md-mal
 
 ```md
 ---
 name: skill-navn
-description: Kort beskrivelse. Brukes når [spesifikke triggere].
+description: Kort beskrivelse av kapabiliteten. Brukes når [spesifikke triggere].
 ---
 
 # Skill-navn
 
 ## Hurtigstart
+
 [Minimalt fungerende eksempel]
 
 ## Arbeidsflyter
-[Steg-for-steg med sjekklister]
 
-## Grenser
-### Alltid / Spør først / Aldri
+[Steg-for-steg-prosesser med sjekklister for komplekse oppgaver]
+
+## Referanser
+
+[Lenke til separate filer: Se [REFERENCE.md](REFERENCE.md)]
 ```
 
-`name` skal matche mappenavnet.
+## Krav til description
 
-## 6. Krav til description
+Beskrivelsen er **det eneste agenten ser** når den avgjør hvilken skill som skal lastes. Den vises i systemprompten sammen med alle andre installerte skills. Agenten leser beskrivelsene og velger riktig skill basert på brukerens forespørsel.
 
-Beskrivelsen er **det eneste agenten ser** ved discovery — den vises i systemprompten sammen med alle installerte skills. Maks 1024 tegn, tredjeperson.
+**Mål**: Gi agenten akkurat nok info til å vite:
 
-- Første setning: hva skillen gjør
-- Andre setning: «Brukes når [triggere]»
+1. Hvilken kapabilitet skillen gir
+2. Når/hvorfor den skal aktiveres (spesifikke nøkkelord, kontekster, filtyper)
+
+**Format**:
+
+- Maks 1024 tegn
+- Skriv i tredjeperson
+- Første setning: hva den gjør
+- Andre setning: «Brukes når [spesifikke triggere]»
 
 ```
-# ✅
+# ✅ God beskrivelse
 Opprett og administrer Kafka-topics, consumers og producers i Nav.
 Brukes når bruker jobber med Kafka, meldingskøer eller event-strømmer.
 
-# ❌
+# ❌ Dårlig beskrivelse
 Hjelper med meldinger.
 ```
 
-## 7. Betingede råd
+Den dårlige beskrivelsen gir agenten ingen mulighet til å skille skillen fra andre.
 
-Be modellen lese repoets faktiske stack og mønstre før den gir råd:
+## Når du bør legge til skript
 
-- ✅ «Sjekk eksisterende kode og struktur før du foreslår løsning»
-- ❌ «Anta Kotlin/Spring som default»
+Legg til verktøyskript når:
 
-## 8. Lean-filter
+- Operasjonen er deterministisk (validering, formatering)
+- Samme kode ville blitt generert gjentatte ganger
+- Feil krever eksplisitt håndtering
 
-1. **Kan modellen dette fra før?** Dropp generell syntax og standardkunnskap.
-2. **Lærer det å jobbe i Nav, eller styrker det agenten?** Behold Nav-spesifikke mønstre.
+Skript sparer tokens og gir bedre pålitelighet enn generert kode.
+
+## Når du bør dele opp i filer
+
+Del opp i separate filer når:
+
+- SKILL.md overskrider 100 linjer
+- Innholdet har distinkte domener (ulike skjemaer, ulike kontekster)
+
+## Lean-filter
+
+Alt innhold skal bestå lean-filteret:
+
+1. **Kan modellen dette fra før?** Dropp generell syntax, velkjente mønstre og standardbibliotek-kunnskap.
+2. **Lærer det å jobbe i Nav, eller styrker det agenten?** Behold Nav-spesifikke mønstre, plattformkunnskap og teamkonvensjoner.
 
 Drop hvis ja på 1 og nei på 2.
 
-## 9. Registrering (hovmester-skills)
-
-Legg til kortnavnet i riktig collection i `collections.yml`, alfabetisk sortert. Bruk kun kortnavn uten filendelse eller sti.
-
-```yaml
-hovmester:
-  skills:
-    - brainstorm
-    - min-skill          # ← ny, alfabetisk plassert
-    - nais-manifest
-```
-
-## 10. Grenser
+## Grenser
 
 ### Alltid
-- Kjør lean-filteret før opprettelse
 - Skriv innholdet på norsk hvis repoet forventer norsk
-- Konkrete ✅/❌-eksempler der det hjelper
 
 ### Spør først
 - Om skillen overlapper med en eksisterende skill
-- Om behovet bør løses som instruction i stedet
-- Hvilken collection en hovmester-skill tilhører
 
 ### Aldri
 - Dupliser ren LLM-allmennkunnskap uten Nav- eller repo-verdi
-- Bruk PII eller sensitive data i eksempler
-- Opprett `prompts/*.prompt.md` (deprecated)
 
 ## Sjekkliste
 
-- [ ] Scenario og plassering valgt riktig
+Etter utkastet, verifiser:
+
 - [ ] Beskrivelsen inkluderer triggere («Brukes når ...»)
 - [ ] SKILL.md under 100 linjer (eller splittet i referansefiler)
-- [ ] `collections.yml` oppdatert og alfabetisk (hovmester-skills)
+- [ ] Ingen tidssensitiv informasjon
+- [ ] Konsekvent terminologi
+- [ ] Konkrete eksempler inkludert
+- [ ] Referanser maks ett nivå dypt
 - [ ] Bestått lean-filteret
-- [ ] Ingen PII eller hemmeligheter i eksempler
