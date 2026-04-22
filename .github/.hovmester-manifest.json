@@ -1,6 +1,6 @@
 {
   "source": "navikt/hovmester",
-  "source_sha": "45c2c2c7ce25659c088be9c1caba4addb40ad2b4",
+  "source_sha": "d8f3e1a1d2ede4de51381dfe1cd5ae6e81085a60",
   "files": [
     ".github/ISSUE_TEMPLATE/bug.yml",
     ".github/ISSUE_TEMPLATE/config.yml",
@@ -37,7 +37,7 @@
     ".github/skills/brainstorm/references/data-classification.md",
     ".github/skills/brainstorm/references/nav-arketyper.md",
     ".github/skills/conventional-commit/SKILL.md",
-    ".github/skills/create-skill/SKILL.md",
+    ".github/skills/create-a-skill/SKILL.md",
     ".github/skills/figma-workflow/SKILL.md",
     ".github/skills/flyway-migration/SKILL.md",
     ".github/skills/grill-me/SKILL.md",

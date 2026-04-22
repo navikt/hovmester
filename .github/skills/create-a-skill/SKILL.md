@@ -1,5 +1,5 @@
 ---
-name: create-skill
+name: create-a-skill
 description: Opprett nye agent-skills med riktig struktur, progressiv disclosure og medfølgende ressurser. Brukes når bruker vil lage, skrive eller bygge en ny skill.
 ---
 
