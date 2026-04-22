@@ -39,6 +39,7 @@ Avklar minst dette før du skriver:
 | API-oversikt | Hvis repoet eksponerer API | Metode, sti, beskrivelse, auth-info |
 | Kafka | Hvis consumer/producer | Topics, retning, lagring/videre publisering |
 | Mikrofronter-tabell | Hvis monorepo | App-navn, backend, deploybar enhet |
+| Utviklerverktøy (mise) | Hvis `.mise.toml` eller `.tool-versions` finnes | Verktøyversjoner, `mise install`-instruksjon |
 | Utvikling | Alltid | Kommandoer, lokal URL, test/lint/verifisering |
 | Les mer | Hvis docs finnes | Lenker til `docs/`, arkitektur og workflow-dokumentasjon |
 | For Nav-ansatte | Alltid | Slack-kanal, team-info eller intern lenke hvis kjent |
