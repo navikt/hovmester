@@ -18,15 +18,16 @@ hovmester:
     - accessibility-review
     - brainstorm
     - conventional-commit
+    - create-a-skill
     - grill-me
     - issue-management
     - klarsprak
-    - create-a-skill
     - nais-manifest
     - nav-architecture-review
     - nav-troubleshoot
     - observability-setup
     - pull-request
+    - readme-update
     - security-review
     - tdd
   issue_templates:
