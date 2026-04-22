@@ -33,7 +33,7 @@ Avklar minst dette før du skriver:
 |---|---|---|
 | Tittel + badges | Alltid | Repo-navn, workflow-navn, faktisk stack |
 | Formålet med repoet | Alltid | Kort oppgavebeskrivelse fra kode, docs og manifest |
-| Mermaid-diagram | Alltid | Faktiske flyter: bruker, app, API, Kafka, DB, TokenX |
+| Mermaid-diagram | Hvis integrasjoner, auth eller flyt mellom tjenester | Faktiske flyter: bruker, app, API, Kafka, DB, TokenX |
 | Miljølenker | Hvis frontend med deploy | `ingresses`, docs eller eksisterende README |
 | Backend-API / backend-referanse | Hvis frontend | Hvilken backend som kalles, viktige endepunkter og auth |
 | API-oversikt | Hvis repoet eksponerer API | Metode, sti, beskrivelse, auth-info |
@@ -73,22 +73,13 @@ Avklar minst dette før du skriver:
 
 ## Badges
 
-Bruk badges som speiler faktisk stack og workflows. Typiske eksempler:
+Bruk badges som speiler faktisk stack og workflows. CI-badge med repoets workflow-navn:
 
 ```md
-[![CI](https://github.com/navikt/<repo>/actions/workflows/ci.yaml/badge.svg)](https://github.com/navikt/<repo>/actions/workflows/ci.yaml)
-![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=springboot&logoColor=white)
-![Kotlin](https://img.shields.io/badge/Kotlin-7F52FF?logo=kotlin&logoColor=white)
-![Next.js](https://img.shields.io/badge/Next.js-000000?logo=next.js&logoColor=white)
-![Astro](https://img.shields.io/badge/Astro-FF5D01?logo=astro&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
-![Kafka](https://img.shields.io/badge/Kafka-231F20?logo=apachekafka&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)
-![Vitest](https://img.shields.io/badge/Vitest-6E9F18?logo=vitest&logoColor=white)
-![Storybook](https://img.shields.io/badge/Storybook-FF4785?logo=storybook&logoColor=white)
+[![CI](https://github.com/navikt/<repo>/actions/workflows/<workflow>.yaml/badge.svg)](https://github.com/navikt/<repo>/actions/workflows/<workflow>.yaml)
 ```
 
-Ta bare med badges for teknologi repoet faktisk bruker.
+Legg til teknologi-badges for repoets faktiske stack (shields.io med logo). Ta bare med det repoet bruker — ikke lag en komplett liste.
 
 ## Mermaid-diagrammer
 
@@ -117,11 +108,12 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  U[Bruker] --> P[Portal / vertsapp]
+  U[Bruker] --> D[nav-dekoratøren]
+  D --> P[Vertsapp / Min side]
   P --> M1[Mikrofrontend A]
   P --> M2[Mikrofrontend B]
-  M1 --> B1[Backend A]
-  M2 --> B2[Backend B]
+  M1 -->|TokenX| B1[Backend A]
+  M2 -->|TokenX| B2[Backend B]
 ```
 
 ## Eksempler fra malrepoer
@@ -133,6 +125,10 @@ Bruk disse som mønstre, ikke som rigid mal:
 - **`aktivitetskrav-backend`**: vis backendens ansvar i diagrammet: Kafka inn/ut, database, API og hvilke klienter som kaller den via TokenX/Azure.
 
 Lån strukturgrepene, men fyll dem med repoets egne navn, lenker og integrasjoner.
+
+## Grafana og observability
+
+Hvis repoet har dashboards, lenk til dem i README. Nav bruker `https://grafana.nav.cloud.nais.io/` med team-spesifikke dashboards. Sjekk `.nais/`-manifest eller eksisterende README for dashboard-URLer — ikke konstruer URLer du ikke har verifisert.
 
 ## Grenser
 
