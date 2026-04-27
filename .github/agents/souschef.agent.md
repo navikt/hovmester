@@ -36,6 +36,7 @@ Vanlige signaler:
 | Azure AD, TokenX, ID-porten, Maskinporten, Wonderwall, Texas, Oasis | `/auth-overview` |
 | API-kontrakt, ny endpoint, konsumenttilgang, breaking change | `/api-design` |
 | NAIS-manifest, accessPolicy, ingress, resources, Naisjob | `/nais-manifest` |
+| Ny tjeneste, ny arketype, ADR, DPIA, accessPolicy mot andre team, arkitekturbeslutning | `/nav-architecture-review` |
 | Ktor | `/kotlin-ktor` |
 | Spring Boot | `/kotlin-spring` |
 | Flyway schema-endring | `/flyway-migration` |

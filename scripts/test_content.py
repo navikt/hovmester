@@ -97,6 +97,11 @@ def test_skill_descriptions_are_trigger_oriented():
         expected = f"/{skill_name}"
         if expected not in description:
             violations.append(f"{skill_name}: description must mention {expected}")
+        if description.lower().startswith(("bruk /", "bruk ", "use /", "use ")):
+            violations.append(
+                f"{skill_name}: description bør være tredjeperson, ikke imperativ "
+                f"('Bruk /...'/'Use /...'). Start heller med substantiv-frase."
+            )
         if not (80 <= len(description) <= 360):
             violations.append(
                 f"{skill_name}: description length {len(description)} outside 80-360 chars"
