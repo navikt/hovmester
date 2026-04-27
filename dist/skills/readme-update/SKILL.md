@@ -40,7 +40,7 @@ Avklar minst dette før du skriver:
 | Kafka | Hvis consumer/producer | Topics, retning, lagring/videre publisering |
 | Mikrofronter-tabell | Hvis monorepo | App-navn, backend, deploybar enhet |
 | Utviklerverktøy (mise) | Hvis `.mise.toml`, `mise.toml` eller `.tool-versions` finnes | Verktøyversjoner, `mise install` og `mise tasks` for tilgjengelige oppgaver |
-| Utvikling | Alltid | Kort seksjon nederst med stabil lokal URL, for eksempel `http://localhost:3000`, og hvor leseren finner ferske kommandoer. README skal ikke liste konkrete build/test/run-kommandoer som `./gradlew test` eller `npm run dev`. Pek i stedet til repoets discovery-mekanisme, som `mise tasks`, `npm run`, `make help`, `./gradlew tasks` eller tilsvarende, slik at leseren kjører den selv og alltid ser oppdatert liste |
+| Utvikling | Alltid | Kort seksjon nederst med stabil lokal URL, for eksempel `http://localhost:3000`, og hvor leseren finner ferske kommandoer. README skal ikke liste konkrete build/test/run-kommandoer som `./gradlew test` eller `pnpm dev`. Pek i stedet til repoets discovery-mekanisme — foretrekk `mise tasks` hvis `mise` finnes; ellers `pnpm run`, `make help` eller `./gradlew tasks` — slik at leseren kjører den selv og alltid ser oppdatert liste |
 | Les mer | Hvis docs finnes | Lenker til `docs/`, arkitektur og workflow-dokumentasjon |
 | For Nav-ansatte | Alltid | Kontaktlenke til team-Slack som siste seksjon i README, pluss eventuell intern team-info. For team-esyfo er `[#esyfo på Slack](https://nav-it.slack.com/archives/C012X796B4L)` standard når ikke annet er kjent |
 
@@ -82,7 +82,7 @@ Avklar minst dette før du skriver:
 - Ikke finn på miljølenker, topics, API-er eller Slack-kanaler.
 - Ikke påstå auth-oppsett uten å ha sett det i kode eller manifest.
 - Hvis info mangler for en "alltid"-seksjon, bevar eksisterende tekst eller spør brukeren.
-- I utviklingsseksjonen: pek til repoets discovery-mekanisme for kommandoer, som `mise tasks`, `npm run`, `make help` eller `./gradlew tasks`. Ikke kopier konkrete build/test/run-kommandoer inn i README.
+- I utviklingsseksjonen: pek til repoets discovery-mekanisme for kommandoer. Foretrekk `mise tasks` hvis `mise` finnes; ellers `pnpm run`, `make help` eller `./gradlew tasks`. Ikke kopier konkrete build/test/run-kommandoer inn i README.
 - Når du skriver eller forbedrer prosa i README, bruk `/klarsprak` for formålsbeskrivelse, utviklingsseksjon, kontaktseksjon og annen brukerrettet tekst.
 - Skriv kort og konkret; README er inngangsport, ikke komplett internwiki.
 
@@ -92,7 +92,7 @@ Avklar minst dette før du skriver:
 - Zombie sections: utdaterte seksjoner som aldri fjernes.
 - Badge wall: mer enn 5 badges på rad uten tydelig signalverdi.
 - README bloat: over 500 linjer — splitt heller innholdet i docs.
-- Command cargo-culting: kopierte build/test/run-kommandoer fra `mise`, `package.json`, `Makefile` eller Gradle i stedet for å peke til discovery.
+- Command cargo-culting: kopierte build/test/run-kommandoer fra `mise`, `pnpm`-scripts, `Makefile` eller Gradle i stedet for å peke til discovery.
 - Stale examples: kommandoer eller paths som ikke virker lenger.
 - Aspirational docs: beskriver det som burde finnes, ikke det som finnes.
 - Happy-path only: mangler feilhåndtering eller troubleshooting.
