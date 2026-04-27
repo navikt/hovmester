@@ -35,3 +35,10 @@ Team-standard mønster for strukturerte feilresponser: sealed `ApiErrorException
 ## Paginering og input-validering
 
 Team-standard `PaginatedResponse<T>`-wrapper og route-validering med tidlig-retur på ugyldige parametre. Se `references/paginering-og-validering.md`.
+
+## Graceful shutdown
+
+`embeddedServer { ... }.start(wait = true)` håndterer `SIGTERM` via shutdown-hook automatisk i Ktor.
+Trenger ikke manuell readiness-toggling i applikasjonen.
+Plattformkonteksten er felles — se `nais-manifest`-skillen for hvordan NAIS `preStop`-hook fungerer.
+Anti-mønstre: manuell `readiness=false` og lav `terminationGracePeriodSeconds`.

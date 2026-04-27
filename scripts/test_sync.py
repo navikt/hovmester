@@ -40,6 +40,10 @@ def _make_source(root: Path) -> Path:
     _write(root / "dist" / "skills" / "tdd" / "references" / "examples.md", "examples")
     _write(root / "dist" / "issue-templates" / "bug.yml", "bug template")
     _write(root / "dist" / "PULL_REQUEST_TEMPLATE.md", "pr template")
+    _write(
+        root / "dist" / "instructions" / "copilot-review.instructions.md",
+        "review instructions",
+    )
     return root
 
 
@@ -74,7 +78,6 @@ class TestBuildFileMapping:
         _make_source(tmp_path)
         mapping = build_file_mapping(tmp_path)
         assert ".github/PULL_REQUEST_TEMPLATE.md" in mapping
-
 
 # ---------------------------------------------------------------------------
 # compute_diff
@@ -234,6 +237,7 @@ class TestApplySync:
         manifest_files = read_manifest(target)
         assert manifest_files is not None
         assert ".github/agents/bot.agent.md" in manifest_files
+        assert ".github/instructions/copilot-review.instructions.md" in manifest_files
 
     def test_deletes_stale_file_via_legacy_scan(self, tmp_path: Path) -> None:
         source = tmp_path / "src"
@@ -335,6 +339,7 @@ hovmester:
     - kokk
   instructions:
     - security
+    - norwegian-text
   skills:
     - brainstorm
     - tdd
@@ -364,6 +369,7 @@ class TestCollections:
         _write(root / "dist" / "agents" / "kokk.agent.md", "kokk")
         _write(root / "dist" / "agents" / "konditor.agent.md", "konditor")  # NOT in hovmester
         _write(root / "dist" / "instructions" / "security.instructions.md", "security")
+        _write(root / "dist" / "instructions" / "norwegian-text.instructions.md", "norwegian-text")
         _write(root / "dist" / "instructions" / "kotlin.instructions.md", "kotlin")
         _write(root / "dist" / "skills" / "brainstorm" / "SKILL.md", "brainstorm")
         _write(root / "dist" / "skills" / "tdd" / "SKILL.md", "tdd")

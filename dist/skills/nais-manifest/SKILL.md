@@ -169,6 +169,8 @@ observability:
 
 Tracing sendes til Tempo, logger til Loki (logg til stdout/stderr, gjerne JSON), metrikker til Prometheus.
 
+## Pod-lifecycle og graceful shutdown
+NAIS injiserer `preStop` med `sleep 5` før `SIGTERM`, og lastbalansereren slutter å rute trafikk før signalet sendes til appen. Readiness-probes er ikke del av shutdown. Detaljer og anti-mønstre (ingen manuell readiness-toggling, behold `terminationGracePeriodSeconds` på default 30s): se `references/pod-lifecycle.md`.
 ## Naisjob — batch-jobber for app-team
 
 Bruk `Naisjob` når teamet trenger batch-jobber (nattlige kjøringer, engangs-migreringer, rapporter). Samme team-eierskap som `Application`, men kjører til fullført i stedet for kontinuerlig. Typiske felter: `schedule` (cron), `activeDeadlineSeconds`, `backoffLimit`, og de samme blokkene for `resources`, `accessPolicy`, `gcp`, `kafka` og `azure` som `Application`.

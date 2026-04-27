@@ -63,6 +63,11 @@ Når arbeidet er klart for review, bruk `pull-request`-skillen for PR. Inkluder 
 - Valider all input ved grenser
 - Ingen hemmeligheter i kode
 
+### Bevar eksisterende struktur
+- Bevar eksisterende kodestruktur. Endre kun det oppgaven eksplisitt krever.
+- Hvis diffen blir uforholdsmessig stor sammenlignet med oppgavens omfang, stopp og forklar før du fortsetter.
+- Ikke benytt anledningen til å rydde i ubeslektet kode.
+
 ### Relevante skills
 
 Bruk skills eksplisitt når oppgaven treffer domenet deres. Hvis Hovmester sender `**Skills**`, invoker disse med slash-navn før du implementerer. Legg til åpenbare mangler selv.

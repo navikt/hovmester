@@ -16,3 +16,7 @@ applyTo: "**/*.kt"
 Bruk riktig skill basert på rammeverket i dette repoet:
 - **Spring Boot**: **Invoker `/kotlin-spring`** for `@ProtectedWithClaims`, NAIS-miljøvariabler, Testcontainers
 - **Ktor**: **Invoker `/kotlin-ktor`** for JWT-claims, Koin DI, CallLogging MDC
+
+## Bevar eksisterende struktur
+
+Bevar eksisterende kodestruktur. Endre kun det oppgaven eksplisitt krever. Hvis diffen blir uforholdsmessig stor sammenlignet med oppgavens omfang, stopp og forklar før du fortsetter — ikke refaktorer på siden.
