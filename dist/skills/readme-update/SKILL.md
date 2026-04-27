@@ -21,7 +21,7 @@ Les faktiske kilder før du skriver én linje README:
 Avklar minst dette før du skriver:
 
 - Hva er repoets hovedformål?
-- Er dette frontend, backend eller monorepo?
+- Hvilken repo-type er dette: frontend, backend, monorepo, library eller Naisjob?
 - Hvilke miljøer finnes faktisk?
 - Eksponerer repoet REST/GraphQL/API?
 - Konsumerer eller produserer det Kafka?
@@ -68,10 +68,27 @@ Avklar minst dette før du skriver:
 
 ### Kvalitetsregler
 
+- Kognitiv trakt: tittel → quick start → detaljer → meta. Lesere skanner ovenfra og ned.
 - Ikke finn på miljølenker, topics, API-er eller Slack-kanaler.
 - Ikke påstå auth-oppsett uten å ha sett det i kode eller manifest.
 - Hvis info mangler for en "alltid"-seksjon, bevar eksisterende tekst eller spør brukeren.
 - Skriv kort og konkret; README er inngangsport, ikke komplett internwiki.
+
+## Anti-mønstre å se etter
+
+- Template cargo-culting: kopiert mal uten tilpasning til faktisk repo.
+- Zombie sections: utdaterte seksjoner som aldri fjernes.
+- Badge wall: mer enn 5 badges på rad uten tydelig signalverdi.
+- README bloat: over 500 linjer — splitt heller innholdet i docs.
+- Stale examples: kommandoer eller paths som ikke virker lenger.
+- Aspirational docs: beskriver det som burde finnes, ikke det som finnes.
+- Happy-path only: mangler feilhåndtering eller troubleshooting.
+
+## Reviewmodus — topp 3 fikser
+
+Når brukeren ber om README-review (ikke ny generering), returner kun de tre viktigste forbedringene rangert etter effekt.
+Output-mal: 1) [Høy effekt] ..., 2) [Middels effekt] ..., 3) [Lavere effekt] ...
+Kort eksempel: 1) Flytt quick start øverst med verifiserte kommandoer, 2) fjern utdaterte miljøseksjoner, 3) reduser badge-vegg til maks fem relevante badges.
 
 ## Badges
 
