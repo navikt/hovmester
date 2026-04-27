@@ -21,7 +21,7 @@ Les faktiske kilder før du skriver én linje README:
 Avklar minst dette før du skriver:
 
 - Hva er repoets hovedformål?
-- Hvilken repo-type er dette: frontend, backend, monorepo, library eller Naisjob?
+- Hvilken repo-type er dette: frontend, backend, monorepo, library, dokumentasjon eller Naisjob?
 - Hvilke miljøer finnes faktisk?
 - Eksponerer repoet REST/GraphQL/API?
 - Konsumerer eller produserer det Kafka?
@@ -40,15 +40,16 @@ Avklar minst dette før du skriver:
 | Kafka | Hvis consumer/producer | Topics, retning, lagring/videre publisering |
 | Mikrofronter-tabell | Hvis monorepo | App-navn, backend, deploybar enhet |
 | Utviklerverktøy (mise) | Hvis `.mise.toml`, `mise.toml` eller `.tool-versions` finnes | Verktøyversjoner, `mise install` og `mise tasks` for tilgjengelige oppgaver |
-| Utvikling | Alltid | Kort seksjon nederst med lokal URL, test/lint/verifisering og lenke til delt team-wiki for oppstart når den finnes |
+| Utvikling | Alltid | Kort seksjon nederst med lokal URL og hvordan README-en bør beskrive lokal verifisering ut fra repoet. Hvis `mise` finnes og har relevante tasks, bruk dem i stedet for å gjette kommandoer |
 | Les mer | Hvis docs finnes | Lenker til `docs/`, arkitektur og workflow-dokumentasjon |
-| For Nav-ansatte | Alltid | Slack-kanal, team-info eller intern lenke hvis kjent |
+| For Nav-ansatte | Alltid | Kontaktlenke til team-Slack som siste seksjon i README, pluss eventuell intern team-info. For team-esyfo er `[#esyfo på Slack](https://nav-it.slack.com/archives/C012X796B4L)` standard når ikke annet er kjent |
 
 ### Betingede råd
 
 - **Frontend-repo:** prioriter miljølenker, backend-avhengigheter, lokal kjøring og hvordan appen nås.
 - **Backend-repo:** prioriter API, Kafka, database, auth og hvordan andre tjenester kaller appen.
 - **Monorepo:** vis struktur først, deretter tabell over delapper/mikrofronter og felles docs-lenker.
+- **Dokumentasjons-repo:** prioriter innhold, struktur, navigasjon og lenker. Dropp build-, run- og testseksjoner når repoet bare er dokumentasjon.
 
 ## Steg 3: Generer eller oppdater
 
@@ -69,7 +70,6 @@ Avklar minst dette før du skriver:
 ### Kvalitetsregler
 
 - Kognitiv trakt: tittel → formål/kontekst → integrasjoner/API → utvikling → meta. Lesere skanner ovenfra og ned.
-- Når teamet har delt oppstartsdoc eller wiki, lenk dit i utviklingsseksjonen i stedet for å kopiere build- og run-kommandoer. `esyfo-dev-tools` er et eksempel, ikke en fasit.
 - Ikke finn på miljølenker, topics, API-er eller Slack-kanaler.
 - Ikke påstå auth-oppsett uten å ha sett det i kode eller manifest.
 - Hvis info mangler for en "alltid"-seksjon, bevar eksisterende tekst eller spør brukeren.
@@ -82,15 +82,8 @@ Avklar minst dette før du skriver:
 - Badge wall: mer enn 5 badges på rad uten tydelig signalverdi.
 - README bloat: over 500 linjer — splitt heller innholdet i docs.
 - Stale examples: kommandoer eller paths som ikke virker lenger.
-- Duplisert oppstart: kopierte build- og run-kommandoer som allerede finnes i delt team-wiki — lenk dit i stedet.
 - Aspirational docs: beskriver det som burde finnes, ikke det som finnes.
 - Happy-path only: mangler feilhåndtering eller troubleshooting.
-
-## Reviewmodus — topp 3 fikser
-
-Når brukeren ber om README-review (ikke ny generering), returner kun de tre viktigste forbedringene rangert etter effekt.
-Output-mal: 1) [Høy effekt] ..., 2) [Middels effekt] ..., 3) [Lavere effekt] ...
-Kort eksempel: 1) Flytt formål-seksjonen opp rett under badges, 2) lenk til delt team-wiki for oppstart i stedet for å kopiere kommandoer, 3) reduser badge-vegg til maks fem relevante badges.
 
 ## Badges
 
