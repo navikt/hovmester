@@ -34,6 +34,7 @@ DIR_MAPPING: dict[str, str] = {
 
 SINGLE_FILE_MAPPING: dict[str, str] = {
     "dist/PULL_REQUEST_TEMPLATE.md": ".github/PULL_REQUEST_TEMPLATE.md",
+    "dist/copilot-review-instructions.md": ".github/copilot-review-instructions.md",
 }
 
 # Never sync or clean these target directories
