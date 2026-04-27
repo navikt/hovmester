@@ -40,7 +40,7 @@ Avklar minst dette før du skriver:
 | Kafka | Hvis consumer/producer | Topics, retning, lagring/videre publisering |
 | Mikrofronter-tabell | Hvis monorepo | App-navn, backend, deploybar enhet |
 | Utviklerverktøy (mise) | Hvis `.mise.toml`, `mise.toml` eller `.tool-versions` finnes | Verktøyversjoner, `mise install` og `mise tasks` for tilgjengelige oppgaver |
-| Utvikling | Alltid | Kommandoer, lokal URL, test/lint/verifisering |
+| Utvikling | Alltid | Kort seksjon nederst med lokal URL, test/lint/verifisering og lenke til delt team-wiki for oppstart når den finnes |
 | Les mer | Hvis docs finnes | Lenker til `docs/`, arkitektur og workflow-dokumentasjon |
 | For Nav-ansatte | Alltid | Slack-kanal, team-info eller intern lenke hvis kjent |
 
@@ -61,14 +61,15 @@ Avklar minst dette før du skriver:
 
 ### Ved ny README
 
-- Start med det viktigste: tittel, badges, formål, diagram og utvikling.
+- Inkluder alltid: tittel, badges, formål, diagram og utvikling.
 - Bruk et beskrivende appnavn som tittel — ikke bare reponavnet. Eksempel: «Mikrofronter for Min side» i stedet for «esyfo-microfrontends».
 - Ta kun med seksjoner som repoet faktisk trenger.
 - Bruk repoets egne navn på apper, topics, databaser og miljøer i innholdet.
 
 ### Kvalitetsregler
 
-- Kognitiv trakt: tittel → quick start → detaljer → meta. Lesere skanner ovenfra og ned.
+- Kognitiv trakt: tittel → formål/kontekst → integrasjoner/API → utvikling → meta. Lesere skanner ovenfra og ned.
+- Når teamet har delt oppstartsdoc eller wiki, lenk dit i utviklingsseksjonen i stedet for å kopiere build- og run-kommandoer. `esyfo-dev-tools` er et eksempel, ikke en fasit.
 - Ikke finn på miljølenker, topics, API-er eller Slack-kanaler.
 - Ikke påstå auth-oppsett uten å ha sett det i kode eller manifest.
 - Hvis info mangler for en "alltid"-seksjon, bevar eksisterende tekst eller spør brukeren.
@@ -81,6 +82,7 @@ Avklar minst dette før du skriver:
 - Badge wall: mer enn 5 badges på rad uten tydelig signalverdi.
 - README bloat: over 500 linjer — splitt heller innholdet i docs.
 - Stale examples: kommandoer eller paths som ikke virker lenger.
+- Duplisert oppstart: kopierte build- og run-kommandoer som allerede finnes i delt team-wiki — lenk dit i stedet.
 - Aspirational docs: beskriver det som burde finnes, ikke det som finnes.
 - Happy-path only: mangler feilhåndtering eller troubleshooting.
 
@@ -88,7 +90,7 @@ Avklar minst dette før du skriver:
 
 Når brukeren ber om README-review (ikke ny generering), returner kun de tre viktigste forbedringene rangert etter effekt.
 Output-mal: 1) [Høy effekt] ..., 2) [Middels effekt] ..., 3) [Lavere effekt] ...
-Kort eksempel: 1) Flytt quick start øverst med verifiserte kommandoer, 2) fjern utdaterte miljøseksjoner, 3) reduser badge-vegg til maks fem relevante badges.
+Kort eksempel: 1) Flytt formål-seksjonen opp rett under badges, 2) lenk til delt team-wiki for oppstart i stedet for å kopiere kommandoer, 3) reduser badge-vegg til maks fem relevante badges.
 
 ## Badges
 
