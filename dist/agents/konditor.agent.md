@@ -64,6 +64,11 @@ Tilgjengelighetsregler (`accessibility`-instruksjonen) lastes automatisk for `.t
 
 Sjekk ALLTID [aksel.nav.no](https://aksel.nav.no) for tilgjengelige komponenter. Aldri bruk rå HTML for elementer Aksel tilbyr, og aldri hardkod farger, spacing eller typografi.
 
+## Bevar eksisterende struktur
+- Bevar eksisterende kodestruktur. Endre kun det oppgaven eksplisitt krever.
+- Hvis diffen blir uforholdsmessig stor sammenlignet med oppgavens omfang, stopp og forklar før du fortsetter.
+- Ikke benytt anledningen til å rydde i ubeslektet kode.
+
 ## Effektivitet
 
 - Minimér verktøykall — batch operasjoner der mulig

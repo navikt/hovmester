@@ -19,3 +19,7 @@ applyTo: "**/*.{ts,tsx,js,jsx}"
 
 ## Progressive disclosure
 Denne instruksjonen er lean med vilje. Invoker de refererte skillsene når oppgaven faktisk krever det.
+
+## Bevar eksisterende struktur
+
+Bevar eksisterende kodestruktur. Endre kun det oppgaven eksplisitt krever. Hvis diffen blir uforholdsmessig stor sammenlignet med oppgavens omfang, stopp og forklar før du fortsetter — ikke refaktorer på siden.
