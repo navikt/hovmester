@@ -1,6 +1,6 @@
 ---
 name: kotlin-ktor
-description: Ktor Nav-spesifikt — NAVident JWT-claim, Koin DI, CallLogging MDC, StatusPages/ApiError-mønster, paginering og input-validering
+description: "Ktor-applikasjoner i Kotlin — routes, plugins, Koin DI, JWT-claims som NAVident, CallLogging/MDC, StatusPages/ApiError, paginering og input-validering. Brukes via /kotlin-ktor ved Ktor-arbeid."
 ---
 
 # Ktor — Nav-spesifikt

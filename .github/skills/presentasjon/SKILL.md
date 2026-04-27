@@ -1,6 +1,6 @@
 ---
 name: presentasjon
-description: Lag, review eller forbedre tekniske presentasjoner — sterkere narrativ, mindre tekst, bedre visuals og tryggere live-demo.
+description: "Tekniske presentasjoner — sterkere narrativ, mindre tekst, bedre visuals og tryggere live-demo. Brukes via /presentasjon ved oppretting, review eller forbedring av presentasjoner."
 ---
 
 # Tech Talk Design

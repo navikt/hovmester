@@ -1,6 +1,6 @@
 ---
 name: readme-update
-description: Opprett eller oppdater README-filer for Nav-repoer basert på faktisk kode, stack, NAIS-manifest og integrasjoner. Brukes når bruker vil lage README, oppdatere README eller dokumentere et repo.
+description: "README og repo-dokumentasjon — faktisk stack, lokal kjøring, tester, deploy, NAIS-manifest, integrasjoner og eierskap. Brukes via /readme-update når dokumentasjon skal lages eller oppdateres."
 ---
 
 # README-oppdatering for Nav-repoer
