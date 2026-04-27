@@ -118,8 +118,7 @@ spec:
 
 Merk: Nais kan godt peke på `/isAlive` / `/isReady` hvis du eksponerer
 egne endepunkter, men Actuator-probene er standard og reflekterer
-Spring sin egen `ApplicationAvailability` (trafikk stoppes ved
-`ReadinessState.REFUSING_TRAFFIC` under graceful shutdown).
+Spring sin egen `ApplicationAvailability` (`ReadinessState.REFUSING_TRAFFIC` er intern state og skal ikke toggles manuelt for å håndtere Nais-shutdown).
 
 ## HikariCP — defaults for Nais-containere
 
