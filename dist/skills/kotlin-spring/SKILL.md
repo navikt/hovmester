@@ -119,6 +119,7 @@ spec:
 Merk: Nais kan godt peke på `/isAlive` / `/isReady` hvis du eksponerer
 egne endepunkter, men Actuator-probene er standard og reflekterer
 Spring sin egen `ApplicationAvailability` (`ReadinessState.REFUSING_TRAFFIC` er intern state og skal ikke toggles manuelt for å håndtere Nais-shutdown).
+Plattformkonteksten er felles — se `nais-manifest`-skillen for hvordan NAIS `preStop`-hook fungerer.
 
 ## HikariCP — defaults for Nais-containere
 
