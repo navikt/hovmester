@@ -18,18 +18,13 @@ Siste sjekket commit i `navikt/copilot` og hva som ble gjort.
 - **`8b2cb9f9` NAIS pod-lifecycle** — `nais-manifest`-skillen dokumenterer preStop sleep 5, terminationGracePeriodSeconds-anti-mønster og readiness=false som anti-mønster (detaljer i `references/pod-lifecycle.md` pga line-cap). `kotlin-ktor` fikk Graceful shutdown-seksjon. `kotlin-spring` peker til `nais-manifest` for plattformkonteksten.
 - **`f6c88077` readme-review-innsikter** — `readme-update` beriket med scope-deteksjon (library + Naisjob), 7-punkts anti-mønsterliste på norsk, "topp 3 fikser"-reviewmodus og kognitiv-trakt-prinsipp. Section-spec-matrix (18×4) droppet som for tung.
 - **`46f2cc13` copilot-review-instructions.md** — ny single-file-mapping i `sync.py` synker `dist/copilot-review-instructions.md` → consumer-roten. Filen peker til `/security-review`, `/accessibility-review` og `/klarsprak`.
+- **`5552d025` Norwegian text quality (hybrid)** — ny `norwegian-text.instructions.md` (`applyTo: "**/*.md"`) auto-loader kjerneregler; eksisterende `klarsprak`-skill trimmet for å unngå dobbeltlagring og beholder dypdykk for UI-tekst, mikrotekst og feilmeldinger.
 
 ### 2026-04-17
 
 - **Aksel llm.md-referanse** — aksel-design og figma-workflow peker nå til `aksel.nav.no/llm.md` for live docs
 - **Aksel v8-regler** — Alert deprecated, Button danger→data-color, borderRadius numerisk, CSS-prefix `.aksel-`
 - **accessibility.instructions.md** — Alert→LocalAlert i ARIA-eksempel
-
-## Utsatt
-
-| Commit | Hva | Status |
-|--------|-----|--------|
-| `5552d025` | Norwegian text quality (klarsprak-arkitektur) | Egen oppfølgings-PR — hybrid foreslått (instruction `applyTo: "**/*.md"` + trimmet skill for dypdykk) |
 
 ## Vurdert og droppet
 

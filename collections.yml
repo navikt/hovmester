@@ -14,6 +14,7 @@ hovmester:
     - security
     - docker
     - github-actions
+    - norwegian-text
   skills:
     - accessibility-review
     - brainstorm
