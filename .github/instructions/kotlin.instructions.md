@@ -14,5 +14,5 @@ applyTo: "**/*.kt"
 ## Framework-spesifikke skills
 
 Bruk riktig skill basert på rammeverket i dette repoet:
-- **Spring Boot**: Bruk `kotlin-spring`-skillen for `@ProtectedWithClaims`, NAIS-miljøvariabler, Testcontainers
-- **Ktor**: Bruk `kotlin-ktor`-skillen for JWT-claims, Koin DI, CallLogging MDC
+- **Spring Boot**: **Invoker `/kotlin-spring`** for `@ProtectedWithClaims`, NAIS-miljøvariabler, Testcontainers
+- **Ktor**: **Invoker `/kotlin-ktor`** for JWT-claims, Koin DI, CallLogging MDC

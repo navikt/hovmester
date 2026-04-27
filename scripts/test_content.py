@@ -12,6 +12,7 @@ GITHUB = os.path.join(REPO_ROOT, ".github")
 # Pre-existing violations som ikke skal blokkere nav-pilot-adopsjon.
 # Disse skal splittes opp i egen oppfølging.
 LINE_CAP_ALLOWLIST = {"lumi-survey"}  # pre-existing; split in follow-up
+TRIGGER_DESCRIPTION_ALLOWLIST = {"lumi-survey"}  # handled with the lumi follow-up
 
 # Skills som lever KUN i .github/ (hovmester-repoets egen Copilot-config)
 # og ikke i dist/. Disse parity-testen ignorerer.
@@ -68,6 +69,39 @@ def test_no_duplicate_skill_names():
             frontmatter_names.append(fm["name"])
     duplicates = [n for n in frontmatter_names if frontmatter_names.count(n) > 1]
     assert not duplicates, f"duplicate frontmatter names: {sorted(set(duplicates))}"
+
+
+def test_skill_descriptions_are_trigger_oriented():
+    """Frontmatter-description er skillens discovery-flate.
+
+    Copilot velger skills ut fra prompten og `description`, så beskrivelsen
+    skal si når skillen skal brukes og hvordan den invokeres.
+    """
+    skills_dir = os.path.join(DIST, "skills")
+    violations = []
+    for skill_name in sorted(os.listdir(skills_dir)):
+        if skill_name in TRIGGER_DESCRIPTION_ALLOWLIST:
+            continue
+        skill_md = os.path.join(skills_dir, skill_name, "SKILL.md")
+        if not os.path.isfile(skill_md):
+            continue
+        with open(skill_md, encoding="utf-8") as f:
+            content = f.read()
+        if not content.startswith("---\n"):
+            continue
+        end = content.find("\n---\n", 4)
+        if end <= 0:
+            continue
+        fm = yaml.safe_load(content[4:end])
+        description = fm.get("description", "") if fm else ""
+        expected = f"/{skill_name}"
+        if expected not in description:
+            violations.append(f"{skill_name}: description must mention {expected}")
+        if not (80 <= len(description) <= 360):
+            violations.append(
+                f"{skill_name}: description length {len(description)} outside 80-360 chars"
+            )
+    assert not violations, "weak skill descriptions:\n  " + "\n  ".join(violations)
 
 
 def test_all_references_exist():
