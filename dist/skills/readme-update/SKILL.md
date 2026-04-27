@@ -60,10 +60,19 @@ Avklar minst dette før du skriver:
 - Bevar manuelle detaljer som Slack-kanaler, wiki-lenker og driftstips hvis de fortsatt stemmer.
 - Hvis eksisterende README har nyttige seksjoner som ikke finnes i denne skillen, behold dem når de gir verdi.
 
+### Tittelvalg
+
+- Foreslå alltid 3 README-titler og spør brukeren via `ask_user` før du låser tittelen.
+- Alternativ 1: app-/repo-navnet slik det er i dag.
+- Alternativ 2: et domenenært forslag basert på hva appen faktisk gjør.
+- Alternativ 3: et annet domenenært forslag med en annen vinkling, for eksempel mer brukerrettet eller mer teknisk.
+- Alternativ 4: brukeren skriver en egen tittel.
+- Begrunn kort valget: appnavn kan være kryptiske, mens en domenenær tittel gjør README-en forståelig på få sekunder for nye lesere.
+- Ikke anta at app-/repo-navnet er beste tittel.
+
 ### Ved ny README
 
 - Inkluder alltid: tittel, badges, formål, diagram og utvikling.
-- Bruk et beskrivende appnavn som tittel — ikke bare reponavnet. Eksempel: «Mikrofronter for Min side» i stedet for «esyfo-microfrontends».
 - Ta kun med seksjoner som repoet faktisk trenger.
 - Bruk repoets egne navn på apper, topics, databaser og miljøer i innholdet.
 
@@ -73,6 +82,7 @@ Avklar minst dette før du skriver:
 - Ikke finn på miljølenker, topics, API-er eller Slack-kanaler.
 - Ikke påstå auth-oppsett uten å ha sett det i kode eller manifest.
 - Hvis info mangler for en "alltid"-seksjon, bevar eksisterende tekst eller spør brukeren.
+- Når du skriver eller forbedrer prosa i README, bruk `/klarsprak` for formålsbeskrivelse, utviklingsseksjon, kontaktseksjon og annen brukerrettet tekst.
 - Skriv kort og konkret; README er inngangsport, ikke komplett internwiki.
 
 ## Anti-mønstre å se etter
