@@ -34,7 +34,6 @@ DIR_MAPPING: dict[str, str] = {
 
 SINGLE_FILE_MAPPING: dict[str, str] = {
     "dist/PULL_REQUEST_TEMPLATE.md": ".github/PULL_REQUEST_TEMPLATE.md",
-    "dist/copilot-review-instructions.md": ".github/copilot-review-instructions.md",
 }
 
 # Never sync or clean these target directories
@@ -305,9 +304,6 @@ def _file_allowed_by_collections(
 
     if target_rel == ".github/PULL_REQUEST_TEMPLATE.md":
         return "PULL_REQUEST_TEMPLATE.md" in allowed.get("pull_request_template", set())
-
-    if target_rel == ".github/copilot-review-instructions.md":
-        return True
 
     # Unknown paths are excluded when collections filtering is active
     return False

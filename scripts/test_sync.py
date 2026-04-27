@@ -40,7 +40,10 @@ def _make_source(root: Path) -> Path:
     _write(root / "dist" / "skills" / "tdd" / "references" / "examples.md", "examples")
     _write(root / "dist" / "issue-templates" / "bug.yml", "bug template")
     _write(root / "dist" / "PULL_REQUEST_TEMPLATE.md", "pr template")
-    _write(root / "dist" / "copilot-review-instructions.md", "review instructions")
+    _write(
+        root / "dist" / "instructions" / "copilot-review.instructions.md",
+        "review instructions",
+    )
     return root
 
 
@@ -75,12 +78,6 @@ class TestBuildFileMapping:
         _make_source(tmp_path)
         mapping = build_file_mapping(tmp_path)
         assert ".github/PULL_REQUEST_TEMPLATE.md" in mapping
-
-    def test_maps_copilot_review_instructions(self, tmp_path: Path) -> None:
-        _make_source(tmp_path)
-        mapping = build_file_mapping(tmp_path)
-        assert ".github/copilot-review-instructions.md" in mapping
-
 
 # ---------------------------------------------------------------------------
 # compute_diff
@@ -240,7 +237,7 @@ class TestApplySync:
         manifest_files = read_manifest(target)
         assert manifest_files is not None
         assert ".github/agents/bot.agent.md" in manifest_files
-        assert ".github/copilot-review-instructions.md" in manifest_files
+        assert ".github/instructions/copilot-review.instructions.md" in manifest_files
 
     def test_deletes_stale_file_via_legacy_scan(self, tmp_path: Path) -> None:
         source = tmp_path / "src"
@@ -384,7 +381,6 @@ class TestCollections:
         _write(root / "dist" / "issue-templates" / "bug.yml", "bug")
         _write(root / "dist" / "issue-templates" / "feature.yml", "feature")  # NOT in hovmester
         _write(root / "dist" / "PULL_REQUEST_TEMPLATE.md", "pr template")
-        _write(root / "dist" / "copilot-review-instructions.md", "review instructions")
         return root
 
     def test_no_collections_returns_all_files(self, tmp_path: Path) -> None:
@@ -457,17 +453,6 @@ class TestCollections:
 
         assert ".github/agents/hovmester.agent.md" in filtered  # from hovmester
         assert ".github/skills/kafka-topic/SKILL.md" in filtered  # from backend
-        assert ".github/copilot-review-instructions.md" in filtered
-
-    def test_copilot_review_instructions_survives_collections_filtering(
-        self, tmp_path: Path
-    ) -> None:
-        source = self._make_full_source(tmp_path)
-        mapping = build_file_mapping(source)
-        allowed = resolve_collections(source, "backend")
-        filtered = filter_mapping_by_collections(mapping, allowed)
-
-        assert ".github/copilot-review-instructions.md" in filtered
 
 
 # ---------------------------------------------------------------------------

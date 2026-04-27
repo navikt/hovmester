@@ -1,3 +1,8 @@
+---
+description: "Styrer hvordan Copilot Code Review prioriterer PR-funn med fokus på scope-disiplin, sikkerhet, tilgjengelighet, klarspråk og handlingsrettede kommentarer"
+applyTo: "**"
+---
+
 # Copilot Code Review — Nav-retningslinjer
 
 Disse instruksjonene brukes når GitHub Copilot Code Review aktiveres på PR-er i Nav-repoer.

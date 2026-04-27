@@ -1,6 +1,6 @@
 ---
 name: klarsprak
-description: "Norsk teknisk skriving og klarspråk — brukerrettet mikrotekst, feilmeldinger, labels, PR-/README-tekst, anglismer, fagtermer og AI-markører. Brukes via /klarsprak når tekst skal skrives eller forbedres."
+description: Klarsprak-skillen veileder klarspråk og språkvask av feilmeldinger, mikrotekst og AI-markører i norsk tekst. Brukes via /klarsprak når brukeren ber om klarspråk, språkvask, AI-markører, feilmeldinger eller mikrotekst.
 ---
 # Klarspråk — norsk teknisk skriving
 
