@@ -5,7 +5,7 @@ applyTo: "**/*.md"
 
 # Norsk tekstkvalitet (lean)
 
-Disse reglene gjelder all norsk markdown-tekst i Nav-repoer. For dypere veiledning på mikrotekst, feilmeldinger, labels og PR-tekst — invoker `/klarsprak`.
+Disse reglene gjelder all norsk markdown-tekst i Nav-repoer. For dypere veiledning på mikrotekst, feilmeldinger, labels og PR-tekst — bruk `/klarsprak`.
 
 ## AI-markører å unngå
 

@@ -36,11 +36,11 @@ feilsøking, oppgradering, sikkerhetskrav, vedlikehold, bidragsytere, brukervenn
 
 Bruk bindestrek: `image-bygg`, `CI-pipeline`, `deploy-steg`, `Kafka-topicet`, `GitHub-repoet`. Ikke særskriv: `Postgres operatoren` er feil.
 
-## Anglismer
+## Anglisismer
 
-Unødvendige anglismer — bruk norsk:
+Unødvendige anglisismer — bruk norsk:
 
-| Anglisme | Norsk alternativ |
+| Anglisisme | Norsk alternativ |
 |----------|-----------------|
 | "adressere et problem" | "løse", "fikse", "ta tak i" |
 | "på slutten av dagen" | "til syvende og sist", eller dropp |

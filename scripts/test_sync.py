@@ -342,6 +342,7 @@ hovmester:
     - kokk
   instructions:
     - security
+    - norwegian-text
   skills:
     - brainstorm
     - tdd
@@ -371,6 +372,7 @@ class TestCollections:
         _write(root / "dist" / "agents" / "kokk.agent.md", "kokk")
         _write(root / "dist" / "agents" / "konditor.agent.md", "konditor")  # NOT in hovmester
         _write(root / "dist" / "instructions" / "security.instructions.md", "security")
+        _write(root / "dist" / "instructions" / "norwegian-text.instructions.md", "norwegian-text")
         _write(root / "dist" / "instructions" / "kotlin.instructions.md", "kotlin")
         _write(root / "dist" / "skills" / "brainstorm" / "SKILL.md", "brainstorm")
         _write(root / "dist" / "skills" / "tdd" / "SKILL.md", "tdd")
