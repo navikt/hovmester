@@ -1,6 +1,6 @@
 ---
 name: issue-management
-description: Opprett og administrer GitHub Issues, epics, sub-issues og avhengigheter
+description: "GitHub Issues-håndtering — issue-maler, epics, sub-issues, dependencies, prosjektboard, status, ferdigmelding og PR-kobling. Brukes via /issue-management ved oppretting eller håndtering av issues."
 ---
 
 # Issue-håndtering

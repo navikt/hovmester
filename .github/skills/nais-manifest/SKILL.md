@@ -1,7 +1,6 @@
 ---
 name: nais-manifest
-description: Generer og vedlikehold NAIS-manifest — spec, database, Kafka, auth, accessPolicy, ressurser, Naisjob
-keywords: [nais, nais-manifest, application, naisjob, accesspolicy, cpu-limits, cpu-throttling, hikaricp, ingress, health-endpoints, gcp-sql, kafka, azure-ad, tokenx]
+description: "NAIS-manifest og applikasjonskonfigurasjon — nais.yaml for Application, Naisjob, ingress, resources, probes, accessPolicy, Azure AD, TokenX, Kafka eller GCP SQL. Brukes via /nais-manifest ved nye eller endrede manifester."
 ---
 
 # NAIS-manifest

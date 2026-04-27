@@ -1,6 +1,6 @@
 ---
 name: migrate-to-hovmester
-description: Migrer repos fra esyfo-cli copilot-sync til hovmester, eller sett opp hovmester på repos uten eksisterende oppsett. Brukes når bruker vil onboarde et repo til hovmester, migrere fra esyfo-cli, eller rulle ut hovmester-workflows.
+description: "Migrering til hovmester fra esyfo-cli copilot-sync, eller oppsett av hovmester på repos uten eksisterende konfigurasjon. Brukes via /migrate-to-hovmester ved onboarding eller migrering av repos."
 ---
 
 # Migrer til hovmester

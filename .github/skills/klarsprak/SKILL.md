@@ -1,6 +1,6 @@
 ---
 name: klarsprak
-description: Norsk teknisk redaktør — klarspråk, AI-markører, anglismer, fagtermer, mikrotekst
+description: "Norsk teknisk skriving og klarspråk — brukerrettet mikrotekst, feilmeldinger, labels, PR-/README-tekst, anglismer, fagtermer og AI-markører. Brukes via /klarsprak når tekst skal skrives eller forbedres."
 ---
 # Klarspråk — norsk teknisk skriving
 

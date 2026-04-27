@@ -1,6 +1,6 @@
 ---
 name: kotlin-spring
-description: Spring Boot Nav-spesifikt — @ProtectedWithClaims, NAIS-miljøvariabler, testing med Testcontainers og MockOAuth2Server
+description: "Spring Boot-applikasjoner i Kotlin — controllers, services, @ProtectedWithClaims, NAIS-miljøvariabler, token-validation, Testcontainers og MockOAuth2Server. Brukes via /kotlin-spring ved Spring Boot-arbeid."
 ---
 
 # Spring Boot — Nav-spesifikt

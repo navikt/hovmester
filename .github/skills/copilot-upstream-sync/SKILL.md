@@ -1,6 +1,6 @@
 ---
 name: copilot-upstream-sync
-description: Sjekk navikt/copilot for nye mønstre, instructions og skills som er verdt å adoptere i hovmester
+description: "Synkronisering mot navikt/copilot — nye mønstre, instructions og skills som er verdt å adoptere i hovmester. Brukes via /copilot-upstream-sync ved oppdateringssjekk."
 ---
 
 # Upstream-sync fra navikt/copilot
