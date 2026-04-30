@@ -55,9 +55,9 @@ Lag hver situasjon som egen frame i Figma. For hver, noter:
 
 For å forankre et redesign i nåtilstand. Prioritert rekkefølge:
 
-1. **Figma-lenke** — Hent direkte via `get_screenshot`/`get_design_context`
-2. **Lokal app via Playwright** — Start dev-server, naviger, ta screenshot, importer til Figma
-3. **Offentlig URL** — Importer via `generate_figma_design`
+1. **Lokal app via Playwright** (standard) — Start dev-server, naviger, ta screenshot, last opp til Figma
+2. **Figma-lenke** — Hent direkte via `get_screenshot`/`get_design_context`
+3. **Offentlig URL** — Importer via `generate_figma_design` (NB: oppretter en *ny* Figma-fil — bruk `use_figma` for å jobbe videre i eksisterende fil)
 4. **Manuell fallback** — Be designer om skjermbilde
 
 **Lokal capture (Playwright MCP)**:

@@ -41,29 +41,31 @@ Avklar: Hvem er brukeren? Hva er kjernebehovet? Finnes det eksisterende mønstre
 Bruk `/aksel-design` for å finne relevante Aksel-komponenter og mønstre.
 Bruk `/klarsprak` for brukerrettet tekst og labels.
 
-**Nåtilstand** (når relevant): Spør etter Figma-lenke eller URL til eksisterende flate.
+**Nåtilstand** (kun A/B — hopp over for C):
+
+Spør designeren:
+> Har du en Figma-lenke du vil jobbe videre fra, eller skal vi ta utgangspunkt i appen slik den er i dag?
+> A) Jeg har en Figma-skisse
+> B) Ta utgangspunkt i appen (anbefalt)
 
 Prioritert rekkefølge for å hente visuell kontekst:
-1. **Figma-lenke** → Hent kontekst direkte
-2. **Lokal app** → Start dev-server og bruk Playwright for screenshot (se `/prototype` for oppskrift)
+1. **Lokal app** (standard) → Start dev-server og bruk Playwright for screenshot (se `/prototype` for oppskrift). Krever ingen input fra designeren.
+2. **Figma-lenke** → Når designeren allerede har en skisse de vil bygge videre på
 3. **Offentlig URL** → Importer til Figma
-4. **Autentisert side** (ingen av de over fungerer) → Be om skjermbilde
+4. **Manuelt skjermbilde** (siste utvei) → Be designeren dele bilde
 
-Hvis Playwright ikke er tilgjengelig: hopp rett til metode 3/4.
+Hvis Playwright ikke er tilgjengelig: spør etter Figma-lenke eller skjermbilde.
 Hvis dev-server feiler: informer designeren kort og fall tilbake til neste metode.
 
-Avslutt Utforsk med: "Skal vi skissere dette?"
+Avslutt Utforsk basert på intensjon:
+- **A/B** (ny flate eller forbedring): "Skal vi skissere dette i Figma?"
+- **C** (utforsking): Oppsummer funn. Spør: "Vil du utforske mer, eller lage en skisse av noe vi har diskutert?"
 
 ### Fase 2: Skissér (opt-in)
 
-Designeren har sagt ja til å skissere. Tilby modus:
+Designeren har sagt ja til å skissere.
 
-> Hvordan vil du jobbe?
-> A) Figma — jeg lager en skisse rett i Figma med Nav-komponenter
-> B) Bare konsept — beskriv oppsettet visuelt, uten verktøy
-
-**Figma-modus**: Bruk `/prototype`. Når Figma-filen er opprettet, del lenken med designeren umiddelbart — de skal kunne åpne og se filen mens arbeidet pågår.
-**Konsept-modus**: Beskriv layout, hierarki og komponentvalg tekstlig.
+Bruk `/prototype` for å lage en Figma-skisse med Nav-komponenter. Når Figma-filen er opprettet, del lenken med designeren umiddelbart — de skal kunne åpne og se filen mens arbeidet pågår.
 
 ### Fase 3: Iterer (opt-in)
 
