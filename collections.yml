@@ -8,7 +8,6 @@ hovmester:
     - souschef
     - kokk
     - konditor
-    - designer
     - inspektør-claude
     - inspektør-gpt
   instructions:
@@ -55,6 +54,8 @@ backend:
     - postgresql-review
 
 frontend:
+  agents:
+    - designer
   instructions:
     - accessibility
     - frontend
