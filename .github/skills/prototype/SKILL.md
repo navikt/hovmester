@@ -69,7 +69,7 @@ For å forankre et redesign i nåtilstand. Prioritert rekkefølge:
 6. Stopp server når ferdig
 
 Hvis dev-server feiler → informer kort og fall tilbake til neste metode. Ikke feilsøk build-problemer.
-Hvis Playwright MCP ikke er tilgjengelig → hopp direkte til metode 3 (offentlig URL) eller 4 (manuell fallback).
+Hvis Playwright MCP ikke er tilgjengelig → hopp til metode 2 (Figma-lenke), 3 (offentlig URL) eller 4 (manuell fallback).
 
 ## Iterasjon
 

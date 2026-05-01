@@ -15,11 +15,13 @@ Sørger for at den lokale kodebasen er oppdatert med siste versjon fra Git. Lage
 
 ## Bruk
 
-Kjør scriptet `scripts/sync.sh`:
+Kjør scriptet:
 
 ```bash
-bash "$(dirname "$0")/scripts/sync.sh"
+bash .github/skills/repo-sync/scripts/sync.sh
 ```
+
+Scriptet ligger i skill-mappen. Agenten må resolve stien basert på repo-roten.
 
 Scriptet returnerer JSON med `status`, `message` og `count`:
 
