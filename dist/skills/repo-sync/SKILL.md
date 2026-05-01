@@ -13,75 +13,40 @@ Sørger for at den lokale kodebasen er oppdatert med siste versjon fra Git. Lage
 - Når agenten mistenker at koden er utdatert
 - Designere og andre ikke-tekniske brukere som ikke kjenner Git
 
-## Oppskrift
+## Bruk
 
-Kjør følgende steg sekvensielt:
-
-### 1. Finn hovedbranch
+Kjør scriptet `scripts/sync.sh`:
 
 ```bash
-git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@'
+bash "$(dirname "$0")/scripts/sync.sh"
 ```
 
-Fallback: prøv `main`, deretter `master`.
+Scriptet returnerer JSON med `status`, `message` og `count`:
 
-### 2. Sjekk at vi er på hovedbranch
+| Status | Betydning | Handling |
+|---|---|---|
+| `updated` | Hentet N nye endringer | Informer: «Kodebasen er oppdatert — hentet N nye endringer. ✅» |
+| `current` | Allerede oppdatert | Si ingenting, gå videre |
+| `skipped` | Ikke på hovedbranch | Si ingenting, gå videre |
+| `error` | Noe gikk galt | Gi en kort, ikke-teknisk forklaring |
 
-```bash
-current=$(git branch --show-current)
-```
+Ved `error`: unngå git-jargong for ikke-tekniske brukere. Eksempel: «Jeg klarte ikke å hente siste versjon akkurat nå, men vi kan jobbe videre med det vi har.»
 
-Hvis `current` ≠ hovedbranch: **stopp sync og gå videre stille.** Ikke bytt branch automatisk — brukeren kan ha en grunn til å stå på en annen branch.
+## Hva scriptet gjør
 
-### 3. Hent siste endringer
-
-```bash
-git fetch origin <hovedbranch> --quiet
-```
-
-### 4. Sjekk om det finnes oppdateringer
-
-```bash
-behind=$(git rev-list HEAD..origin/<hovedbranch> --count)
-```
-
-- Hvis `behind` = 0 → kodebasen er oppdatert. Gå videre stille.
-- Hvis `behind` > 0 → pull og informer.
-
-### 5. Pull (kun ved endringer)
-
-```bash
-git pull --ff-only origin <hovedbranch>
-```
-
-⚠️ Hvis pull feiler (divergert historikk): informer brukeren og stopp. Ikke bruk `--force` eller `--rebase`.
-
-### 6. Informer
-
-Vis kun når det faktisk var endringer:
-
-> Kodebasen er oppdatert — hentet `N` nye endringer. ✅
-
-Hvis alt var oppdatert: si ingenting, gå rett videre til oppgaven.
-
-## Feilhåndtering
-
-| Situasjon | Handling |
-|---|---|
-| Ikke et git-repo | Informer brukeren, stopp |
-| Ikke på hovedbranch | Hopp over sync, gå videre stille |
-| Lokale endringer blokkerer pull | Informer kort, fortsett med lokal kode |
-| `--ff-only` feiler | Informer at historikken har divergert, stopp |
-| Nettverksfeil på fetch | Informer, fortsett med lokal kode |
-
-Ved feil: gi en kort, ikke-teknisk forklaring. Unngå git-jargong for ikke-tekniske brukere.
+1. Sjekker at vi er i et git-repo
+2. Finner hovedbranch (origin/HEAD → main → master)
+3. Sjekker at vi er på hovedbranch — hvis ikke, hopper over stille
+4. Kjører `git fetch`
+5. Sjekker antall nye commits
+6. Kjører `git pull --ff-only` kun ved endringer
 
 ## Boundaries
 
 ### ✅ Alltid
-- Bruk `--ff-only` (aldri merge-commits)
-- Informer om hva som skjedde
-- Stopp ved problemer — aldri force-push eller force-checkout
+- Bruk scriptet — ikke kjør git-kommandoer direkte
+- Informer om oppdateringer
+- Stopp ved feil — aldri force
 
 ### 🚫 Aldri
 - `git reset --hard`

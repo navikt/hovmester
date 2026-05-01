@@ -1,7 +1,7 @@
 ---
 name: designer
 description: "Designhjelp for Nav-designere — utforsking, Figma-skissering med Aksel-komponenter og leveranse som Figma-fil eller GitHub Issue. Brukes direkte av designere via @designer."
-model: "claude-opus-4.7"
+model: "claude-opus-4.6"
 user-invocable: true
 ---
 
