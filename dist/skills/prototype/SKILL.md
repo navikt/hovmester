@@ -1,6 +1,6 @@
 ---
 name: prototype
-description: "Rask prototyping for Nav-designere — Figma-skissering med Aksel-komponenter. Brukes via /prototype når et konsept skal visualiseres."
+description: "Lager raske Figma-prototyper med Aksel-komponenter for Nav-designere. Brukes via /prototype når et konsept skal visualiseres."
 ---
 
 # Prototype — fra konsept til synlig skisse
@@ -56,8 +56,8 @@ Lag hver situasjon som egen frame i Figma. For hver, noter:
 For å forankre et redesign i nåtilstand. Prioritert rekkefølge:
 
 1. **Lokal app via Playwright** (standard) — Start dev-server, naviger, ta screenshot, last opp til Figma
-2. **Figma-lenke** — Hent direkte via `get_screenshot`/`get_design_context`
-3. **Offentlig URL** — Importer via `generate_figma_design` (NB: oppretter en *ny* Figma-fil — bruk `use_figma` for å jobbe videre i eksisterende fil)
+2. **Figma-lenke** — Hent kontekst via `get_design_context`. Bruk `use_figma` for å jobbe videre i eksisterende fil.
+3. **Offentlig URL** — Importer via `generate_figma_design`. NB: dette oppretter en ny Figma-fil. Bruk `use_figma` for å jobbe videre i eksisterende fil.
 4. **Manuell fallback** — Be designer om skjermbilde
 
 **Lokal capture (Playwright MCP)**:

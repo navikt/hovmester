@@ -1,8 +1,8 @@
 # Copilot for designere — kom i gang
 
-Denne guiden hjelper deg med å sette opp VS Code og GitHub Copilot slik at du kan bruke **@designer** i Nav-repoene.
+Du trenger ikke kunne kode. Denne guiden viser hvordan du setter opp VS Code og GitHub Copilot slik at du kan bruke **@designer** i Nav-repoene.
 
-Du trenger ikke kunne kode. Alt du trenger er VS Code, en Copilot-lisens og tilgang til GitHub.
+Alt du trenger er VS Code, en Copilot-lisens og tilgang til GitHub.
 
 ## 1. Installer VS Code
 
@@ -14,7 +14,7 @@ Last ned og installer [Visual Studio Code](https://code.visualstudio.com/).
 
 Git er verktøyet som henter kode fra GitHub til maskinen din. Du trenger det, men du trenger ikke lære det — Copilot håndterer resten.
 
-**Mac:**
+**Mac** (de fleste i Nav bruker Mac):
 
 Åpne Terminal (søk etter "Terminal" i Spotlight) og skriv:
 
@@ -56,9 +56,9 @@ Du trenger en GitHub-konto som er koblet til Nav.
 
 Nå kan du legge til en app du vil jobbe med. Klikk en av lenkene under — VS Code åpner seg og laster ned appen automatisk.
 
-> **Første gang:** VS Code spør hvor du vil lagre. Velg en mappe du husker, for eksempel `Dokumenter/Nav-apper/`. Etter det er appen klar.
+> **Første gang:** VS Code spør hvor du vil lagre. Velg en mappe du husker, for eksempel `Dokumenter/Nav-apper/`. Nettleseren kan spørre om du vil åpne VS Code — klikk «Åpne». Etter det er appen klar.
 
-Lenkene finner du på teamets docs-side (f.eks. team-esyfo VitePress), eller du kan få dem fra tech lead.
+Lenkene finner du på teamets dokumentasjonsside, eller du kan få dem fra tech lead.
 
 Formatet er: `vscode://vscode.git/clone?url=https://github.com/navikt/<appnavn>.git`
 
@@ -84,7 +84,7 @@ Designeren hjelper deg med å utforske, skissere i Figma og levere designartefak
 
 - **@designer holder appen oppdatert** — du trenger ikke tenke på det
 - **Figma-lenker:** Hvis du allerede har en Figma-skisse, kan du lime inn lenken i chatten
-- **Prøv ulike inngangsord:** "utforsk", "skissér", "forbedre", "redesign"
+- **Prøv å starte med ulike ord:** "utforsk", "skissér", "forbedre", "redesign"
 - **Spør om hjelp:** @designer forstår designspråk — bruk ordene du er vant til
 
 ## Noe som ikke funker?

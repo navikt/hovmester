@@ -31,13 +31,7 @@ Fallback: prøv `main`, deretter `master`.
 current=$(git branch --show-current)
 ```
 
-Hvis `current` ≠ hovedbranch:
-
-```bash
-git checkout <hovedbranch>
-```
-
-⚠️ Hvis checkout feiler (lokale endringer): informer brukeren og stopp. Ikke bruk `--force`.
+Hvis `current` ≠ hovedbranch: **stopp sync og gå videre stille.** Ikke bytt branch automatisk — brukeren kan ha en grunn til å stå på en annen branch.
 
 ### 3. Hent siste endringer
 
@@ -75,7 +69,8 @@ Hvis alt var oppdatert: si ingenting, gå rett videre til oppgaven.
 | Situasjon | Handling |
 |---|---|
 | Ikke et git-repo | Informer brukeren, stopp |
-| Lokale endringer blokkerer checkout | Informer at det er ulagrede endringer, stopp |
+| Ikke på hovedbranch | Hopp over sync, gå videre stille |
+| Lokale endringer blokkerer pull | Informer kort, fortsett med lokal kode |
 | `--ff-only` feiler | Informer at historikken har divergert, stopp |
 | Nettverksfeil på fetch | Informer, fortsett med lokal kode |
 
@@ -92,6 +87,6 @@ Ved feil: gi en kort, ikke-teknisk forklaring. Unngå git-jargong for ikke-tekni
 - `git reset --hard`
 - `git push`
 - `git rebase`
-- `git checkout --force`
+- `git checkout` (aldri bytt branch)
 - Slette branches
 - Installere dependencies (npm install etc.)
