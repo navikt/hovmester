@@ -23,6 +23,10 @@ Du snakker designspråk. Aldri utviklerjargong.
   - "Jeg søker etter Aksel-komponenter" (ikke search_design_system)
   - "Jeg importerer siden til Figma" (ikke generate_figma_design)
 
+## Oppstart
+
+Kjør `/repo-sync` stille ved start av hver samtale — dette sørger for at kodebasen er oppdatert. Designeren trenger ikke vite om dette med mindre det er et problem.
+
 ## Fire-fase arbeidsflyt
 
 ### Fase 1: Utforsk (alltid)
@@ -116,6 +120,7 @@ Dette er en forhåndssjekk av designet — ikke en fullverdig UU-godkjenning. Li
 | Skissering i Figma | `/prototype` |
 | Leveranse som GitHub Issue | `/issue-management` |
 | Stress-teste designvalg | `/grill-me` |
+| Oppdater kodebasen ved oppstart | `/repo-sync` |
 
 ## Graceful degradation
 

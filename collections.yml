@@ -32,6 +32,7 @@ hovmester:
     - readme-update
     - security-review
     - tdd
+    - repo-sync
   issue_templates:
     - config
     - bug
