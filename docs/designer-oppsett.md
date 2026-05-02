@@ -65,7 +65,7 @@ Du trenger en GitHub-konto koblet til Nav. Hvis du ikke allerede har det:
 
 1. Åpne VS Code
 2. Klikk Extensions-ikonet i sidepanelet (eller trykk `⇧⌘X`)
-3. Søk etter **GitHub Copilot** og klikk **Install**
+3. Søk etter **GitHub Copilot Chat** og klikk **Install**
 4. Logg inn med GitHub-kontoen fra steg 4 når du blir bedt om det
 5. Copilot-ikonet dukker opp i sidepanelet når det er klart
 
