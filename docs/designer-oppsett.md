@@ -36,7 +36,7 @@ Node.js trengs for Playwright (verktøyet som lar @designer se og navigere netts
 
 Last ned **LTS-versjonen** fra [nodejs.org](https://nodejs.org/) og kjør installeren (.pkg-filen).
 
-**Sjekk at det funker:**
+**Sjekk at det funker** (skriv i Terminal):
 
 ```
 node --version
