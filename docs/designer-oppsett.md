@@ -1,28 +1,22 @@
 # Copilot for designere — kom i gang
 
-Du trenger ikke kunne kode. Denne guiden viser hvordan du setter opp VS Code og GitHub Copilot slik at du kan bruke **@designer** i Nav-repoene.
-
-Alt du trenger er VS Code, en Copilot-lisens og tilgang til GitHub.
+Du trenger ikke kunne kode. Denne guiden setter opp VS Code og GitHub Copilot slik at du kan bruke **@designer** i Nav-repoene.
 
 ## 1. Installer VS Code
 
 Last ned og installer [Visual Studio Code](https://code.visualstudio.com/).
 
-Åpne VS Code etter installasjon og bli litt kjent — du trenger ikke kunne noe annet enn å åpne det.
-
 ## 2. Installer Git
 
-Git er verktøyet som henter kode fra GitHub til maskinen din. Du trenger det, men du trenger ikke lære det — Copilot håndterer resten.
+Git henter kode fra GitHub til maskinen din. Du trenger det installert, men du trenger ikke lære det — Copilot håndterer resten.
 
-**Mac** (de fleste i Nav bruker Mac):
-
-Åpne Terminal (søk etter "Terminal" i Spotlight) og skriv:
+Åpne Terminal (`⌘ + mellomrom`, søk etter "Terminal") og kjør:
 
 ```
 xcode-select --install
 ```
 
-Klikk «Installer» i dialogboksen som dukker opp. Når det er ferdig, er Git installert.
+Klikk «Installer» i dialogboksen som dukker opp.
 
 **Sjekk at det funker:**
 
@@ -32,68 +26,70 @@ git --version
 
 Du bør se noe som `git version 2.x.x`.
 
-## 3. Skaff GitHub-tilgang
-
-Du trenger en GitHub-konto som er koblet til Nav.
+## 3. Koble GitHub til Nav
 
 1. Gå til [myapps.microsoft.com](https://myapps.microsoft.com) og finn **GitHub.com**
 2. Klikk på den — dette kobler Nav-kontoen din til GitHub
 3. Gå til [github.com](https://github.com) og logg inn
 
-> Spør teamlead eller tech lead hvis du har problemer med tilgangen.
+> Spør tech lead hvis du ikke finner GitHub i applikasjonsportalen.
 
-## 4. Installer GitHub Copilot
+## 4. Aktiver Copilot-abonnement
+
+1. Gå til [min-copilot.ansatt.nav.no/abonnement](https://min-copilot.ansatt.nav.no/abonnement)
+2. Klikk **Aktiver Copilot**
+3. Vent noen sekunder og oppdater siden — du skal se at abonnementet er aktivt
+
+## 5. Installer GitHub Copilot i VS Code
 
 1. Åpne VS Code
-2. Klikk på Extensions-ikonet i sidepanelet (eller trykk `⇧⌘X`)
+2. Klikk Extensions-ikonet i sidepanelet (eller trykk `⇧⌘X`)
 3. Søk etter **GitHub Copilot** og klikk **Install**
-4. Du blir bedt om å logge inn med GitHub — bruk kontoen fra steg 3
+4. Logg inn med GitHub-kontoen fra steg 3 når du blir bedt om det
 5. Copilot-ikonet dukker opp i sidepanelet når det er klart
 
-> Copilot krever en lisens. Nav-organisasjonen på GitHub har lisenser tilgjengelig. Kontakt tech lead hvis du ikke får tilgang.
+## 6. Legg til en app
 
-## 5. Legg til en app
+Klikk en vscode-lenke for appen du vil jobbe med — VS Code åpner seg og laster ned appen automatisk.
 
-Nå kan du legge til en app du vil jobbe med. Klikk en av lenkene under — VS Code åpner seg og laster ned appen automatisk.
+> **Første gang:** Nettleseren spør om du vil åpne VS Code — klikk «Åpne». VS Code spør hvor du vil lagre — velg en mappe du husker, for eksempel `Dokumenter/Nav-apper/`.
 
-> **Første gang:** VS Code spør hvor du vil lagre. Velg en mappe du husker, for eksempel `Dokumenter/Nav-apper/`. Nettleseren kan spørre om du vil åpne VS Code — klikk «Åpne». Etter det er appen klar.
+Lenkene finner du på teamets dokumentasjonsside, eller du kan få dem fra tech lead. Formatet er:
 
-Lenkene finner du på teamets dokumentasjonsside, eller du kan få dem fra tech lead.
+```
+vscode://vscode.git/clone?url=https://github.com/navikt/<appnavn>.git
+```
 
-Formatet er: `vscode://vscode.git/clone?url=https://github.com/navikt/<appnavn>.git`
+## 7. Åpne en app du allerede har lagt til
 
-## 6. Åpne en app du allerede har
+1. Åpne VS Code
+2. Klikk på appen i listen over nylig åpnede prosjekter
 
-Etter første gang trenger du ikke lenken igjen. Bare:
+## 8. Start @designer
 
-1. Åpne **VS Code**
-2. Du ser en liste over nylig åpnede apper — klikk på den du vil jobbe med
-
-Ferdig! Du er i appen.
-
-## 7. Start @designer
-
-1. Åpne Copilot Chat-panelet (klikk Copilot-ikonet i sidepanelet, eller trykk `⌃⌘I`)
-2. Skriv `@designer` etterfulgt av hva du vil gjøre, for eksempel:
+1. Åpne Copilot Chat (klikk Copilot-ikonet i sidepanelet, eller trykk `⌃⌘I`)
+2. Skriv `@designer` etterfulgt av hva du vil gjøre:
 
 > @designer Jeg vil utforske hvordan vi kan forenkle sykmeldingsskjemaet
 
-Designeren hjelper deg med å utforske, skissere i Figma og levere designartefakter — alt uten at du trenger å skrive kode.
+Designeren hjelper deg med å utforske, skissere i Figma og levere ferdige design.
+
+> **Figma-tilgang:** Første gang @designer bruker Figma-verktøy, blir du bedt om å godkjenne tilgangen. Klikk «Tillat» — dette trenger du bare gjøre én gang.
 
 ## Tips
 
-- **@designer holder appen oppdatert** — du trenger ikke tenke på det
-- **Figma-lenker:** Hvis du allerede har en Figma-skisse, kan du lime inn lenken i chatten
-- **Prøv å starte med ulike ord:** "utforsk", "skissér", "forbedre", "redesign"
-- **Spør om hjelp:** @designer forstår designspråk — bruk ordene du er vant til
+- **@designer holder appen oppdatert** — du trenger ikke tenke på git
+- **Figma-lenker:** Lim inn en Figma-lenke i chatten hvis du allerede har en skisse
+- **Designspråk fungerer:** «utforsk», «skissér», «forbedre», «redesign» — bruk ordene du er vant til
 
-## Noe som ikke funker?
+## Feilsøking
 
 | Problem | Løsning |
 |---|---|
-| VS Code spør etter passord/token | Logg inn på GitHub via VS Code (Accounts-ikonet nede til venstre) |
+| VS Code spør etter passord/token | Logg inn på GitHub via Accounts-ikonet (nede til venstre i VS Code) |
 | Copilot-ikonet mangler | Sjekk at extensionen er installert og at du er logget inn |
-| Finner ikke appen i Recent | Åpne VS Code → File → Open Recent |
-| @designer svarer ikke | Sjekk at Copilot Chat-panelet er åpent, og at du har en aktiv lisens |
+| «Du har ikke tilgang» | Sjekk at abonnementet er aktivt på [min-copilot.ansatt.nav.no](https://min-copilot.ansatt.nav.no) |
+| Finner ikke appen | VS Code → File → Open Recent |
+| @designer svarer ikke | Sjekk at Copilot Chat-panelet er åpent (`⌃⌘I`) |
 
 > Ved andre problemer: spør tech lead eller i teamets Slack-kanal.
