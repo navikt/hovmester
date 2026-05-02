@@ -46,11 +46,14 @@ Du bør se et versjonsnummer (f.eks. `v22.x.x`).
 
 ## 4. Koble GitHub til Nav
 
-1. Gå til [myapps.microsoft.com](https://myapps.microsoft.com) og finn **GitHub.com**
-2. Klikk på den — dette kobler Nav-kontoen din til GitHub
-3. Gå til [github.com](https://github.com) og logg inn
+Du trenger en GitHub-konto koblet til Nav. Hvis du ikke allerede har det:
 
-> Hvis du ikke finner GitHub i applikasjonsportalen, sjekk at du er logget inn med Nav-kontoen din.
+1. Gå til [github.com/signup](https://github.com/signup) og opprett en konto med **nav.no-e-posten** din
+2. Gå til [myapps.microsoft.com](https://myapps.microsoft.com) og finn **GitHub.com**
+3. Klikk på den — dette kobler Nav-kontoen din til GitHub
+4. Gå til [github.com](https://github.com) og logg inn
+
+> Hvis du allerede har en GitHub-konto med nav.no-e-post, start fra punkt 2.
 
 ## 5. Aktiver Copilot-abonnement
 
