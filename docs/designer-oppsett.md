@@ -71,20 +71,29 @@ Du trenger en GitHub-konto koblet til Nav. Hvis du ikke allerede har det:
 
 ## 7. Legg til MCP-servere
 
-MCP-servere gir Copilot tilgang til Figma og nettleser. Klikk lenkene under — VS Code åpner seg og legger til serveren automatisk.
+MCP-servere gir Copilot tilgang til Figma og nettleser.
 
-- [**Installer Figma MCP** (skissering og designsystem)](vscode:mcp/mcp-registry.nav.no/v0.1/servers/com.figma%2Ffigma-mcp/versions/latest)
-- [**Installer Playwright MCP** (nettleservisning)](vscode:mcp/mcp-registry.nav.no/v0.1/servers/com.microsoft%2Fplaywright-mcp/versions/latest)
+**Figma MCP** — Kopier denne lenken og lim inn i nettleseren din. VS Code åpner seg og legger til serveren:
+
+```
+vscode:mcp/mcp-registry.nav.no/v0.1/servers/com.figma%2Ffigma-mcp/versions/latest
+```
+
+**Playwright MCP** — Samme fremgangsmåte:
+
+```
+vscode:mcp/mcp-registry.nav.no/v0.1/servers/com.microsoft%2Fplaywright-mcp/versions/latest
+```
 
 > Første gang du bruker en MCP-server blir du bedt om å godkjenne tilgangen. Klikk «Tillat».
 
 <details>
-<summary>Fungerer ikke lenkene?</summary>
+<summary>Alternativ: legg til via Terminal</summary>
 
-Kopier og lim inn URI-en i nettleseren din:
-
-- Figma: `vscode:mcp/mcp-registry.nav.no/v0.1/servers/com.figma%2Ffigma-mcp/versions/latest`
-- Playwright: `vscode:mcp/mcp-registry.nav.no/v0.1/servers/com.microsoft%2Fplaywright-mcp/versions/latest`
+```bash
+code --add-mcp '{"name":"figma-mcp","type":"http","url":"https://mcp.figma.com/mcp"}'
+code --add-mcp '{"name":"playwright-mcp","command":"npx","args":["-y","@playwright/mcp","--isolated","--caps","core","--blocked-origins","*.intern.nav.no,*.intern.dev.nav.no,*.ansatt.nav.no,*.ansatt.dev.nav.no,*.ekstern.dev.nav.no,*.nav.no,*.nais.io,*.adeo.no","--block-service-workers","--save-trace"]}'
+```
 
 </details>
 
