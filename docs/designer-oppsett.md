@@ -1,8 +1,8 @@
 # Copilot for designere — kom i gang
 
-Du trenger ikke kunne kode. Denne guiden setter opp VS Code og GitHub Copilot slik at du kan bruke **@designer** i Nav-repoene.
+Denne guiden setter opp VS Code og GitHub Copilot slik at du kan bruke **@designer** i Nav-repoene.
 
-> **Forutsetning:** Appen du skal jobbe med må ha `@designer` satt opp (via hovmester `frontend`-collectionen). Spør tech lead om du er usikker.
+> **Forutsetning:** Appen du skal jobbe med må ha `@designer` satt opp (via hovmester `frontend`-collectionen).
 
 ## 1. Installer VS Code
 
@@ -48,7 +48,7 @@ Du bør se noe som `v22.x.x`.
 2. Klikk på den — dette kobler Nav-kontoen din til GitHub
 3. Gå til [github.com](https://github.com) og logg inn
 
-> Spør tech lead hvis du ikke finner GitHub i applikasjonsportalen.
+> Hvis du ikke finner GitHub i applikasjonsportalen, sjekk at du er logget inn med Nav-kontoen din.
 
 ## 5. Aktiver Copilot-abonnement
 
@@ -88,7 +88,7 @@ Klikk en vscode-lenke for appen du vil jobbe med — VS Code åpner seg og laste
 
 > **Første gang:** Nettleseren spør om du vil åpne VS Code — klikk «Åpne». VS Code spør hvor du vil lagre — velg en mappe du husker, for eksempel `Dokumenter/Nav-apper/`.
 
-Lenkene finner du på teamets dokumentasjonsside, eller du kan få dem fra tech lead. Formatet er:
+Lenkene finner du på teamets dokumentasjonsside. Formatet er:
 
 ```
 vscode://vscode.git/clone?url=https://github.com/navikt/<appnavn>.git
@@ -129,10 +129,10 @@ Hvis @designer svarer at Figma er tilgjengelig, er alt klart.
 | VS Code spør etter passord/token | Logg inn på GitHub via Accounts-ikonet (nede til venstre i VS Code) |
 | Copilot-ikonet mangler | Sjekk at extensionen er installert og at du er logget inn |
 | «Du har ikke tilgang» | Sjekk at abonnementet er aktivt på [min-copilot.ansatt.nav.no](https://min-copilot.ansatt.nav.no) |
-| `@designer` finnes ikke | Appen mangler hovmester-oppsett — spør tech lead |
+| `@designer` finnes ikke | Appen mangler hovmester-oppsett med `frontend`-collectionen |
 | Figma åpner seg ikke | Sjekk at Figma MCP er lagt til (steg 7) og at du har godkjent tilgangen |
 | @designer kan ikke se appen lokalt | Sjekk at Node.js er installert (steg 3) og at Playwright MCP er lagt til (steg 7) |
 | Finner ikke appen | VS Code → File → Open Recent |
 | @designer svarer ikke | Sjekk at Copilot Chat-panelet er åpent (`⌃⌘I`) |
 
-> Ved andre problemer: spør tech lead eller i teamets Slack-kanal.
+> Ved andre problemer: spør i teamets Slack-kanal.
