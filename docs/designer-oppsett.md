@@ -97,17 +97,16 @@ code --add-mcp '{"name":"playwright-mcp","command":"npx","args":["-y","@playwrig
 
 </details>
 
-## 8. Legg til en app
+## 8. Hent en app fra GitHub
 
-Klikk en vscode-lenke for appen du vil jobbe med — VS Code åpner seg og laster ned appen automatisk.
+1. Åpne VS Code
+2. Trykk `Cmd+Shift+P` og skriv **Git: Clone**
+3. Lim inn repo-URL fra teamet ditt, for eksempel:
+   `https://github.com/navikt/appnavn`
+4. Velg en mappe du husker (for eksempel `Dokumenter/Nav-apper/`)
+5. Klikk «Open» når VS Code spør om du vil åpne prosjektet
 
-> **Første gang:** Nettleseren spør om du vil åpne VS Code — klikk «Åpne». VS Code spør hvor du vil lagre — velg en mappe du husker, for eksempel `Dokumenter/Nav-apper/`.
-
-Lenkene finner du på teamets dokumentasjonsside. Formatet er:
-
-```
-vscode://vscode.git/clone?url=https://github.com/navikt/<appnavn>.git
-```
+> Spør en utvikler på teamet om URL-en til appen du skal jobbe med.
 
 ## 9. Åpne en app du allerede har lagt til
 
