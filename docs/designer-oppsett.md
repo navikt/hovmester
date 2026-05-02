@@ -4,6 +4,8 @@ Denne guiden setter opp VS Code og GitHub Copilot slik at du kan bruke **@design
 
 > **Forutsetning:** Appen du skal jobbe med må ha `@designer` satt opp (via hovmester `frontend`-collectionen).
 
+> 💡 **Tips:** Står du fast underveis? Spør en utvikler på teamet — oppsettet tar 10–15 minutter med litt hjelp.
+
 ## 1. Installer VS Code
 
 Last ned og installer [Visual Studio Code](https://code.visualstudio.com/).
@@ -12,21 +14,21 @@ Last ned og installer [Visual Studio Code](https://code.visualstudio.com/).
 
 Git henter kode fra GitHub til maskinen din. Du trenger det installert, men du trenger ikke lære det — Copilot håndterer resten.
 
-Åpne Terminal (`⌘ + mellomrom`, søk etter "Terminal") og kjør:
-
-```
-xcode-select --install
-```
-
-Klikk «Installer» i dialogboksen som dukker opp.
-
-**Sjekk at det funker:**
+Åpne Terminal (`⌘ + mellomrom`, søk etter "Terminal") og sjekk om Git allerede er installert:
 
 ```
 git --version
 ```
 
-Du bør se noe som `git version 2.x.x`.
+Hvis du ser et versjonsnummer (f.eks. `git version 2.x.x`) er Git allerede klart — gå videre til steg 3.
+
+Hvis du får en feilmelding, kjør:
+
+```
+xcode-select --install
+```
+
+Klikk «Installer» i dialogboksen som dukker opp, og vent til den er ferdig.
 
 ## 3. Installer Node.js
 
@@ -40,7 +42,7 @@ Last ned **LTS-versjonen** fra [nodejs.org](https://nodejs.org/) og kjør instal
 node --version
 ```
 
-Du bør se noe som `v22.x.x`.
+Du bør se et versjonsnummer (f.eks. `v22.x.x`).
 
 ## 4. Koble GitHub til Nav
 
@@ -66,21 +68,22 @@ Du bør se noe som `v22.x.x`.
 
 ## 7. Legg til MCP-servere
 
-MCP-servere gir Copilot tilgang til Figma og nettleser. Klikk begge lenkene under — VS Code åpner seg og legger til serveren automatisk.
+MCP-servere gir Copilot tilgang til Figma og nettleser. Klikk lenkene under — VS Code åpner seg og legger til serveren automatisk.
 
-**Figma** (skissering og designsystem):
-
-```
-vscode:mcp/mcp-registry.nav.no/v0.1/servers/com.figma%2Ffigma-mcp/versions/latest
-```
-
-**Playwright** (nettleservisning):
-
-```
-vscode:mcp/mcp-registry.nav.no/v0.1/servers/com.microsoft%2Fplaywright-mcp/versions/latest
-```
+- [**Installer Figma MCP** (skissering og designsystem)](vscode:mcp/mcp-registry.nav.no/v0.1/servers/com.figma%2Ffigma-mcp/versions/latest)
+- [**Installer Playwright MCP** (nettleservisning)](vscode:mcp/mcp-registry.nav.no/v0.1/servers/com.microsoft%2Fplaywright-mcp/versions/latest)
 
 > Første gang du bruker en MCP-server blir du bedt om å godkjenne tilgangen. Klikk «Tillat».
+
+<details>
+<summary>Fungerer ikke lenkene?</summary>
+
+Kopier og lim inn URI-en i nettleseren din:
+
+- Figma: `vscode:mcp/mcp-registry.nav.no/v0.1/servers/com.figma%2Ffigma-mcp/versions/latest`
+- Playwright: `vscode:mcp/mcp-registry.nav.no/v0.1/servers/com.microsoft%2Fplaywright-mcp/versions/latest`
+
+</details>
 
 ## 8. Legg til en app
 
@@ -100,6 +103,8 @@ vscode://vscode.git/clone?url=https://github.com/navikt/<appnavn>.git
 2. Klikk på appen i listen over nylig åpnede prosjekter
 
 ## 10. Start @designer
+
+Sørg for at appen fra steg 8 er åpnet i VS Code (sjekk mappenavnet i tittellinjen).
 
 1. Åpne Copilot Chat (klikk Copilot-ikonet i sidepanelet, eller trykk `⌃⌘I`)
 2. Skriv `@designer` etterfulgt av hva du vil gjøre:
@@ -121,6 +126,7 @@ Hvis @designer svarer at Figma er tilgjengelig, er alt klart.
 - **@designer holder appen oppdatert** — du trenger ikke tenke på git
 - **Figma-lenker:** Lim inn en Figma-lenke i chatten hvis du allerede har en skisse
 - **Designspråk fungerer:** «utforsk», «skissér», «forbedre», «redesign» — bruk ordene du er vant til
+- **Lokal kjøring:** Hvis @designer trenger å vise appen i nettleseren kan det kreve oppsett. Spør en utvikler på teamet hvis det ikke fungerer automatisk.
 
 ## Feilsøking
 
