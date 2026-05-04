@@ -41,8 +41,8 @@ graph TD
     S["📋 Souschef<br/>Planlegger · Opus"]
     K["👨‍🍳 Kokk<br/>Backend-utvikler · GPT"]
     KO["🎂 Konditor<br/>Frontend-utvikler · Opus"]
-    IC["🔬 Inspektør-Claude<br/>Reviewer for GPT-kode"]
-    IG["🔬 Inspektør-GPT<br/>Reviewer for Opus-kode"]
+    IC["🔬 Inspektor-Claude<br/>Reviewer for GPT-kode"]
+    IG["🔬 Inspektor-GPT<br/>Reviewer for Opus-kode"]
 
     U -- planlegging --> S
     U -- backend --> K
@@ -57,8 +57,8 @@ graph TD
 | **@kokk** 👨‍🍳 | Backend-utvikler — API, tjenester, database, Kafka, infra | GPT |
 | **@konditor** 🎂 | Frontend-utvikler — UI, Aksel, tilgjengelighet, state | Opus |
 | *@souschef* 📋 | *(intern)* Planlegger — utforsker kodebasen, lager implementasjonsplaner | Opus |
-| *@inspektør-claude* 🔬 | *(intern)* Kryssmodell-reviewer — Opus gjennomgår GPT-kode | Opus |
-| *@inspektør-gpt* 🔬 | *(intern)* Kryssmodell-reviewer — GPT gjennomgår Opus-kode | GPT |
+| *@inspektor-claude* 🔬 | *(intern)* Kryssmodell-reviewer — Opus gjennomgår GPT-kode | Opus |
+| *@inspektor-gpt* 🔬 | *(intern)* Kryssmodell-reviewer — GPT gjennomgår Opus-kode | GPT |
 
 > Én agent eier hele funksjonssnitt vertikalt. Kryssmodell-review fanger blindsoner: Opus gjennomgår GPT-kode og omvendt.
 

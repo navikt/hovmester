@@ -13,6 +13,8 @@
     ".github/agents/hovmester.agent.md",
     ".github/agents/inspekt\u00f8r-claude.agent.md",
     ".github/agents/inspekt\u00f8r-gpt.agent.md",
+    ".github/agents/inspektor-claude.agent.md",
+    ".github/agents/inspektor-gpt.agent.md",
     ".github/agents/kokk.agent.md",
     ".github/agents/konditor.agent.md",
     ".github/agents/souschef.agent.md",
