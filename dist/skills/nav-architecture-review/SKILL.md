@@ -11,7 +11,7 @@ Generisk stoff om "hva er en ADR" eller generiske security-OWASP-lister er ikke 
 
 ## Når aktiveres skillen
 
-Aktiveres av inspektør-claude/inspektør-gpt i hovmester Steg 4 for tyngre arkitekturendringer. Typiske signaler:
+Aktiveres av inspektor-claude/inspektor-gpt i hovmester Steg 4 for tyngre arkitekturendringer. Typiske signaler:
 
 - Ny tjeneste, ny integrasjon mot annet team, nytt lagringslag eller ny event-kontrakt.
 - Endring som krever `accessPolicy`-oppdatering hos andre team, eller ny auth-mekanisme (TokenX/Azure AD/ID-porten/Maskinporten).

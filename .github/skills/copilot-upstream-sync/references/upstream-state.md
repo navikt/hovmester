@@ -14,7 +14,7 @@ Siste sjekket commit i `navikt/copilot` og hva som ble gjort.
 
 ### 2026-04-27 (PR-A: quick wins)
 
-- **`ada2e27d` Minimal-editing-prinsipp** — `kotlin.instructions.md`, `frontend.instructions.md`, kokk- og konditor-agentene fikk "Bevar eksisterende struktur"-bolk. Begge inspektør-agenter fikk diff-disproporsjon-sjekk.
+- **`ada2e27d` Minimal-editing-prinsipp** — `kotlin.instructions.md`, `frontend.instructions.md`, kokk- og konditor-agentene fikk "Bevar eksisterende struktur"-bolk. Begge inspektor-agenter fikk diff-disproporsjon-sjekk.
 - **`8b2cb9f9` NAIS pod-lifecycle** — `nais-manifest`-skillen dokumenterer preStop sleep 5, terminationGracePeriodSeconds-anti-mønster og readiness=false som anti-mønster (detaljer i `references/pod-lifecycle.md` pga line-cap). `kotlin-ktor` fikk Graceful shutdown-seksjon. `kotlin-spring` peker til `nais-manifest` for plattformkonteksten.
 - **`f6c88077` readme-review-innsikter** — `readme-update` beriket med scope-deteksjon (library + Naisjob), 7-punkts anti-mønsterliste på norsk, "topp 3 fikser"-reviewmodus og kognitiv-trakt-prinsipp. Section-spec-matrix (18×4) droppet som for tung.
 - **`46f2cc13` copilot-review-instructions** — adoptert som path-specific instruction (`.github/instructions/copilot-review.instructions.md` med `applyTo: "**"`). Upstream brukte path `.github/copilot-review-instructions.md` som ikke leses av GitHub Copilot Code Review — vi korrigerte til en støttet path under adopsjon.
