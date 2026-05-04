@@ -29,6 +29,8 @@ Bekreft med `get_libraries(fileKey)` etter filopprettelse.
 
 ## Søk og bruk komponenter
 
+Se komponent-gate og demo-tekst-regler i `SKILL.md` — de gjelder alltid før søk.
+
 ```
 search_design_system(query: "Button", fileKey: "<key>")
 → Returnerer component key, variants, props
@@ -37,7 +39,7 @@ search_design_system(query: "Button", fileKey: "<key>")
 Nyttige søk:
 - `Button`, `TextField`, `Select`, `Checkbox`, `Radio`
 - `Modal`, `Tabs`, `Accordion`, `Table`
-- `Alert` (NB: deprecated i kode — bruk heller nyere Aksel-alerter som finnes. Merk i Issue dersom Alert brukes i skisse.)
+- `LocalAlert`, `GlobalAlert`, `InlineMessage`, `InfoCard` (`Alert` er deprecated i kode — bruk Aksel-erstatningene selv om Alert finnes i Figma-biblioteket)
 - `Heading`, `BodyLong`, `BodyShort`, `Label`
 
 ## Plugin API-mønster for instansiering
@@ -55,6 +57,7 @@ instance.setProperties({ "Size": "Medium", "Variant": "Primary" });
 ## Gotchas
 
 - Font "Inter": style er `"Semi Bold"` (med mellomrom), ikke `"SemiBold"`
+- Tekstendring krever font-loading: kall `loadFontAsync()` for alle fonter i noden *før* du endrer `.characters`
 - Bruk `await figma.setCurrentPageAsync(page)` — IKKE `figma.currentPage = page`
 - `generate_figma_design` lager ny fil — bruk `use_figma` for å redigere eksisterende
 - Aksel-biblioteker trenger ikke manuell subscription i Nav-org

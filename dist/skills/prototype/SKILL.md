@@ -71,6 +71,17 @@ For å forankre et redesign i nåtilstand. Prioritert rekkefølge:
 Hvis dev-server feiler → informer kort og fall tilbake til neste metode. Ikke feilsøk build-problemer.
 Hvis Playwright MCP ikke er tilgjengelig → hopp til metode 2 (Figma-lenke), 3 (offentlig URL) eller 4 (manuell fallback).
 
+### Hybrid kontekst-validering (for endring på eksisterende side)
+
+Når du har importert nåtilstand, bruk denne flyten for å validere nye komponenter i kontekst:
+
+1. Last opp screenshot av eksisterende side som referanse-frame i Figma
+2. Utforsk 2–3 isolerte varianter av den nye komponenten som separate frames
+3. Plasser valgt variant-frame over referanse-bildet (z-rekkefølge) for visuell kontekst-validering
+4. Ta screenshot av resultatet og vis designeren for bekreftelse før videre iterasjon
+
+Denne flyten sikrer at komponenter ser riktige ut i helhet — ikke bare isolert.
+
 ## Iterasjon
 
 1. Vis resultat (Figma-lenke)
