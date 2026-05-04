@@ -32,6 +32,7 @@ hovmester:
     - readme-update
     - security-review
     - tdd
+    - repo-sync
   issue_templates:
     - config
     - bug
@@ -54,6 +55,8 @@ backend:
     - postgresql-review
 
 frontend:
+  agents:
+    - designer
   instructions:
     - accessibility
     - frontend
@@ -63,3 +66,4 @@ frontend:
     - auth-overview
     - figma-workflow
     - lumi-survey
+    - prototype

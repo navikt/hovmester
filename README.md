@@ -70,7 +70,7 @@ Collections grupperer instruksjoner, skills og agenter i navngitte pakker du vel
 |---|---|
 | `hovmester` *(alltid inkludert)* | Orkestrator-agentene, felles instruksjoner (sikkerhet, Docker, GitHub Actions), 13 generiske skills og issue-/PR-templates |
 | `backend` | Kotlin-instruksjon + 7 backend-skills (Ktor, Spring, Flyway, Kafka, Postgres, API-design, auth) |
-| `frontend` | Frontend- og tilgjengelighets-instruksjoner + 4 frontend-skills (Aksel, auth, Lumi, accessibility-review) |
+| `frontend` | Frontend- og tilgjengelighets-instruksjoner + 6 frontend-skills (Aksel, auth, Figma-workflow, Lumi, prototype, accessibility-review) + designer-agent |
 
 **Eksempler:**
 - `"backend"` — backend-repo
@@ -309,6 +309,10 @@ Det er hele oppsettet. Når hovmester lager en sync-PR:
 Workflowen kjøres på cron (eller manuell trigger), sammenligner ditt repos `.github/`-katalog med den valgte collectionen, og oppretter en PR hvis noe har endret seg. Manifest-fila `.github/.hovmester-manifest.json` sporer hvilke filer som er eid av hovmester, så stale filer fjernes automatisk.
 
 Workflowen endrer aldri filer utenfor `.github/`, og `.github/workflows/` er alltid ekskludert — workflows eier du selv. Synkede filer forvaltes av hovmester — ikke rediger dem manuelt, lag egne filer for repo-spesifikke tilpasninger.
+
+## For designere
+
+Er du designer og vil bruke Copilot? Se [Copilot for designere — kom i gang](docs/designer-oppsett.md).
 
 ## Bidra
 
