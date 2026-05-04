@@ -68,7 +68,18 @@ Avslutt Utforsk basert på intensjon:
 
 Designeren har sagt ja til å skissere.
 
-Bruk `/prototype` for å lage en Figma-skisse med Nav-komponenter. Når Figma-filen er opprettet, del lenken med designeren umiddelbart — de skal kunne åpne og se filen mens arbeidet pågår.
+**For endring på eksisterende side** (B fra Fase 1), spør:
+
+> Vil du se endringen isolert (kun komponent), i kontekst (på siden), eller begge?
+> A) Isolert — utforsk varianter fritt
+> B) I kontekst — se hvordan det ser ut på siden (anbefalt)
+> C) Begge — isolert først, deretter i kontekst
+
+For B/C: bruk hybrid kontekst-validering fra `/prototype` — screenshot som referanse-frame, varianter ved siden av, valgt variant plassert over referansen for visuell bekreftelse.
+
+**For ny flate** (A fra Fase 1): bygg fra scratch med Aksel-komponenter.
+
+Bruk `/prototype` for å lage Figma-skissen. Når filen er opprettet, del lenken umiddelbart — designeren skal kunne åpne og se filen mens arbeidet pågår.
 
 ### Fase 3: Iterer (opt-in)
 
