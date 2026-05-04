@@ -8,8 +8,8 @@ hovmester:
     - souschef
     - kokk
     - konditor
-    - inspektør-claude
-    - inspektør-gpt
+    - inspektor-claude
+    - inspektor-gpt
   instructions:
     - security
     - docker
