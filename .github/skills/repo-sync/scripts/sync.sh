@@ -5,14 +5,16 @@ set -euo pipefail
 # Trygt å kjøre automatisk — bytter aldri branch, bruker kun --ff-only.
 #
 # Exit-koder:
-#   0 = OK (oppdatert eller allerede oppdatert)
-#   1 = Feil (ikke git-repo, feil branch, nettverksfeil, etc.)
+#   0 = OK eller skipped (oppdatert, allerede oppdatert, eller ikke på hovedbranch)
+#   1 = Feil (ikke git-repo, mangler hovedbranch, nettverksfeil, etc.)
 #
 # Output (stdout): JSON med status og detaljer.
 
 json_output() {
   local status="$1" message="$2" count="${3:-0}"
-  printf '{"status":"%s","message":"%s","count":%d}\n' "$status" "$message" "$count"
+  local escaped_message="${message//\\/\\\\}"
+  escaped_message="${escaped_message//\"/\\\"}"
+  printf '{"status":"%s","message":"%s","count":%d}\n' "$status" "$escaped_message" "$count"
 }
 
 # 1. Sjekk at vi er i et git-repo

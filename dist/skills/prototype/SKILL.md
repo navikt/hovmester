@@ -78,6 +78,10 @@ Hvis Playwright MCP ikke er tilgjengelig → hopp til metode 2 (Figma-lenke), 3 
 3. Juster og vis på nytt
 4. Gjenta til fornøyd
 
+## UU etter designleveranse
+
+Dette er en designmessig forhåndssjekk av struktur, kontrast og innhold. Etter leveranse skal utviklere gjøre live-validering i kode via `/accessibility-review` før release.
+
 ## Graceful degradation
 
 **Med Figma MCP**: Full flyt — opprett filer, søk Aksel-komponenter, bygg skisser.

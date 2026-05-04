@@ -1,6 +1,6 @@
 {
   "source": "navikt/hovmester",
-  "source_sha": "32afdb5572eca4084ebf07553727d5982459b8ee",
+  "source_sha": "e720b6e0186aa48cbbb725365bf3c20694e4266c",
   "files": [
     ".github/ISSUE_TEMPLATE/bug.yml",
     ".github/ISSUE_TEMPLATE/config.yml",
@@ -11,8 +11,6 @@
     ".github/PULL_REQUEST_TEMPLATE.md",
     ".github/agents/designer.agent.md",
     ".github/agents/hovmester.agent.md",
-    ".github/agents/inspekt\u00f8r-claude.agent.md",
-    ".github/agents/inspekt\u00f8r-gpt.agent.md",
     ".github/agents/inspektor-claude.agent.md",
     ".github/agents/inspektor-gpt.agent.md",
     ".github/agents/kokk.agent.md",
@@ -85,9 +83,10 @@
     ".github/skills/postgresql-review/references/sql-patterns.md",
     ".github/skills/prototype/SKILL.md",
     ".github/skills/prototype/references/figma-prototype.md",
-    ".github/skills/prototype/references/validering.md",
     ".github/skills/pull-request/SKILL.md",
     ".github/skills/readme-update/SKILL.md",
+    ".github/skills/repo-sync/SKILL.md",
+    ".github/skills/repo-sync/scripts/sync.sh",
     ".github/skills/security-review/SKILL.md",
     ".github/skills/security-review/references/api-security.md",
     ".github/skills/security-review/references/gdpr-privacy.md",

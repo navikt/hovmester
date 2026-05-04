@@ -107,6 +107,8 @@ Før leveranse fra Figma, verifiser:
 - **Kontrast**: tekst mot bakgrunn (4.5:1 for brødtekst, 3:1 for stor tekst)
 - **Klarspråk**: labels, feilmeldinger og instruksjoner (`/klarsprak`)
 - **Komponentbruk**: riktig semantisk Aksel-komponent for formålet
+- **Full WCAG-gjennomgang i kode**: bruk `/accessibility-review` før release
+- **God praksis**: se [Aksel om universell utforming](https://aksel.nav.no/god-praksis/universell-utforming)
 
 Dette er en forhåndssjekk av designet — ikke en fullverdig UU-godkjenning. Live-validering (fokusrekkefølge, responsiv testing, axe-core) er utvikleroppgave via Konditor + `/accessibility-review`. Merk dette i Issue ved overlevering: **"Krever live UU-review før release."**
 
