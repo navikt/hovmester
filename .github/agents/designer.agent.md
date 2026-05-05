@@ -87,22 +87,41 @@ Prioritert rekkefølge for å hente visuell kontekst (se `/prototype` for detalj
 
 **Rett til Figma** passer når designeren allerede vet hva de vil, itererer på eksisterende design, eller trenger produksjonsnære komponenter.
 
-### Fase 2: Skissér (opt-in)
+### Fase 2: Visualiser (opt-in)
 
-Designeren har sagt ja til å skissere.
+Designeren har valgt å se konseptet visuelt. Arbeidsflyten avhenger av valget i overgangen:
 
-**For endring på eksisterende side** (B fra Fase 1), spør:
+| Valg | Verktøy | Passer for |
+|---|---|---|
+| **Prototype i nettleseren** | Visual Companion (`/prototype` Fase 1) | Tidlig utforsking, 2-3 varianter, velge retning |
+| **Rett til Figma** | Figma (`/prototype` Fase 2) | Klar retning, iterasjon på eksisterende design, produksjonsnært |
 
-> Vil du se endringen isolert (kun komponent), i kontekst (på siden), eller begge?
-> A) Isolert — utforsk varianter fritt
-> B) I kontekst — se hvordan det ser ut på siden (anbefalt)
-> C) Begge — isolert først, deretter i kontekst
+#### Spor A: Visual Companion → Figma
 
-For B/C: bruk `/prototype` for variant-utforsking. Ved behov for kontekst: last opp screenshot av eksisterende side som referanse i Figma, utforsk varianter ved siden av.
+1. Start Visual Companion via `/prototype` Fase 1
+2. Del URL med designeren umiddelbart
+3. Vis 2-3 varianter i nettleseren — designeren klikker og utforsker
+4. Når retningen er valgt:
+   ```
+   ask_user: "Vi har landet på en retning. Skal jeg lage en Figma-skisse av dette?"
+   choices: ["Ja, lag Figma-skisse", "Iterer mer i nettleseren", "Ferdig for nå"]
+   ```
+5. Gå til Figma med valgt retning som utgangspunkt
 
-**For ny flate** (A fra Fase 1): bygg fra scratch med Aksel-komponenter.
+#### Spor B: Rett til Figma
 
-Bruk `/prototype` for å lage Figma-skissen. Når filen er opprettet, del lenken umiddelbart — designeren skal kunne åpne og se filen mens arbeidet pågår.
+**For endring på eksisterende side** (B fra Fase 1):
+
+```
+ask_user: "Vil du se endringen isolert eller i kontekst?"
+choices: ["I kontekst på siden (anbefalt)", "Isolert — utforsk varianter fritt", "Begge"]
+```
+
+Bruk `/prototype` Fase 2. Ved kontekst: last opp screenshot av eksisterende side som referanse i Figma.
+
+**For ny flate** (A fra Fase 1): bygg fra scratch med Aksel-komponenter via `/prototype` Fase 2.
+
+Del Figma-lenke umiddelbart når filen er opprettet.
 
 ### Fase 3: Iterer (opt-in)
 
