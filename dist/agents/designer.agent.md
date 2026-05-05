@@ -64,26 +64,58 @@ Prioritert rekkefølge for å hente visuell kontekst (se `/prototype` for detalj
 3. **Offentlig URL** → Importer til Figma
 4. **Manuelt skjermbilde** (siste utvei) → Be designeren dele bilde
 
-Avslutt Utforsk basert på intensjon:
-- **A/B** (ny flate eller forbedring): "Skal vi skissere dette i Figma?"
-- **C** (utforsking): Oppsummer funn. Spør: "Vil du utforske mer, eller lage en skisse av noe vi har diskutert?"
+**Overgang til visualisering** — når du har nok kontekst og har landet på et konsept, tilby aktivt å visualisere via `ask_user`. Ikke vent til alle spørsmål er besvart — tilby så snart konseptet er tydelig nok til å vise.
 
-### Fase 2: Skissér (opt-in)
+- **A/B** (ny flate eller forbedring):
+  ```
+  ask_user: "Konseptet er klart nok til å vise. Hvordan vil du se det?"
+  choices: ["Prototype i nettleseren (anbefalt)", "Rett til Figma-skisse", "Først noen spørsmål til"]
+  ```
+- **C** (utforsking): Oppsummer funn, deretter:
+  ```
+  ask_user: "Vil du utforske mer, eller se noe av dette visuelt?"
+  choices: ["Vis i nettleseren", "Lag Figma-skisse", "Utforsk mer"]
+  ```
 
-Designeren har sagt ja til å skissere.
+**Prototype i nettleseren** (Visual Companion) er best for tidlig utforsking — se 2-3 varianter raskt, klikke seg gjennom, og velge retning. Bruk `/prototype` Fase 1. Når retningen er valgt, gå videre til Figma.
 
-**For endring på eksisterende side** (B fra Fase 1), spør:
+**Rett til Figma** passer når designeren allerede vet hva de vil, itererer på eksisterende design, eller trenger produksjonsnære komponenter.
 
-> Vil du se endringen isolert (kun komponent), i kontekst (på siden), eller begge?
-> A) Isolert — utforsk varianter fritt
-> B) I kontekst — se hvordan det ser ut på siden (anbefalt)
-> C) Begge — isolert først, deretter i kontekst
+### Fase 2: Visualiser (opt-in)
 
-For B/C: bruk `/prototype` for variant-utforsking. Ved behov for kontekst: last opp screenshot av eksisterende side som referanse i Figma, utforsk varianter ved siden av.
+Designeren har valgt å se konseptet visuelt. Arbeidsflyten avhenger av valget i overgangen:
 
-**For ny flate** (A fra Fase 1): bygg fra scratch med Aksel-komponenter.
+| Valg | Verktøy | Passer for |
+|---|---|---|
+| **Prototype i nettleseren** | Visual Companion (`/prototype` Fase 1) | Tidlig utforsking, 2-3 varianter, velge retning |
+| **Rett til Figma** | Figma (`/prototype` Fase 2) | Klar retning, iterasjon på eksisterende design, produksjonsnært |
 
-Bruk `/prototype` for å lage Figma-skissen. Når filen er opprettet, del lenken umiddelbart — designeren skal kunne åpne og se filen mens arbeidet pågår.
+#### Spor A: Visual Companion → Figma
+
+1. Start Visual Companion via `/prototype` Fase 1
+2. Del URL med designeren umiddelbart
+3. Vis 2-3 varianter i nettleseren — designeren klikker og utforsker
+4. Når retningen er valgt:
+   ```
+   ask_user: "Vi har landet på en retning. Skal jeg lage en Figma-skisse av dette?"
+   choices: ["Ja, lag Figma-skisse", "Iterer mer i nettleseren", "Ferdig for nå"]
+   ```
+5. Gå til Figma med valgt retning som utgangspunkt
+
+#### Spor B: Rett til Figma
+
+**For endring på eksisterende side** (B fra Fase 1):
+
+```
+ask_user: "Vil du se endringen isolert eller i kontekst?"
+choices: ["I kontekst på siden (anbefalt)", "Isolert — utforsk varianter fritt", "Begge"]
+```
+
+Bruk `/prototype` Fase 2. Ved kontekst: last opp screenshot av eksisterende side som referanse i Figma.
+
+**For ny flate** (A fra Fase 1): bygg fra scratch med Aksel-komponenter via `/prototype` Fase 2.
+
+Del Figma-lenke umiddelbart når filen er opprettet.
 
 ### Fase 3: Iterer (opt-in)
 
