@@ -68,14 +68,14 @@ try {
   console.error(
     JSON.stringify({
       type: "warning",
-      message: "Could not update .gitignore: " + err.message,
+      message: `Could not update .gitignore: ${err.message}`,
     }),
   );
 }
 
 const scriptsDir = __dirname;
 const frameTemplate = fs.readFileSync(
-  path.join(scriptsDir, "frame-template.html"),
+  path.join(scriptsDir, "frame-template.tmpl"),
   "utf-8",
 );
 const helperJs = fs.readFileSync(path.join(scriptsDir, "helper.js"), "utf-8");
@@ -107,7 +107,7 @@ const akselCssPath = (() => {
         );
       }
     } catch (err) {
-      console.error(JSON.stringify({ type: "warning", message: "Could not read package.json: " + err.message }));
+      console.error(JSON.stringify({ type: "warning", message: `Could not read package.json: ${err.message}` }));
     }
   }
   return found || null;
@@ -187,7 +187,7 @@ const server = http.createServer((req, res) => {
         res.end('{"error":"invalid json"}');
         return;
       }
-      fs.appendFileSync(path.join(stateDir, "events"), body + "\n");
+      fs.appendFileSync(path.join(stateDir, "events"), `${body}\n`);
       res.writeHead(200, { "Content-Type": "application/json" });
       res.end('{"ok":true}');
     });
@@ -202,7 +202,7 @@ const server = http.createServer((req, res) => {
         .split("\n")
         .filter((line) => line.trim());
       res.writeHead(200, { "Content-Type": "application/json" });
-      res.end("[" + lines.join(",") + "]");
+      res.end(`[${lines.join(",")}]`);
     } else {
       res.writeHead(200, { "Content-Type": "application/json" });
       res.end("[]");
