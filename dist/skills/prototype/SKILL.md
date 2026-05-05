@@ -132,8 +132,13 @@ Figma MCP-verktøy tilgjengelig.
 1. `whoami` → finn planKey
 2. `create_new_file` → opprett fil, **del URL med designeren**
 3. `search_design_system` → finn relevante Aksel-komponenter
-4. `use_figma` → bygg skissen med ekte komponenter
-5. Del oppdatert lenke ved milepæler
+4. `use_figma` **preflight** → importer + logg varianter, tekst-node-navn og fonter (se referanse)
+5. `use_figma` → bygg skissen med eksakte variant-navn og node-navn fra preflight
+6. **`get_screenshot`** → verifiser visuelt (se referanse for sjekkliste)
+7. Fiks eventuelle problemer (overlapp, manglende felt, spacing)
+8. Del oppdatert lenke ved milepæler
+
+**Aldri hopp over preflight** — det forhindrer gjetting og feil-runder.
 
 Se `references/figma-prototype.md` for Nav-spesifikke detaljer.
 
@@ -153,6 +158,19 @@ search_design_system(query: "<komponentnavn>", fileKey: "<key>")
 
 Finnes komponenten? → Bruk den.
 Finnes den ikke? → Bygg custom, men med Aksel-tokens.
+
+### Komponent-instansiering (viktig)
+
+- **Preflight først**: Importer + logg varianter og tekst-noder i ETT kall (se `references/figma-prototype.md`)
+- **Bruk eksakt navnematch** for variant: `children.find(c => c.name === "Size=Medium, ...")`
+- **Bruk `defaultVariant`** som fallback — aldri `children[0]`
+- **Tekst**: bruk `instance.findOne(n => n.type === "TEXT" && n.name === "Label")` — IKKE `setProperties()` (ustabile nøkler)
+- **Direkte children**: `frame.children.filter(...)` — aldri `frame.findAll(...)` for instansvalg
+- **Layout-sizing**: sett `layoutSizingHorizontal = "FILL"` KUN etter append til auto-layout
+- **Aldri bruk `counterAxisSizingMode = "FILL"`** — kun "FIXED" eller "AUTO"
+- **Farger**: ALDRI gjett RGB — slå opp via `search_design_system` eller `get_variable_defs`
+- **Labels**: Aldri lag separate tekst-labels over frames — Figma viser frame-navnene automatisk
+- Se `references/figma-prototype.md` for fullstendige mønster og eksempler
 
 ## Valgfritt: Kodeprototype
 
