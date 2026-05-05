@@ -156,30 +156,17 @@ Finnes den ikke? → Bygg custom, men med Aksel-tokens.
 
 ## Valgfritt: Kodeprototype
 
-Når designeren vil se konseptet bygget med ekte komponenter i den kjørende
-appen.
-
 > «Vil du se dette bygget med ekte Aksel-komponenter i appen?»
-> → Deleger til konditor for å bygge på en prototype-branch
-
-Designer-agenten skriver **aldri** kode selv. Konditor gjør det.
+> → Deleger til konditor for å bygge på en prototype-branch. Designer-agenten skriver **aldri** kode selv.
 
 ## Iterasjon
 
-1. Vis resultat (nettleser-URL eller Figma-lenke)
-2. Designer gir feedback
-3. Juster og vis på nytt
-4. Gjenta til fornøyd
+Vis resultat → designer gir feedback → juster → gjenta til fornøyd.
 
 ## UU etter designleveranse
 
-Forhåndssjekk i designet:
-- Kontrast (4.5:1 brødtekst, 3:1 stor tekst)
-- Klarspråk i labels og feilmeldinger
-- Riktig semantisk Aksel-komponent
-
-Full WCAG-validering (fokus, tastatur, axe) er utvikleroppgave via
-`/accessibility-review` før release. Merk dette ved overlevering.
+Sjekk kontrast og semantikk i designet. Full WCAG-validering er utvikleroppgave
+via `/accessibility-review` — merk dette ved overlevering.
 
 ## Graceful degradation
 
@@ -191,14 +178,8 @@ Full WCAG-validering (fokus, tastatur, axe) er utvikleroppgave via
 
 ## Opprydding
 
-Når designarbeidet er levert (Figma-fil eller Issue opprettet), rydd opp:
-
-```bash
-node .github/skills/prototype/scripts/server.js --project-dir . --cleanup
-```
-
-Dette fjerner hele `.visual-companion/`-mappen. Kjør dette automatisk i
-Fase 4 (leveranse) etter at designeren har bekreftet at arbeidet er ferdig.
+Etter leveranse, kjør `server.js --project-dir . --cleanup` for å fjerne
+`.visual-companion/`. Gjør dette automatisk i Fase 4 etter bekreftelse.
 
 ## Boundaries
 
