@@ -52,6 +52,20 @@ const stateDir = path.join(brainstormDir, "state");
 fs.mkdirSync(contentDir, { recursive: true });
 fs.mkdirSync(stateDir, { recursive: true });
 
+const gitignorePath = path.join(projectDir, ".gitignore");
+const vcEntry = ".visual-companion/";
+try {
+  const existing = fs.existsSync(gitignorePath)
+    ? fs.readFileSync(gitignorePath, "utf-8")
+    : "";
+  if (!existing.split("\n").some((line) => line.trim() === vcEntry)) {
+    fs.appendFileSync(
+      gitignorePath,
+      `\n# Visual Companion (prototype skill)\n${vcEntry}\n`,
+    );
+  }
+} catch {}
+
 const scriptsDir = __dirname;
 const frameTemplate = fs.readFileSync(
   path.join(scriptsDir, "frame-template.html"),
@@ -137,7 +151,11 @@ setInterval(checkInactivity, 60_000);
 const server = http.createServer((req, res) => {
   lastActivity = Date.now();
 
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  const origin = req.headers.origin || "";
+  if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Vary", "Origin");
+  }
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
@@ -159,6 +177,13 @@ const server = http.createServer((req, res) => {
     });
     req.on("end", () => {
       if (res.writableEnded) return;
+      try {
+        JSON.parse(body);
+      } catch {
+        res.writeHead(400, { "Content-Type": "application/json" });
+        res.end('{"error":"invalid json"}');
+        return;
+      }
       fs.appendFileSync(path.join(stateDir, "events"), body + "\n");
       res.writeHead(200, { "Content-Type": "application/json" });
       res.end('{"ok":true}');
@@ -220,7 +245,13 @@ const server = http.createServer((req, res) => {
 
   let content;
   try {
-    content = fs.readFileSync(path.join(contentDir, newest), "utf-8");
+    const filePath = path.join(contentDir, newest);
+    if (!filePath.startsWith(contentDir)) {
+      res.writeHead(403);
+      res.end("Forbidden");
+      return;
+    }
+    content = fs.readFileSync(filePath, "utf-8");
   } catch {
     res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
     res.end(

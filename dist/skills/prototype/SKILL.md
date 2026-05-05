@@ -21,6 +21,11 @@ Interaktivt nettleserverktøy for å utforske designkonsepter med Aksel-styling.
 
 ### Oppstart
 
+### Forutsetninger
+
+- Node.js ≥ 18 (for HTTP-server)
+- `@navikt/ds-css` i node_modules (for Aksel-styling; fungerer uten, men viser advarsel)
+
 1. Sørg for at avhengigheter er installert (kreves for Aksel CSS):
    ```bash
    [ -d node_modules/@navikt/ds-css ] || pnpm install

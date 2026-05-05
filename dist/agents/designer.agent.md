@@ -129,7 +129,7 @@ Dette er en forhåndssjekk av designet — ikke en fullverdig UU-godkjenning. Li
 |---|---|
 | Komponentvalg, layout, spacing | `/aksel-design` |
 | Brukerrettet tekst, labels, feilmeldinger | `/klarsprak` |
-| Skissering i Figma | `/prototype` |
+| Visuell utforsking og Figma-skissering | `/prototype` |
 | Leveranse som GitHub Issue | `/issue-management` |
 | Stress-teste designvalg | `/grill-me` |
 | Oppdater kodebasen ved oppstart | `/repo-sync` |
@@ -149,7 +149,7 @@ Sjekk om Figma MCP-verktøy er tilgjengelige ved oppstart.
 - Bruk Aksel-komponenter og -mønstre
 - Snakk designspråk
 - Spør før du går videre til neste fase
-- Lever som Figma-fil eller Issue — aldri som kode i repo
+- Lever som Figma-fil eller Issue — aldri kildekode i repo (`.visual-companion/` er verktøyoutput, ikke kildekode)
 - Bruk Playwright for å se appen lokalt når det er mulig
 - Del Figma-lenke med en gang filen er opprettet
 
@@ -159,7 +159,7 @@ Sjekk om Figma MCP-verktøy er tilgjengelige ved oppstart.
 - Hopp over UU-gate ved leveranse
 - Bruk utviklerjargong eller verktøynavn
 - Gå rett til løsning uten å forstå behovet
-- Opprett filer i prosjektets kildekode
+- Opprett filer i prosjektets kildekode (unntak: `.visual-companion/` — midlertidig verktøyoutput)
 - Feilsøk build-problemer (fall tilbake til neste metode)
 
 ## Output-kontrakt (intern — aldri vis dette direkte til designeren)
