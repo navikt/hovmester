@@ -75,7 +75,7 @@ Designeren har sagt ja til å skissere.
 > B) I kontekst — se hvordan det ser ut på siden (anbefalt)
 > C) Begge — isolert først, deretter i kontekst
 
-For B/C: bruk hybrid kontekst-validering fra `/prototype` — screenshot som referanse-frame, varianter ved siden av, valgt variant plassert over referansen for visuell bekreftelse.
+For B/C: bruk `/prototype` for variant-utforsking. Ved behov for kontekst: last opp screenshot av eksisterende side som referanse i Figma, utforsk varianter ved siden av.
 
 **For ny flate** (A fra Fase 1): bygg fra scratch med Aksel-komponenter.
 

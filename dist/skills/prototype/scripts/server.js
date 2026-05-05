@@ -64,7 +64,14 @@ try {
       `\n# Visual Companion (prototype skill)\n${vcEntry}\n`,
     );
   }
-} catch {}
+} catch (err) {
+  console.error(
+    JSON.stringify({
+      type: "warning",
+      message: "Could not update .gitignore: " + err.message,
+    }),
+  );
+}
 
 const scriptsDir = __dirname;
 const frameTemplate = fs.readFileSync(
@@ -149,8 +156,6 @@ function checkInactivity() {
 setInterval(checkInactivity, 60_000);
 
 const server = http.createServer((req, res) => {
-  lastActivity = Date.now();
-
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -190,8 +195,12 @@ const server = http.createServer((req, res) => {
   if (req.url === "/events") {
     const eventsFile = path.join(stateDir, "events");
     if (fs.existsSync(eventsFile)) {
+      const lines = fs
+        .readFileSync(eventsFile, "utf-8")
+        .split("\n")
+        .filter((line) => line.trim());
       res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(fs.readFileSync(eventsFile, "utf-8"));
+      res.end("[" + lines.join(",") + "]");
     } else {
       res.writeHead(200, { "Content-Type": "application/json" });
       res.end("[]");
@@ -210,6 +219,8 @@ const server = http.createServer((req, res) => {
     res.end(JSON.stringify({ status: "ok", session: sessionId }));
     return;
   }
+
+  lastActivity = Date.now();
 
   if (req.url === "/aksel.css") {
     if (akselCss) {

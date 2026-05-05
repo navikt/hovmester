@@ -15,6 +15,15 @@ og lever som Figma-skisse med ekte Aksel-komponenter.
 - Rask validering av layout, hierarki eller flyt
 - Situasjonsdesign — vis alle situasjoner brukeren kan møte
 
+### Når gå rett til Figma (hopp over Fase 1)
+
+- Du itererer videre på et eksisterende Figma-design
+- Oppgaven er detaljjustering eller finpuss (spacing, farger, typografi)
+- Designeren allerede vet hva de vil og trenger Figma-komponenter
+- Komponentbygging og produksjonsnære leveranser
+
+Visual Companion er best for **tidlig utforsking** — når retningen er uklar og du vil se 2-3 konsepter raskt. Når retningen er valgt, gå rett til Figma.
+
 ## Fase 1: Visuell utforsking (Visual Companion)
 
 Interaktivt nettleserverktøy for å utforske designkonsepter med Aksel-styling.
@@ -176,7 +185,7 @@ Full WCAG-validering (fokus, tastatur, axe) er utvikleroppgave via
 
 | Verktøy | Tilgjengelig | Fallback |
 |---|---|---|
-| Visual Companion (Node.js) | Alltid | — |
+| Visual Companion (Node.js) | Krever Node.js ≥ 18 | Chat + Figma direkte |
 | Figma MCP | Valgfritt | Beskriv konseptet, lever som Issue |
 | Playwright MCP | Valgfritt | Manuelt skjermbilde fra designer |
 
