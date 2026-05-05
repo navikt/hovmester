@@ -70,9 +70,22 @@ Prioritert rekkefølge for å hente visuell kontekst (se `/prototype` for detalj
 3. **Offentlig URL** → Importer til Figma
 4. **Manuelt skjermbilde** (siste utvei) → Be designeren dele bilde
 
-Avslutt Utforsk basert på intensjon:
-- **A/B** (ny flate eller forbedring): "Skal vi skissere dette i Figma?"
-- **C** (utforsking): Oppsummer funn. Spør: "Vil du utforske mer, eller lage en skisse av noe vi har diskutert?"
+**Overgang til visualisering** — når du har nok kontekst og har landet på et konsept, tilby aktivt å visualisere via `ask_user`. Ikke vent til alle spørsmål er besvart — tilby så snart konseptet er tydelig nok til å vise.
+
+- **A/B** (ny flate eller forbedring):
+  ```
+  ask_user: "Konseptet er klart nok til å vise. Hvordan vil du se det?"
+  choices: ["Prototype i nettleseren (anbefalt)", "Rett til Figma-skisse", "Først noen spørsmål til"]
+  ```
+- **C** (utforsking): Oppsummer funn, deretter:
+  ```
+  ask_user: "Vil du utforske mer, eller se noe av dette visuelt?"
+  choices: ["Vis i nettleseren", "Lag Figma-skisse", "Utforsk mer"]
+  ```
+
+**Prototype i nettleseren** (Visual Companion) er best for tidlig utforsking — se 2-3 varianter raskt, klikke seg gjennom, og velge retning. Bruk `/prototype` Fase 1. Når retningen er valgt, gå videre til Figma.
+
+**Rett til Figma** passer når designeren allerede vet hva de vil, itererer på eksisterende design, eller trenger produksjonsnære komponenter.
 
 ### Fase 2: Skissér (opt-in)
 
