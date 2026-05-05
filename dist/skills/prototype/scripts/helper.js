@@ -21,7 +21,7 @@
     el.setAttribute("aria-pressed", String(isSelected));
 
     if (isSelected) {
-      var label =
+      const label =
         (el.querySelector("h3, .content h3") || {}).textContent || choice;
       selected.set(choice, label);
       recordEvent("click", choice, el.textContent.trim().substring(0, 120));
@@ -91,7 +91,7 @@
           lastVersion = version;
         } else if (version && version !== lastVersion) {
           lastVersion = version;
-          var toast = document.getElementById("refresh-indicator");
+          const toast = document.getElementById("refresh-indicator");
           if (toast) {
             toast.classList.add("visible");
           }
