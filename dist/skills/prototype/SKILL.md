@@ -135,18 +135,11 @@ Figma MCP-verktøy tilgjengelig.
 4. `use_figma` **preflight** → importer + logg varianter, tekst-node-navn og fonter (se referanse)
 5. `use_figma` → bygg skissen med eksakte variant-navn og node-navn fra preflight
 6. **`get_screenshot`** → verifiser visuelt (se referanse for sjekkliste)
-7. Fiks eventuelle problemer (overlapp, manglende felt, spacing)
-8. Del oppdatert lenke ved milepæler
+7. Fiks eventuelle problemer, del oppdatert lenke ved milepæler
 
-**Aldri hopp over preflight** — det forhindrer gjetting og feil-runder.
+**Aldri hopp over preflight** — det forhindrer gjetting og feil-runder. Se `references/figma-prototype.md` for detaljer.
 
-Se `references/figma-prototype.md` for Nav-spesifikke detaljer.
-
-**Hva som bygges i Figma:**
-- Kun den nye komponenten/endringen — ikke hele siden
-- Ekte Aksel-komponenter fra designsystemet (redigerbare)
-- Riktige tokens og spacing
-- Varianter og situasjoner som egne frames
+Bygg kun den nye komponenten/endringen — ikke hele siden. Bruk ekte Aksel-komponenter, riktige tokens, og vis varianter som egne frames.
 
 ### Komponent-gate
 
@@ -159,18 +152,15 @@ search_design_system(query: "<komponentnavn>", fileKey: "<key>")
 Finnes komponenten? → Bruk den.
 Finnes den ikke? → Bygg custom, men med Aksel-tokens.
 
-### Komponent-instansiering (viktig)
+### Komponent-instansiering
 
-- **Preflight først**: Importer + logg varianter og tekst-noder i ETT kall (se `references/figma-prototype.md`)
-- **Bruk eksakt navnematch** for variant: `children.find(c => c.name === "Size=Medium, ...")`
-- **Bruk `defaultVariant`** som fallback — aldri `children[0]`
-- **Tekst**: bruk `instance.findOne(n => n.type === "TEXT" && n.name === "Label")` — IKKE `setProperties()` (ustabile nøkler)
-- **Direkte children**: `frame.children.filter(...)` — aldri `frame.findAll(...)` for instansvalg
-- **Layout-sizing**: sett `layoutSizingHorizontal = "FILL"` KUN etter append til auto-layout
-- **Aldri bruk `counterAxisSizingMode = "FILL"`** — kun "FIXED" eller "AUTO"
-- **Farger**: ALDRI gjett RGB — slå opp via `search_design_system` eller `get_variable_defs`
-- **Labels**: Aldri lag separate tekst-labels over frames — Figma viser frame-navnene automatisk
-- Se `references/figma-prototype.md` for fullstendige mønster og eksempler
+- **Preflight først**: Importer + logg varianter og tekst-noder i ETT kall
+- **Eksakt navnematch** for variant, `defaultVariant` som fallback
+- **Tekst**: `findOne` med eksakt name — IKKE `setProperties()` (ustabile nøkler)
+- **`layoutSizingHorizontal = "FILL"`** kun etter append til auto-layout
+- **Farger**: Slå opp via `search_design_system` — aldri gjett RGB
+
+Se `references/figma-prototype.md` for fullstendige regler og eksempler.
 
 ## Valgfritt: Kodeprototype
 
@@ -181,23 +171,13 @@ Finnes den ikke? → Bygg custom, men med Aksel-tokens.
 
 Vis resultat → designer gir feedback → juster → gjenta til fornøyd.
 
-## UU etter designleveranse
+## UU, opprydding og degradation
 
-Sjekk kontrast og semantikk i designet. Full WCAG-validering er utvikleroppgave
-via `/accessibility-review` — merk dette ved overlevering.
-
-## Graceful degradation
-
-| Verktøy | Tilgjengelig | Fallback |
-|---|---|---|
-| Visual Companion (Node.js) | Krever Node.js ≥ 18 | Chat + Figma direkte |
-| Figma MCP | Valgfritt | Beskriv konseptet, lever som Issue |
-| Playwright MCP | Valgfritt | Manuelt skjermbilde fra designer |
-
-## Opprydding
-
-Etter leveranse, kjør `server.js --project-dir . --cleanup` for å fjerne
-`.visual-companion/`. Gjør dette automatisk i Fase 4 etter bekreftelse.
+- Sjekk kontrast og semantikk i designet. Full WCAG: `/accessibility-review` ved overlevering.
+- Etter leveranse: `server.js --project-dir . --cleanup` fjerner `.visual-companion/`.
+- Uten Figma MCP → beskriv konseptet, lever som Issue.
+- Uten Node.js → Chat + Figma direkte (hopp over Visual Companion).
+- Uten Playwright → manuelt skjermbilde fra designer.
 
 ## Boundaries
 
