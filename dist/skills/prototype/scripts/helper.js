@@ -1,15 +1,15 @@
-(function () {
+(() => {
   var selected = new Map();
   var indicator = document.getElementById("indicator");
   var indicatorText = document.getElementById("indicator-text");
 
-  window.toggleSelect = function (el) {
+  window.toggleSelect = (el) => {
     var choice = el.dataset.choice;
     var container = el.closest(".options, .cards");
     var isMulti = container && container.dataset.multiselect !== undefined;
 
     if (!isMulti && container) {
-      container.querySelectorAll(".option, .card").forEach(function (opt) {
+      container.querySelectorAll(".option, .card").forEach((opt) => {
         opt.classList.remove("selected");
         opt.setAttribute("aria-pressed", "false");
         selected.delete(opt.dataset.choice);
@@ -22,7 +22,7 @@
 
     if (isSelected) {
       const label =
-        (el.querySelector("h3, .content h3") || {}).textContent || choice;
+        el.querySelector("h3, .content h3")?.textContent || choice;
       selected.set(choice, label);
       recordEvent("click", choice, el.textContent.trim().substring(0, 120));
     } else {
@@ -42,7 +42,7 @@
     indicator.classList.add("visible");
     var names = Array.from(selected.values());
     indicatorText.textContent =
-      names.length === 1 ? "Valgt: " + names[0] : names.length + " valgt";
+      names.length === 1 ? `Valgt: ${names[0]}` : `${names.length} valgt`;
   }
 
   function recordEvent(type, choice, text) {
@@ -57,12 +57,12 @@
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(event),
-    }).catch(function (err) {
+    }).catch((err) => {
       console.warn("[Visual Companion] Failed to record event:", err.message);
     });
   }
 
-  document.addEventListener("keydown", function (e) {
+  document.addEventListener("keydown", (e) => {
     if (
       e.target.matches(".option, .card") &&
       (e.key === "Enter" || e.key === " ")
@@ -72,7 +72,7 @@
     }
   });
 
-  document.querySelectorAll(".option, .card").forEach(function (el) {
+  document.querySelectorAll(".option, .card").forEach((el) => {
     if (!el.getAttribute("tabindex")) {
       el.setAttribute("tabindex", "0");
       el.setAttribute("role", "button");
@@ -81,12 +81,10 @@
   });
 
   var lastVersion = null;
-  setInterval(function () {
+  setInterval(() => {
     fetch("/version")
-      .then(function (res) {
-        return res.text();
-      })
-      .then(function (version) {
+      .then((res) => res.text())
+      .then((version) => {
         if (lastVersion === null) {
           lastVersion = version;
         } else if (version && version !== lastVersion) {
@@ -95,11 +93,11 @@
           if (toast) {
             toast.classList.add("visible");
           }
-          setTimeout(function () {
+          setTimeout(() => {
             window.location.reload();
           }, 400);
         }
       })
-      .catch(function () {});
+      .catch(() => {});
   }, 2000);
 })();
