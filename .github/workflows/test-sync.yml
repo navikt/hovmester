@@ -10,6 +10,7 @@ on:
       - 'package.json'
       - 'pnpm-lock.yaml'
       - 'biome.json'
+      - '.github/workflows/test-sync.yml'
 
 permissions:
   contents: read
@@ -17,13 +18,29 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
+      - name: Detect Biome-relevant changes
+        id: biome-changes
+        uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v3.0.2
+        with:
+          filters: |
+            biome:
+              - '.github/skills/prototype/scripts/**'
+              - 'dist/skills/prototype/scripts/**'
+              - 'package.json'
+              - 'pnpm-lock.yaml'
+              - 'biome.json'
+              - '.github/workflows/test-sync.yml'
+
       - name: Set up pnpm
+        if: steps.biome-changes.outputs.biome == 'true'
         uses: pnpm/action-setup@903f9c1a6ebcba6cf41d87230be49611ac97822e # v6.0.3
 
       - name: Set up Node.js
+        if: steps.biome-changes.outputs.biome == 'true'
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: '22'
@@ -36,12 +53,14 @@ jobs:
           python-version: '3.12'
 
       - name: Install Biome dependencies
+        if: steps.biome-changes.outputs.biome == 'true'
         run: pnpm install --frozen-lockfile
 
       - name: Install test dependencies
         run: pip install pytest pyyaml
 
       - name: Check syncable prototype scripts with Biome
+        if: steps.biome-changes.outputs.biome == 'true'
         run: pnpm run biome:check-sync-content
 
       - name: Run tests
