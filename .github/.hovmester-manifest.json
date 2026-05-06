@@ -84,7 +84,7 @@
     ".github/skills/prototype/SKILL.md",
     ".github/skills/prototype/references/figma-prototype.md",
     ".github/skills/prototype/references/visual-companion.md",
-    ".github/skills/prototype/scripts/frame-template.html",
+    ".github/skills/prototype/scripts/frame-template.tmpl",
     ".github/skills/prototype/scripts/helper.js",
     ".github/skills/prototype/scripts/server.js",
     ".github/skills/pull-request/SKILL.md",
