@@ -37,14 +37,16 @@ Bruk **@hovmester** som inngang til alt — den koordinerer planlegging, impleme
 
 ```mermaid
 graph TD
-    U["🍽️ <b>Hovmester</b><br/>Orkestrator · Opus"]
+    U["🍽️ <b>Hovmester</b><br/>Orkestrator · GPT 5.5"]
     S["📋 Souschef<br/>Planlegger · Opus"]
-    K["👨‍🍳 Kokk<br/>Backend-utvikler · GPT"]
+    K["👨‍🍳 Kokk<br/>Backend-utvikler · GPT 5.4"]
     KO["🎂 Konditor<br/>Frontend-utvikler · Opus"]
-    IC["🔬 Inspektor-Claude<br/>Reviewer for GPT-kode"]
-    IG["🔬 Inspektor-GPT<br/>Reviewer for Opus-kode"]
+    IC["🔬 Inspektor-Claude<br/>Reviewer for GPT-kode · Opus"]
+    IG["🔬 Inspektor-GPT<br/>Reviewer for Opus-kode · GPT 5.5"]
 
     U -- planlegging --> S
+    S -. planreview .-> IG
+    IG -. planstatus .-> U
     U -- backend --> K
     U -- frontend --> KO
     K -.-> IC -.-> U
@@ -53,14 +55,15 @@ graph TD
 
 | Agent | Rolle | Modell |
 |-------|-------|--------|
-| **@hovmester** 🍽️ | Orkestrator — mottar forespørselen, delegerer, konsoliderer | Opus |
-| **@kokk** 👨‍🍳 | Backend-utvikler — API, tjenester, database, Kafka, infra | GPT |
+| **@hovmester** 🍽️ | Orkestrator — mottar forespørselen, delegerer, konsoliderer | GPT 5.5 |
+| **@kokk** 👨‍🍳 | Backend-utvikler — API, tjenester, database, Kafka, infra | GPT 5.4 |
 | **@konditor** 🎂 | Frontend-utvikler — UI, Aksel, tilgjengelighet, state | Opus |
 | *@souschef* 📋 | *(intern)* Planlegger — utforsker kodebasen, lager implementasjonsplaner | Opus |
+| **@designer** ✏️ | Designer-agent — designhjelp, Figma-skisser og visuelle konsepter | Opus |
 | *@inspektor-claude* 🔬 | *(intern)* Kryssmodell-reviewer — Opus gjennomgår GPT-kode | Opus |
-| *@inspektor-gpt* 🔬 | *(intern)* Kryssmodell-reviewer — GPT gjennomgår Opus-kode | GPT |
+| *@inspektor-gpt* 🔬 | *(intern)* Kryssmodell-reviewer — GPT gjennomgår Opus-kode | GPT 5.5 |
 
-> Én agent eier hele funksjonssnitt vertikalt. Kryssmodell-review fanger blindsoner: Opus gjennomgår GPT-kode og omvendt.
+> Én agent eier hele funksjonssnitt vertikalt. I ikke-trivielle arbeidsflyter fanger kryssmodell-review blindsoner: Opus gjennomgår GPT-kode, og GPT gjennomgår både Opus-kode og Souschef-planer for medium/store oppgaver før hovmester presenterer planen.
 
 ## Collections
 
