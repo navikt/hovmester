@@ -1,6 +1,7 @@
 {
   "name": "hovmester",
   "private": true,
+  "packageManager": "pnpm@10.32.1",
   "scripts": {
     "biome:check-sync-content": "biome check .",
     "biome:write-sync-content": "biome check --write ."
