@@ -1,0 +1,16 @@
+{
+  "$schema": "https://biomejs.dev/schemas/latest/schema.json",
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2
+  },
+  "files": {
+    "includes": [
+      ".github/skills/prototype/scripts/helper.js",
+      ".github/skills/prototype/scripts/server.js",
+      "dist/skills/prototype/scripts/helper.js",
+      "dist/skills/prototype/scripts/server.js"
+    ]
+  }
+}

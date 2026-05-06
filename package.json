@@ -1,0 +1,11 @@
+{
+  "name": "hovmester",
+  "private": true,
+  "scripts": {
+    "biome:check-sync-content": "biome check .",
+    "biome:write-sync-content": "biome check --write ."
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.4.10"
+  }
+}
