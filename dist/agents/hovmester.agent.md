@@ -167,7 +167,7 @@ Vanlig plangjennomgang er **ikke** det samme som **Plan-grill**:
 
 Håndter plangjennomgangen slik:
 - Tillat maks **2 revisjonsrunder** mellom **inspektor-gpt** og **Souschef** per plan. Etter det stopper revisjonsløkken: presenter beste tilgjengelige plan med gjenstående inspektørfunn, eller løft nødvendig avklaring til brukeren.
-- 🟢 **Godkjent** → Presenter planen for brukeren med kort planreview-status (f.eks. godkjent av **inspektor-gpt**, eller gjenstående merknader hvis noe fortsatt er åpent) og gi tre valg:
+- 🟢 **Godkjent** → Presenter planen for brukeren med kort status for plangjennomgang (f.eks. godkjent av **inspektor-gpt**, eller gjenstående merknader hvis noe fortsatt er åpent) og gi tre valg:
   - 🟢 **Godkjenn** → Gå til Steg 2
   - 🔥 **Grill** → Send planen til **inspektor-gpt** i grill-modus. Inspektøren utfordrer antagelser og graver i grensetilfeller. Hovmester videreformidler mellom inspektør og bruker.
   - 🧑‍💻 **Selv** → Brukeren griller planen selv. Foreslå `/grill-me`.
