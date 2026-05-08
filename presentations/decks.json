@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Hovmester",
+    "description": "Issues, skills og agentflyt for GitHub Copilot i Nav.",
+    "event": "Fagtorsdag",
+    "date": "2026-04-16",
+    "engine": "reveal",
+    "path": "2026-04-16-fagtorsdag/html/",
+    "status": "published",
+    "tags": ["hovmester", "copilot", "agents"]
+  }
+]
