@@ -54,7 +54,7 @@ function mount({ slides, root }) {
   const { viewport, canvas, slideContainer, counter } = createCanvas(container);
   const nav = createNavigator(slides, slideContainer, counter);
 
-  bindKeyboard(nav);
+  bindKeyboard(viewport, nav);
   bindTouch(viewport, nav);
 
   // Les startposisjon fra URL-hash
@@ -71,9 +71,7 @@ function mount({ slides, root }) {
   }
 }
 
-// Eksporter som global for script-tag-bruk
-if (typeof window !== 'undefined') {
-  window.DeckStage = { mount };
-}
+// Globalen eksporteres av esbuild via --global-name=DeckStage.
+// Ikke sett window.DeckStage manuelt — bundleren håndterer dette.
 
 export { mount };

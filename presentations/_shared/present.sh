@@ -66,13 +66,20 @@ python3 -m http.server "$PORT" --bind 127.0.0.1 >/dev/null 2>&1 &
 SERVER_PID=$!
 
 cleanup() {
-  echo ""
-  echo "Stopper server (pid $SERVER_PID)…"
-  kill "$SERVER_PID" 2>/dev/null || true
-  wait "$SERVER_PID" 2>/dev/null || true
-  exit 0
+  local exit_code="${1:-$?}"
+
+  if kill -0 "$SERVER_PID" 2>/dev/null; then
+    echo ""
+    echo "Stopper server (pid $SERVER_PID)…"
+    kill "$SERVER_PID" 2>/dev/null || true
+    wait "$SERVER_PID" 2>/dev/null || true
+  fi
+
+  return "$exit_code"
 }
-trap cleanup INT TERM EXIT
+trap 'exit_code=$?; trap - INT TERM EXIT; cleanup "$exit_code"; exit "$exit_code"' EXIT
+trap 'trap - INT TERM EXIT; cleanup 130; exit 130' INT
+trap 'trap - INT TERM EXIT; cleanup 143; exit 143' TERM
 
 # Vent til serveren svarer
 for _ in 1 2 3 4 5 6 7 8 9 10; do

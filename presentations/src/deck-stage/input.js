@@ -13,16 +13,32 @@
  *   Venstre halvdel = forrige
  */
 
+const INTERACTIVE_SELECTOR = [
+  'a', 'button', 'input', 'textarea', 'select',
+  'summary', 'details', 'label', 'iframe',
+  'video[controls]', 'audio[controls]',
+  '[contenteditable]:not([contenteditable="false"])',
+  '[tabindex]:not([tabindex="-1"])',
+  '[role="button"]', '[role="link"]',
+  '[role="menuitem"]', '[role="checkbox"]',
+  '[role="radio"]', '[role="switch"]', '[role="tab"]',
+  '[data-deck-interactive]',
+].join(',');
+
+function isInteractiveTarget(target, boundary) {
+  if (!(target instanceof Element)) return false;
+  const interactive = target.closest(INTERACTIVE_SELECTOR);
+  return Boolean(interactive && interactive !== boundary);
+}
+
 /**
- * Bind tastaturnavigasjon til navigator.
+ * Bind tastaturnavigasjon til viewport-elementet.
+ * @param {HTMLElement} viewport
  * @param {{ next, prev, first, last, reset }} nav
  */
-export function bindKeyboard(nav) {
-  document.addEventListener('keydown', (e) => {
-    // Ikke fang tastetrykk i input-felt
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
-      return;
-    }
+export function bindKeyboard(viewport, nav) {
+  viewport.addEventListener('keydown', (e) => {
+    if (isInteractiveTarget(e.target, viewport)) return;
 
     switch (e.key) {
       case 'ArrowRight':
@@ -71,11 +87,8 @@ export function bindKeyboard(nav) {
  */
 export function bindTouch(viewport, nav) {
   viewport.addEventListener('click', (e) => {
-    // Ikke fang klikk på interaktive elementer
-    const tag = e.target.tagName;
-    if (tag === 'A' || tag === 'BUTTON' || tag === 'INPUT' || tag === 'TEXTAREA') {
-      return;
-    }
+    // Ikke fang klikk på interaktive elementer.
+    if (isInteractiveTarget(e.target, viewport)) return;
 
     const rect = viewport.getBoundingClientRect();
     const x = e.clientX - rect.left;

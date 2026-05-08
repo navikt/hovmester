@@ -532,16 +532,41 @@
       // -------------------------------------------------------------------
       function isSafePath(path) {
         if (typeof path !== 'string' || path.length === 0) return false;
-        // Blokkér absolutte URL-er, protokoller og path traversal
-        if (/^[a-z][a-z0-9+.-]*:/i.test(path)) return false;  // http:, https:, javascript:, data: etc.
-        if (path.startsWith('//')) return false;                // protocol-relative
-        if (path.startsWith('/')) return false;                 // absolutt sti
-        if (path.indexOf('..') !== -1) return false;            // path traversal
-        if (path.indexOf('\\') !== -1) return false;            // backslash (Windows/URL-smugling)
-        // eslint-disable-next-line no-control-regex
-        if (/[\x00-\x1f\x7f]/.test(path)) return false;       // kontrolltegn
-        if (/(?:^|\/)(?:\/|$)/.test(path)) return false;       // tomme path-segmenter (f.eks. «foo//bar»)
-        return true;
+
+        function hasEmptySegment(value) {
+          var withoutTrailingSlash = value.endsWith('/') ? value.slice(0, -1) : value;
+          return withoutTrailingSlash.split('/').some(function (segment) {
+            return segment.length === 0;
+          });
+        }
+
+        function hasUnsafePathShape(value) {
+          // Blokkér absolutte URL-er, protokoller og path traversal.
+          if (/^[a-z][a-z0-9+.-]*:/i.test(value)) return true;  // http:, https:, javascript:, data: etc.
+          if (value.startsWith('//')) return true;               // protocol-relative
+          if (value.startsWith('/')) return true;                // absolutt sti
+          if (value.indexOf('\\') !== -1) return true;           // backslash (Windows/URL-smugling)
+          // eslint-disable-next-line no-control-regex
+          if (/[\x00-\x1f\x7f]/.test(value)) return true;      // kontrolltegn
+          if (hasEmptySegment(value)) return true;               // f.eks. «foo//bar», men tillat «foo/»
+          if (value.indexOf('..') !== -1) return true;           // path traversal
+          // Avvis URL-enkodede varianter av dot, slash og backslash.
+          return /%(?:2e|2f|5c)/i.test(value);
+        }
+
+        var current = path;
+        for (var i = 0; i < 3; i += 1) {
+          if (hasUnsafePathShape(current)) return false;
+          try {
+            var decoded = decodeURIComponent(current);
+          } catch (_e) {
+            return false;
+          }
+          if (decoded === current) return true;
+          current = decoded;
+        }
+
+        return !hasUnsafePathShape(current);
       }
 
       // -------------------------------------------------------------------

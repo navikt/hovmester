@@ -67,7 +67,9 @@ export function createNavigator(slides, slideContainer, counter) {
     return currentIndex;
   }
 
-  // Lytt til hash-endringer (f.eks. direktelenke eller tilbakeknapp)
+  // Lytt til hash-endringer (f.eks. direktelenke eller ekstern navigasjon).
+  // NB: replaceState brukes ved slide-bytte, så nettleser-tilbakeknappen
+  // navigerer bort fra presentasjonen — ikke mellom slides.
   window.addEventListener('hashchange', () => {
     const id = location.hash.slice(1);
     const idx = slides.findIndex((s) => s.id === id);

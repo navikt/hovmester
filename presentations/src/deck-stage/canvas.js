@@ -16,13 +16,11 @@ export function createCanvas(container) {
   // Viewport — fyller hele skjermen, sentrerer canvas
   const viewport = document.createElement('div');
   viewport.className = 'ds-viewport';
-  // role="application" gir fullstendig tastaturkontroll til applikasjonen.
-  // Nødvendig her fordi piltaster brukes til slide-navigasjon og ikke bør
-  // fanges av skjermleserens virtuelle modus. Uten denne rollen vil mange
-  // skjermlesere (NVDA/JAWS) konsumere piltastene til eget bruk.
-  viewport.setAttribute('role', 'application');
   viewport.setAttribute('aria-roledescription', 'presentasjon');
   viewport.setAttribute('aria-label', 'Presentasjon — bruk piltaster for å navigere');
+  // Gjør viewport fokusérbar så tastaturhendelser kan bindes hit
+  // i stedet for globalt på document.
+  viewport.setAttribute('tabindex', '0');
 
   // Canvas — fast 1920×1080, skaleres via transform
   const canvas = document.createElement('div');
@@ -54,6 +52,9 @@ export function createCanvas(container) {
   const scale = () => scaleCanvas(viewport, canvas);
   scale();
   window.addEventListener('resize', scale);
+
+  // Fokuser viewport ved mount så tastaturnavigasjon fungerer umiddelbart
+  requestAnimationFrame(() => viewport.focus());
 
   return { viewport, canvas, slideContainer, counter };
 }
@@ -96,6 +97,11 @@ function injectStyles() {
       overflow: hidden;
       background: #000;
       cursor: default;
+    }
+
+    .ds-viewport:focus-visible {
+      outline: 3px solid #99c9ff;
+      outline-offset: -6px;
     }
 
     .ds-canvas {
