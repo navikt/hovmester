@@ -1,0 +1,16 @@
+{
+  "name": "hovmester-presentations",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Minimal build for hovmester-presentasjoner: kompilerer deck-stage runtime og JSX-slides.",
+  "scripts": {
+    "build:runtime": "esbuild src/deck-stage/index.js --bundle --format=iife --global-name=DeckStage --outfile=_shared/deck-stage.js --minify --target=es2020",
+    "build:runtime:watch": "esbuild src/deck-stage/index.js --bundle --format=iife --global-name=DeckStage --outfile=_shared/deck-stage.js --target=es2020 --watch",
+    "build:template": "esbuild src/_template/slides.jsx --bundle --format=iife --jsx-factory=h --jsx-fragment=Fragment --outfile=_template/slides.js --target=es2020 --minify",
+    "build:template:watch": "esbuild src/_template/slides.jsx --bundle --format=iife --jsx-factory=h --jsx-fragment=Fragment --outfile=_template/slides.js --target=es2020 --watch",
+    "build": "npm run build:runtime && npm run build:template"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}

@@ -1,0 +1,389 @@
+/* =====================================================================
+ * styles.css — Hovmester presentasjonsmal
+ *
+ * Design tokens, slide-layouts, typografi og utility-klasser
+ * for deck-stage-presentasjoner.
+ *
+ * Alle farger, spacing og typografi via CSS custom properties
+ * slik at nye decks enkelt kan overstyre utseendet.
+ * ===================================================================== */
+
+/* ---------------------------------------------------------------------------
+ * Design tokens
+ * ------------------------------------------------------------------------- */
+
+:root {
+  /* Bakgrunner */
+  --hm-bg:            #0a0a0a;
+  --hm-bg-elevated:   #111111;
+  --hm-bg-surface:    #181818;
+  --hm-bg-code:       #0d1117;
+
+  /* Tekst */
+  --hm-text:          #f0f0f0;
+  --hm-text-strong:   #ffffff;
+  --hm-text-muted:    #999999;
+
+  /* Aksent */
+  --hm-accent:        #00d4aa;
+  --hm-accent-dim:    #009b7d;
+  --hm-accent-glow:   rgba(0, 212, 170, 0.15);
+
+  /* Info-variant */
+  --hm-info:          #5ba8f5;
+  --hm-info-dim:      #3d7dc4;
+
+  /* Grenser */
+  --hm-border:        #222222;
+  --hm-border-subtle: #1a1a1a;
+
+  /* Typografi */
+  --hm-sans:  system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --hm-mono:  "IBM Plex Mono", "SF Mono", "Cascadia Code", Consolas, monospace;
+
+  /* Spacing */
+  --hm-space-xs:  12px;
+  --hm-space-sm:  24px;
+  --hm-space-md:  48px;
+  --hm-space-lg:  80px;
+  --hm-space-xl:  120px;
+
+  /* Radier */
+  --hm-radius-sm: 6px;
+  --hm-radius-md: 12px;
+}
+
+/* ---------------------------------------------------------------------------
+ * Slide-baselayout
+ * ------------------------------------------------------------------------- */
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  background: var(--hm-bg);
+  color: var(--hm-text);
+  font-family: var(--hm-sans);
+  line-height: 1.5;
+}
+
+.slide__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
+.slide__content--centered {
+  align-items: center;
+  text-align: center;
+  padding: var(--hm-space-lg);
+}
+
+.slide__content--padded {
+  padding: var(--hm-space-lg) var(--hm-space-xl);
+  justify-content: center;
+}
+
+/* ---------------------------------------------------------------------------
+ * Slide-varianter
+ * ------------------------------------------------------------------------- */
+
+/* Tittelslide */
+.slide--title {
+  background: var(--hm-bg);
+}
+
+/* Seksjonsslide */
+.slide--section {
+  background: var(--hm-bg-elevated);
+}
+
+/* Innholdsslide */
+.slide--content {
+  background: var(--hm-bg);
+}
+
+/* Todelt slide */
+.slide--split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.slide__left,
+.slide__right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide__left {
+  background: var(--hm-bg);
+}
+
+.slide__right {
+  background: var(--hm-bg-elevated);
+  padding: var(--hm-space-md);
+}
+
+/* Kodeslide */
+.slide--code {
+  background: var(--hm-bg-code);
+}
+
+/* ---------------------------------------------------------------------------
+ * Typografi
+ * ------------------------------------------------------------------------- */
+
+.hm-heading-xl {
+  font-size: 84px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--hm-text-strong);
+  margin-bottom: var(--hm-space-sm);
+}
+
+.hm-heading-lg {
+  font-size: 64px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--hm-text-strong);
+  margin-bottom: var(--hm-space-sm);
+}
+
+.hm-heading-md {
+  font-size: 48px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  color: var(--hm-text-strong);
+}
+
+.hm-subtitle {
+  font-size: 36px;
+  font-weight: 400;
+  color: var(--hm-text-muted);
+  line-height: 1.35;
+  max-width: 1100px;
+  margin-bottom: var(--hm-space-sm);
+}
+
+.hm-overline {
+  font-family: var(--hm-mono);
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--hm-accent);
+  margin-bottom: var(--hm-space-xs);
+}
+
+.hm-body {
+  font-size: 30px;
+  line-height: 1.55;
+  color: var(--hm-text);
+  max-width: 1200px;
+}
+
+.hm-meta {
+  font-size: 22px;
+  color: var(--hm-text-muted);
+}
+
+/* ---------------------------------------------------------------------------
+ * Innholdselementer
+ * ------------------------------------------------------------------------- */
+
+/* Punktliste */
+.hm-list {
+  list-style: none;
+  padding: 0;
+  max-width: 1200px;
+}
+
+.hm-list li {
+  font-size: 30px;
+  line-height: 1.5;
+  padding: var(--hm-space-xs) 0;
+  padding-left: 36px;
+  position: relative;
+  color: var(--hm-text);
+}
+
+.hm-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 22px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--hm-accent);
+}
+
+.hm-list li strong {
+  color: var(--hm-text-strong);
+  font-weight: 600;
+}
+
+/* Aksent-strek */
+.hm-accent-rule {
+  height: 3px;
+  background: linear-gradient(90deg, var(--hm-accent), transparent);
+  border-radius: 2px;
+  margin: var(--hm-space-xs) 0;
+}
+
+/* Monospace-etikett */
+.hm-mono-tag {
+  font-family: var(--hm-mono);
+  font-size: 0.85em;
+  background: var(--hm-bg-surface);
+  color: var(--hm-accent);
+  padding: 4px 14px;
+  border-radius: var(--hm-radius-sm);
+  border: 1px solid var(--hm-border);
+  letter-spacing: 0.02em;
+}
+
+/* Badge / status-indikator */
+.hm-badge {
+  margin-bottom: var(--hm-space-md);
+}
+
+.hm-status-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--hm-mono);
+  font-size: 18px;
+  letter-spacing: 0.04em;
+  color: var(--hm-text-muted);
+}
+
+.hm-status-dot__pip {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.hm-status-dot--active .hm-status-dot__pip {
+  background: var(--hm-accent);
+  box-shadow: 0 0 8px var(--hm-accent-glow), 0 0 2px var(--hm-accent);
+}
+
+.hm-status-dot--active {
+  color: var(--hm-accent-dim);
+}
+
+.hm-status-dot--info .hm-status-dot__pip {
+  background: var(--hm-info);
+  box-shadow: 0 0 8px rgba(91, 168, 245, 0.2), 0 0 2px var(--hm-info);
+}
+
+.hm-status-dot--info {
+  color: var(--hm-info-dim);
+}
+
+/* Visuelt blokk-panel (brukt i todelt layout) */
+.hm-visual-block {
+  background: var(--hm-bg-surface);
+  border: 1px solid var(--hm-border);
+  border-radius: var(--hm-radius-md);
+  width: 100%;
+  max-width: 760px;
+  overflow: hidden;
+}
+
+.hm-visual-block__header {
+  padding: 18px 28px;
+  border-bottom: 1px solid var(--hm-border);
+  background: var(--hm-bg-elevated);
+}
+
+/* Kodeblokk */
+.hm-code-block {
+  font-family: var(--hm-mono);
+  font-size: 22px;
+  line-height: 1.65;
+  color: var(--hm-text);
+  padding: var(--hm-space-sm) 28px;
+  margin: 0;
+  overflow-x: auto;
+  tab-size: 2;
+}
+
+.hm-code-block--full {
+  background: var(--hm-bg-surface);
+  border: 1px solid var(--hm-border);
+  border-radius: var(--hm-radius-md);
+  padding: var(--hm-space-md);
+  font-size: 24px;
+  margin-top: var(--hm-space-sm);
+  max-height: 720px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--hm-border) transparent;
+}
+
+.hm-code-block--full::-webkit-scrollbar {
+  width: 6px;
+}
+
+.hm-code-block--full::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.hm-code-block--full::-webkit-scrollbar-thumb {
+  background: var(--hm-border);
+  border-radius: 3px;
+}
+
+.hm-code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--hm-space-sm);
+}
+
+/* ---------------------------------------------------------------------------
+ * Grid-overlay (dekorativt)
+ * ------------------------------------------------------------------------- */
+
+.hm-grid-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle, var(--hm-border-subtle) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: 0.5;
+}
+
+/* ---------------------------------------------------------------------------
+ * Utility-klasser — spacing
+ * ------------------------------------------------------------------------- */
+
+.hm-mt-xs  { margin-top: var(--hm-space-xs); }
+.hm-mt-sm  { margin-top: var(--hm-space-sm); }
+.hm-mt-md  { margin-top: var(--hm-space-md); }
+.hm-mt-lg  { margin-top: var(--hm-space-lg); }
+.hm-mt-xl  { margin-top: var(--hm-space-xl); }
+
+.hm-mb-xs  { margin-bottom: var(--hm-space-xs); }
+.hm-mb-sm  { margin-bottom: var(--hm-space-sm); }
+.hm-mb-md  { margin-bottom: var(--hm-space-md); }
+.hm-mb-lg  { margin-bottom: var(--hm-space-lg); }
+
+.hm-px-md  { padding-left: var(--hm-space-md); padding-right: var(--hm-space-md); }
+.hm-py-md  { padding-top: var(--hm-space-md); padding-bottom: var(--hm-space-md); }
+
+/* Utility — tekst */
+.hm-text-muted   { color: var(--hm-text-muted); }
+.hm-text-accent  { color: var(--hm-accent); }
+.hm-text-strong  { color: var(--hm-text-strong); }
+.hm-text-center  { text-align: center; }
