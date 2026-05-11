@@ -28,39 +28,63 @@ const INTERACTIVE_SELECTOR = [
   '[data-deck-interactive]',
 ].join(',');
 
+const FOCUSABLE_SELECTOR = [
+  'a[href]', 'button:not([disabled])',
+  'input:not([disabled])', 'textarea:not([disabled])',
+  'select:not([disabled])',
+  '[tabindex]:not([tabindex="-1"])',
+].join(',');
+
 function isInteractiveTarget(target, boundary) {
   if (!(target instanceof Element)) return false;
   const interactive = target.closest(INTERACTIVE_SELECTOR);
   return Boolean(interactive && interactive !== boundary);
 }
 
+function isShortcutToggle(key, code, plain) {
+  return plain && (key === '?' || (key === '/' && code === 'Slash'));
+}
+
 function toggleFullscreen() {
   const fullscreenTarget = document.documentElement;
 
-  if (!document.fullscreenElement && typeof fullscreenTarget.requestFullscreen !== 'function') {
-    console.warn('deck-stage: fullscreen støttes ikke av denne nettleseren');
-    return;
+  let action;
+
+  if (document.fullscreenElement) {
+    if (typeof document.exitFullscreen !== 'function') {
+      console.warn('deck-stage: fullscreen støttes ikke av denne nettleseren');
+      return;
+    }
+    action = document.exitFullscreen();
+  } else {
+    if (typeof fullscreenTarget.requestFullscreen !== 'function') {
+      console.warn('deck-stage: fullscreen støttes ikke av denne nettleseren');
+      return;
+    }
+    action = fullscreenTarget.requestFullscreen();
   }
 
-  const action = document.fullscreenElement
-    ? document.exitFullscreen()
-    : fullscreenTarget.requestFullscreen();
-
-  action.catch((error) => {
-    console.warn('deck-stage: kunne ikke endre fullscreen-modus', error);
-  });
+  if (action && typeof action.then === 'function') {
+    Promise.resolve(action).catch((error) => {
+      console.warn('deck-stage: kunne ikke endre fullscreen-modus', error);
+    });
+  }
 }
 
 function createShortcutHelp() {
   const overlay = document.createElement('div');
   overlay.className = 'ds-shortcuts';
   overlay.setAttribute('role', 'dialog');
-  overlay.setAttribute('aria-modal', 'false');
-  overlay.setAttribute('aria-label', 'Hurtigtaster');
+  overlay.setAttribute('aria-modal', 'true');
+  overlay.setAttribute('aria-labelledby', 'ds-shortcuts-heading');
+  overlay.setAttribute('tabindex', '-1');
   overlay.hidden = true;
   overlay.innerHTML = `
     <div class="ds-shortcuts__panel">
-      <div class="ds-shortcuts__heading">Hurtigtaster</div>
+      <div class="ds-shortcuts__top">
+        <h2 class="ds-shortcuts__heading" id="ds-shortcuts-heading">Hurtigtaster</h2>
+        <button class="ds-shortcuts__close" type="button">Lukk</button>
+      </div>
       <dl class="ds-shortcuts__list">
         <div><dt>→ ↓ Space PageDown</dt><dd>Neste slide</dd></div>
         <div><dt>← ↑ Backspace PageUp</dt><dd>Forrige slide</dd></div>
@@ -72,10 +96,35 @@ function createShortcutHelp() {
       </dl>
     </div>
   `;
-  overlay.addEventListener('click', () => {
-    overlay.hidden = true;
-  });
   return overlay;
+}
+
+function getFocusableElements(container) {
+  return Array.from(container.querySelectorAll(FOCUSABLE_SELECTOR))
+    .filter((element) => element instanceof HTMLElement && !element.hidden);
+}
+
+function trapFocus(container, event) {
+  const focusable = getFocusableElements(container);
+  if (focusable.length === 0) {
+    event.preventDefault();
+    container.focus();
+    return;
+  }
+
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+    return;
+  }
+
+  if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
 }
 
 /**
@@ -85,12 +134,53 @@ function createShortcutHelp() {
  */
 export function bindKeyboard(viewport, nav) {
   const shortcutHelp = createShortcutHelp();
+  const closeButton = shortcutHelp.querySelector('.ds-shortcuts__close');
+  let returnFocus = null;
   viewport.appendChild(shortcutHelp);
+
+  function openShortcutHelp() {
+    returnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : viewport;
+    shortcutHelp.hidden = false;
+    (closeButton || shortcutHelp).focus();
+  }
+
+  function closeShortcutHelp() {
+    shortcutHelp.hidden = true;
+    const focusTarget = returnFocus && document.contains(returnFocus) ? returnFocus : viewport;
+    returnFocus = null;
+    focusTarget.focus();
+  }
+
+  shortcutHelp.addEventListener('click', (event) => {
+    if (event.target === shortcutHelp) {
+      closeShortcutHelp();
+    }
+  });
+
+  if (closeButton) {
+    closeButton.addEventListener('click', closeShortcutHelp);
+  }
 
   document.addEventListener('keydown', (e) => {
     const key = e.key;
     const code = e.code;
     const plain = !e.ctrlKey && !e.metaKey && !e.altKey;
+
+    if (!shortcutHelp.hidden) {
+      if (key === 'Escape' || isShortcutToggle(key, code, plain)) {
+        e.preventDefault();
+        closeShortcutHelp();
+        return;
+      }
+
+      if (key === 'Tab') {
+        trapFocus(shortcutHelp, e);
+        return;
+      }
+
+      e.preventDefault();
+      return;
+    }
 
     if (!viewport.contains(e.target)) {
       viewport.focus();
@@ -109,9 +199,9 @@ export function bindKeyboard(viewport, nav) {
       return;
     }
 
-    if (key === '?' || (plain && e.shiftKey && code === 'Slash')) {
+    if (isShortcutToggle(key, code, plain)) {
       e.preventDefault();
-      shortcutHelp.hidden = !shortcutHelp.hidden;
+      openShortcutHelp();
       return;
     }
 
@@ -143,10 +233,6 @@ export function bindKeyboard(viewport, nav) {
         break;
 
       case 'Escape':
-        if (!shortcutHelp.hidden) {
-          e.preventDefault();
-          shortcutHelp.hidden = true;
-        }
         break;
     }
   }, { capture: true });

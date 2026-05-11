@@ -59,14 +59,6 @@
   text-transform: uppercase;
 }
 
-.ws-tension {
-  max-width: 820px;
-  color: var(--hm-muted);
-  font-size: clamp(1.25rem, 2vw, 1.8rem);
-  line-height: 1.25;
-  text-align: center;
-}
-
 .ws-premise-map,
 .ws-flow,
 .ws-stat-row,
@@ -892,26 +884,6 @@
 .slide--theme-3 .hm-accent-rule { background: var(--ws-theme-3); }
 .slide--theme-4 .hm-accent-rule { background: var(--ws-theme-4); }
 .slide--theme-5 .hm-accent-rule { background: var(--ws-theme-5); }
-
-.slide--theme-1 .ws-tension { color: var(--ws-theme-1); }
-.slide--theme-2 .ws-tension { color: var(--ws-theme-2); }
-.slide--theme-3 .ws-tension { color: var(--ws-theme-3); }
-.slide--theme-4 .ws-tension { color: var(--ws-theme-4); }
-.slide--theme-5 .ws-tension { color: var(--ws-theme-5); }
-
-/* ---------------------------------------------------------------------------
- * Spenningsfelt-label — brukes under bolktitler
- * ------------------------------------------------------------------------- */
-
-.ws-tension {
-  font-family: var(--hm-mono);
-  font-size: 22px;
-  font-style: italic;
-  letter-spacing: 0.06em;
-  color: var(--hm-text-muted);
-  max-width: 720px;
-  text-align: center;
-}
 
 /* ---------------------------------------------------------------------------
  * Diskusjonskort — løftet visuelt for projektor

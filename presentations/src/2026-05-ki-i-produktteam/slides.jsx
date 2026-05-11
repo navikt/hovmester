@@ -703,7 +703,7 @@ const slides = [
             <p className="hm-overline">Oppsamling i Mural</p>
             <h2 className="hm-heading-xl hm-mt-sm">Takk for diskusjoner og innspill</h2>
             <AccentRule width="220px" align="center" />
-            <a className="ws-final-mural-link hm-mt-md" href="https://app.mural.co/t/navdesign3580/m/navdesign3580/1778494029280/3b43e79d8ab544d95ce5d20f099ddbfc388ddccb" target="_blank" rel="noreferrer">
+            <a className="ws-final-mural-link hm-mt-md" href="https://app.mural.co/t/navdesign3580/m/navdesign3580/1778494029280/3b43e79d8ab544d95ce5d20f099ddbfc388ddccb" target="_blank" rel="noopener noreferrer">
               Åpne Mural
             </a>
             <p className="ws-final-note hm-mt-md">

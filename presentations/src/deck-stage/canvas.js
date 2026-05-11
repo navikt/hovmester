@@ -99,8 +99,13 @@ function injectStyles() {
       cursor: default;
     }
 
-    .ds-viewport:focus {
+    .ds-viewport:focus:not(:focus-visible) {
       outline: none;
+    }
+
+    .ds-viewport:focus-visible .ds-canvas {
+      box-shadow: 0 0 0 4px rgba(232, 164, 74, 0.75),
+                  0 0 0 10px rgba(232, 164, 74, 0.16);
     }
 
     .ds-canvas {
@@ -155,11 +160,38 @@ function injectStyles() {
       color: #f0f0f0;
     }
 
-    .ds-shortcuts__heading {
+    .ds-shortcuts__top {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 24px;
       margin-bottom: 20px;
+    }
+
+    .ds-shortcuts__heading {
       font-size: 30px;
       font-weight: 800;
       letter-spacing: -0.02em;
+    }
+
+    .ds-shortcuts__close {
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      padding: 8px 14px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #f0f0f0;
+      font: inherit;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .ds-shortcuts__close:hover {
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .ds-shortcuts__close:focus-visible {
+      outline: 3px solid rgba(232, 164, 74, 0.9);
+      outline-offset: 3px;
     }
 
     .ds-shortcuts__list {

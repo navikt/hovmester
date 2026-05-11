@@ -1,4 +1,4 @@
-var DeckStage=(()=>{var m=Object.defineProperty;var y=Object.getOwnPropertyDescriptor;var k=Object.getOwnPropertyNames;var E=Object.prototype.hasOwnProperty;var w=(e,n)=>{for(var r in n)m(e,r,{get:n[r],enumerable:!0})},_=(e,n,r,t)=>{if(n&&typeof n=="object"||typeof n=="function")for(let o of k(n))!E.call(e,o)&&o!==r&&m(e,o,{get:()=>n[o],enumerable:!(t=y(n,o))||t.enumerable});return e};var F=e=>_(m({},"__esModule",{value:!0}),e);var L={};w(L,{mount:()=>R});function g(e){let n=document.createElement("div");n.className="ds-viewport",n.setAttribute("aria-roledescription","presentasjon"),n.setAttribute("aria-label","Presentasjon \u2014 bruk piltaster for \xE5 navigere"),n.setAttribute("tabindex","0");let r=document.createElement("div");r.className="ds-canvas";let t=document.createElement("div");t.className="ds-slide",t.setAttribute("role","group"),t.setAttribute("aria-roledescription","slide");let o=document.createElement("div");o.className="ds-counter",o.setAttribute("aria-live","polite"),o.setAttribute("aria-atomic","true"),r.appendChild(t),r.appendChild(o),n.appendChild(r),e.appendChild(n),A();let i=()=>C(n,r);return i(),window.addEventListener("resize",i),requestAnimationFrame(()=>n.focus()),{viewport:n,canvas:r,slideContainer:t,counter:o}}function C(e,n){let r=e.clientWidth,t=e.clientHeight;if(r===0||t===0)return;let o=r/1920,i=t/1080,s=Math.min(o,i);n.style.transform=`scale(${s})`,n.style.transformOrigin="center center"}function A(){if(document.getElementById("ds-base-styles"))return;let e=document.createElement("style");e.id="ds-base-styles",e.textContent=`
+var DeckStage=(()=>{var h=Object.defineProperty;var E=Object.getOwnPropertyDescriptor;var k=Object.getOwnPropertyNames;var _=Object.prototype.hasOwnProperty;var w=(e,t)=>{for(var n in t)h(e,n,{get:t[n],enumerable:!0})},F=(e,t,n,s)=>{if(t&&typeof t=="object"||typeof t=="function")for(let o of k(t))!_.call(e,o)&&o!==n&&h(e,o,{get:()=>t[o],enumerable:!(s=E(t,o))||s.enumerable});return e};var A=e=>F(h({},"__esModule",{value:!0}),e);var I={};w(I,{mount:()=>j});function g(e){let t=document.createElement("div");t.className="ds-viewport",t.setAttribute("aria-roledescription","presentasjon"),t.setAttribute("aria-label","Presentasjon \u2014 bruk piltaster for \xE5 navigere"),t.setAttribute("tabindex","0");let n=document.createElement("div");n.className="ds-canvas";let s=document.createElement("div");s.className="ds-slide",s.setAttribute("role","group"),s.setAttribute("aria-roledescription","slide");let o=document.createElement("div");o.className="ds-counter",o.setAttribute("aria-live","polite"),o.setAttribute("aria-atomic","true"),n.appendChild(s),n.appendChild(o),t.appendChild(n),e.appendChild(t),S();let i=()=>C(t,n);return i(),window.addEventListener("resize",i),requestAnimationFrame(()=>t.focus()),{viewport:t,canvas:n,slideContainer:s,counter:o}}function C(e,t){let n=e.clientWidth,s=e.clientHeight;if(n===0||s===0)return;let o=n/1920,i=s/1080,c=Math.min(o,i);t.style.transform=`scale(${c})`,t.style.transformOrigin="center center"}function S(){if(document.getElementById("ds-base-styles"))return;let e=document.createElement("style");e.id="ds-base-styles",e.textContent=`
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     html, body {
@@ -20,8 +20,13 @@ var DeckStage=(()=>{var m=Object.defineProperty;var y=Object.getOwnPropertyDescr
       cursor: default;
     }
 
-    .ds-viewport:focus {
+    .ds-viewport:focus:not(:focus-visible) {
       outline: none;
+    }
+
+    .ds-viewport:focus-visible .ds-canvas {
+      box-shadow: 0 0 0 4px rgba(232, 164, 74, 0.75),
+                  0 0 0 10px rgba(232, 164, 74, 0.16);
     }
 
     .ds-canvas {
@@ -76,11 +81,38 @@ var DeckStage=(()=>{var m=Object.defineProperty;var y=Object.getOwnPropertyDescr
       color: #f0f0f0;
     }
 
-    .ds-shortcuts__heading {
+    .ds-shortcuts__top {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 24px;
       margin-bottom: 20px;
+    }
+
+    .ds-shortcuts__heading {
       font-size: 30px;
       font-weight: 800;
       letter-spacing: -0.02em;
+    }
+
+    .ds-shortcuts__close {
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      padding: 8px 14px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #f0f0f0;
+      font: inherit;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .ds-shortcuts__close:hover {
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .ds-shortcuts__close:focus-visible {
+      outline: 3px solid rgba(232, 164, 74, 0.9);
+      outline-offset: 3px;
     }
 
     .ds-shortcuts__list {
@@ -144,11 +176,14 @@ var DeckStage=(()=>{var m=Object.defineProperty;var y=Object.getOwnPropertyDescr
       .ds-canvas { transform: none !important; page-break-after: always; }
       .ds-counter { display: none; }
     }
-  `,document.head.appendChild(e)}function b(e,n,r){let t=-1;function o(d){if(d<0||d>=e.length||d===t)return;t=d;let c=e[d];history.replaceState(null,"",`#${c.id}`),r.textContent=`${d+1} / ${e.length}`,n.setAttribute("aria-label",`Slide ${d+1} av ${e.length}: ${c.id}`),n.innerHTML="";try{c.render(n)}catch(f){T(n,c.id,f)}}function i(){t<e.length-1&&o(t+1)}function s(){t>0&&o(t-1)}function a(){o(0)}function l(){o(e.length-1)}function u(){t=-1,o(0)}function p(){return t}return window.addEventListener("hashchange",()=>{let d=location.hash.slice(1),c=e.findIndex(f=>f.id===d);c>=0&&c!==t&&o(c)}),{next:i,prev:s,goTo:o,first:a,last:l,reset:u,current:p}}function T(e,n,r){e.innerHTML="";let t=document.createElement("div");t.className="ds-error";let o=document.createElement("h2");o.textContent=`Feil i slide \xAB${n}\xBB`;let i=document.createElement("pre"),s=r.message||String(r),a=r.stack||"";i.textContent=a?`${s}
+  `,document.head.appendChild(e)}function b(e,t,n){let s=-1;function o(l){if(l<0||l>=e.length||l===s)return;s=l;let f=e[l];history.replaceState(null,"",`#${f.id}`),n.textContent=`${l+1} / ${e.length}`,t.setAttribute("aria-label",`Slide ${l+1} av ${e.length}: ${f.id}`),t.innerHTML="";try{f.render(t)}catch(p){T(t,f.id,p)}}function i(){s<e.length-1&&o(s+1)}function c(){s>0&&o(s-1)}function r(){o(0)}function a(){o(e.length-1)}function d(){s=-1,o(0)}function u(){return s}return window.addEventListener("hashchange",()=>{let l=location.hash.slice(1),f=e.findIndex(p=>p.id===l);f>=0&&f!==s&&o(f)}),{next:i,prev:c,goTo:o,first:r,last:a,reset:d,current:u}}function T(e,t,n){e.innerHTML="";let s=document.createElement("div");s.className="ds-error";let o=document.createElement("h2");o.textContent=`Feil i slide \xAB${t}\xBB`;let i=document.createElement("pre"),c=n.message||String(n),r=n.stack||"";i.textContent=r?`${c}
 
-${a}`:s,t.appendChild(o),t.appendChild(i),e.appendChild(t),console.error(`[deck-stage] Feil i slide \xAB${n}\xBB:`,r)}var H=["a","button","input","textarea","select","summary","details","label","iframe","video[controls]","audio[controls]",'[contenteditable]:not([contenteditable="false"])','[tabindex]:not([tabindex="-1"])','[role="button"]','[role="link"]','[role="menuitem"]','[role="checkbox"]','[role="radio"]','[role="switch"]','[role="tab"]',"[data-deck-interactive]"].join(",");function h(e,n){if(!(e instanceof Element))return!1;let r=e.closest(H);return!!(r&&r!==n)}function S(){let e=document.documentElement;if(!document.fullscreenElement&&typeof e.requestFullscreen!="function"){console.warn("deck-stage: fullscreen st\xF8ttes ikke av denne nettleseren");return}(document.fullscreenElement?document.exitFullscreen():e.requestFullscreen()).catch(r=>{console.warn("deck-stage: kunne ikke endre fullscreen-modus",r)})}function M(){let e=document.createElement("div");return e.className="ds-shortcuts",e.setAttribute("role","dialog"),e.setAttribute("aria-modal","false"),e.setAttribute("aria-label","Hurtigtaster"),e.hidden=!0,e.innerHTML=`
+${r}`:c,s.appendChild(o),s.appendChild(i),e.appendChild(s),console.error(`[deck-stage] Feil i slide \xAB${t}\xBB:`,n)}var L=["a","button","input","textarea","select","summary","details","label","iframe","video[controls]","audio[controls]",'[contenteditable]:not([contenteditable="false"])','[tabindex]:not([tabindex="-1"])','[role="button"]','[role="link"]','[role="menuitem"]','[role="checkbox"]','[role="radio"]','[role="switch"]','[role="tab"]',"[data-deck-interactive]"].join(","),H=["a[href]","button:not([disabled])","input:not([disabled])","textarea:not([disabled])","select:not([disabled])",'[tabindex]:not([tabindex="-1"])'].join(",");function m(e,t){if(!(e instanceof Element))return!1;let n=e.closest(L);return!!(n&&n!==t)}function v(e,t,n){return n&&(e==="?"||e==="/"&&t==="Slash")}function D(){let e=document.documentElement,t;if(document.fullscreenElement){if(typeof document.exitFullscreen!="function"){console.warn("deck-stage: fullscreen st\xF8ttes ikke av denne nettleseren");return}t=document.exitFullscreen()}else{if(typeof e.requestFullscreen!="function"){console.warn("deck-stage: fullscreen st\xF8ttes ikke av denne nettleseren");return}t=e.requestFullscreen()}t&&typeof t.then=="function"&&Promise.resolve(t).catch(n=>{console.warn("deck-stage: kunne ikke endre fullscreen-modus",n)})}function M(){let e=document.createElement("div");return e.className="ds-shortcuts",e.setAttribute("role","dialog"),e.setAttribute("aria-modal","true"),e.setAttribute("aria-labelledby","ds-shortcuts-heading"),e.setAttribute("tabindex","-1"),e.hidden=!0,e.innerHTML=`
     <div class="ds-shortcuts__panel">
-      <div class="ds-shortcuts__heading">Hurtigtaster</div>
+      <div class="ds-shortcuts__top">
+        <h2 class="ds-shortcuts__heading" id="ds-shortcuts-heading">Hurtigtaster</h2>
+        <button class="ds-shortcuts__close" type="button">Lukk</button>
+      </div>
       <dl class="ds-shortcuts__list">
         <div><dt>\u2192 \u2193 Space PageDown</dt><dd>Neste slide</dd></div>
         <div><dt>\u2190 \u2191 Backspace PageUp</dt><dd>Forrige slide</dd></div>
@@ -159,4 +194,4 @@ ${a}`:s,t.appendChild(o),t.appendChild(i),e.appendChild(t),console.error(`[deck-
         <div><dt>Esc</dt><dd>Lukk hjelpen</dd></div>
       </dl>
     </div>
-  `,e.addEventListener("click",()=>{e.hidden=!0}),e}function v(e,n){let r=M();e.appendChild(r),document.addEventListener("keydown",t=>{let o=t.key,i=t.code,s=!t.ctrlKey&&!t.metaKey&&!t.altKey;if(e.contains(t.target)||e.focus(),!h(t.target,e)){if(s&&(o==="r"||o==="R"||i==="KeyR")){t.preventDefault(),n.reset();return}if(s&&(o==="f"||o==="F"||i==="KeyF")){t.preventDefault(),S();return}if(o==="?"||s&&t.shiftKey&&i==="Slash"){t.preventDefault(),r.hidden=!r.hidden;return}switch(o){case"ArrowRight":case"ArrowDown":case" ":case"PageDown":t.preventDefault(),n.next();break;case"ArrowLeft":case"ArrowUp":case"Backspace":case"PageUp":t.preventDefault(),n.prev();break;case"Home":t.preventDefault(),n.first();break;case"End":t.preventDefault(),n.last();break;case"Escape":r.hidden||(t.preventDefault(),r.hidden=!0);break}}},{capture:!0})}function x(e,n){let r=null,t=50;e.addEventListener("touchstart",o=>{h(o.target,e)||(r=o.touches[0].clientX)},{passive:!0}),e.addEventListener("touchend",o=>{if(r===null)return;if(h(o.target,e)){r=null;return}let i=o.changedTouches[0].clientX-r;r=null,!(Math.abs(i)<t)&&(i<0?n.next():n.prev())},{passive:!0})}function R({slides:e,root:n}){if(!e||!Array.isArray(e)||e.length===0)throw new Error("deck-stage: slides m\xE5 v\xE6re et ikke-tomt array med { id, render }.");let r=n||document.body,{viewport:t,canvas:o,slideContainer:i,counter:s}=g(r),a=b(e,i,s);v(t,a),x(t,a);let l=location.hash?location.hash.slice(1):null;if(l){let u=e.findIndex(p=>p.id===l);u>=0?a.goTo(u):a.goTo(0)}else a.goTo(0)}return F(L);})();
+  `,e}function R(e){return Array.from(e.querySelectorAll(H)).filter(t=>t instanceof HTMLElement&&!t.hidden)}function $(e,t){let n=R(e);if(n.length===0){t.preventDefault(),e.focus();return}let s=n[0],o=n[n.length-1];if(t.shiftKey&&document.activeElement===s){t.preventDefault(),o.focus();return}!t.shiftKey&&document.activeElement===o&&(t.preventDefault(),s.focus())}function x(e,t){let n=M(),s=n.querySelector(".ds-shortcuts__close"),o=null;e.appendChild(n);function i(){o=document.activeElement instanceof HTMLElement?document.activeElement:e,n.hidden=!1,(s||n).focus()}function c(){n.hidden=!0;let r=o&&document.contains(o)?o:e;o=null,r.focus()}n.addEventListener("click",r=>{r.target===n&&c()}),s&&s.addEventListener("click",c),document.addEventListener("keydown",r=>{let a=r.key,d=r.code,u=!r.ctrlKey&&!r.metaKey&&!r.altKey;if(!n.hidden){if(a==="Escape"||v(a,d,u)){r.preventDefault(),c();return}if(a==="Tab"){$(n,r);return}r.preventDefault();return}if(e.contains(r.target)||e.focus(),!m(r.target,e)){if(u&&(a==="r"||a==="R"||d==="KeyR")){r.preventDefault(),t.reset();return}if(u&&(a==="f"||a==="F"||d==="KeyF")){r.preventDefault(),D();return}if(v(a,d,u)){r.preventDefault(),i();return}switch(a){case"ArrowRight":case"ArrowDown":case" ":case"PageDown":r.preventDefault(),t.next();break;case"ArrowLeft":case"ArrowUp":case"Backspace":case"PageUp":r.preventDefault(),t.prev();break;case"Home":r.preventDefault(),t.first();break;case"End":r.preventDefault(),t.last();break;case"Escape":break}}},{capture:!0})}function y(e,t){let n=null,s=50;e.addEventListener("touchstart",o=>{m(o.target,e)||(n=o.touches[0].clientX)},{passive:!0}),e.addEventListener("touchend",o=>{if(n===null)return;if(m(o.target,e)){n=null;return}let i=o.changedTouches[0].clientX-n;n=null,!(Math.abs(i)<s)&&(i<0?t.next():t.prev())},{passive:!0})}function j({slides:e,root:t}){if(!e||!Array.isArray(e)||e.length===0)throw new Error("deck-stage: slides m\xE5 v\xE6re et ikke-tomt array med { id, render }.");let n=t||document.body,{viewport:s,canvas:o,slideContainer:i,counter:c}=g(n),r=b(e,i,c);x(s,r),y(s,r);let a=location.hash?location.hash.slice(1):null;if(a){let d=e.findIndex(u=>u.id===a);d>=0?r.goTo(d):r.goTo(0)}else r.goTo(0)}return A(I);})();
