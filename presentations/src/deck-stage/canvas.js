@@ -18,8 +18,8 @@ export function createCanvas(container) {
   viewport.className = 'ds-viewport';
   viewport.setAttribute('aria-roledescription', 'presentasjon');
   viewport.setAttribute('aria-label', 'Presentasjon — bruk piltaster for å navigere');
-  // Gjør viewport fokusérbar så tastaturhendelser kan bindes hit
-  // i stedet for globalt på document.
+  // Beholder viewport fokusérbar for presentasjonssemantikk.
+  // Tastaturhendelser håndteres globalt i input-modulen.
   viewport.setAttribute('tabindex', '0');
 
   // Canvas — fast 1920×1080, skaleres via transform
@@ -99,9 +99,13 @@ function injectStyles() {
       cursor: default;
     }
 
-    .ds-viewport:focus-visible {
-      outline: 3px solid #99c9ff;
-      outline-offset: -6px;
+    .ds-viewport:focus:not(:focus-visible) {
+      outline: none;
+    }
+
+    .ds-viewport:focus-visible .ds-canvas {
+      box-shadow: 0 0 0 4px rgba(232, 164, 74, 0.75),
+                  0 0 0 10px rgba(232, 164, 74, 0.16);
     }
 
     .ds-canvas {
@@ -128,6 +132,93 @@ function injectStyles() {
       pointer-events: none;
       font-family: "IBM Plex Mono", "SF Mono", Consolas, monospace;
       letter-spacing: 0.04em;
+    }
+
+    .ds-shortcuts[hidden] {
+      display: none;
+    }
+
+    .ds-shortcuts {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px;
+      background: rgba(0, 0, 0, 0.58);
+      backdrop-filter: blur(8px);
+    }
+
+    .ds-shortcuts__panel {
+      width: min(760px, 100%);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 24px;
+      padding: 32px;
+      background: rgba(12, 12, 16, 0.96);
+      box-shadow: 0 32px 120px rgba(0, 0, 0, 0.55);
+      color: #f0f0f0;
+    }
+
+    .ds-shortcuts__top {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 20px;
+    }
+
+    .ds-shortcuts__heading {
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .ds-shortcuts__close {
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      padding: 8px 14px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #f0f0f0;
+      font: inherit;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .ds-shortcuts__close:hover {
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .ds-shortcuts__close:focus-visible {
+      outline: 3px solid rgba(232, 164, 74, 0.9);
+      outline-offset: 3px;
+    }
+
+    .ds-shortcuts__list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+    }
+
+    .ds-shortcuts__list > div {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 20px;
+      align-items: baseline;
+      padding: 10px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.09);
+    }
+
+    .ds-shortcuts__list dt {
+      font-family: "IBM Plex Mono", "SF Mono", Consolas, monospace;
+      font-size: 18px;
+      color: #82f0ff;
+    }
+
+    .ds-shortcuts__list dd {
+      margin: 0;
+      font-size: 18px;
+      color: rgba(240, 240, 240, 0.78);
     }
 
     .ds-error {

@@ -13,7 +13,8 @@
  *     - Piltaster: → / ↓ / Space / PageDown = neste, ← / ↑ / Backspace / PageUp = forrige
  *     - Home = første slide, End = siste slide
  *     - R = reset til første slide
- *     - Touch/click: høyre halvdel = neste, venstre halvdel = forrige
+ *     - F = fullscreen av/på, ? = hurtigtaster
+ *     - Touch: swipe venstre/høyre for navigasjon. Museklikk navigerer ikke.
  *     - Slide-posisjon lagres i URL-hash (#slide-id) for direktelenking og refresh.
  *
  *   Skalering:
