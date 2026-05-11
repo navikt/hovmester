@@ -8,5 +8,15 @@
     "path": "2026-04-16-fagtorsdag/html/",
     "status": "published",
     "tags": ["hovmester", "copilot", "agents"]
+  },
+  {
+    "title": "Bærekraftig KI i produktteam",
+    "description": "Workshop: eierskap, kvalitet, kompetanse, samarbeid og grenser når KI blir en del av teamarbeidet.",
+    "event": "Workshop",
+    "date": "2026-05",
+    "engine": "deck-stage",
+    "path": "2026-05-ki-i-produktteam/",
+    "status": "published",
+    "tags": ["ki", "team", "workshop", "bærekraft"]
   }
 ]

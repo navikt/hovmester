@@ -39,7 +39,7 @@ npm install
 npm run build
 ```
 
-Bygger DeckStage-runtime til `_shared/deck-stage.js` og template-slides til `_template/slides.js`.
+Bygger DeckStage-runtime, slides og oppdaterer cache-busting på lokale script-referanser.
 
 ### Kjør lokalt
 
@@ -125,11 +125,13 @@ Runtime gir en fast **16:9 canvas** (1920 × 1080 referansepunkter) som skaleres
 
 | Handling                 | Taster / interaksjon                            |
 |--------------------------|-------------------------------------------------|
-| Neste slide              | → ↓ Space PageDown, klikk/tap høyre halvdel     |
-| Forrige slide            | ← ↑ Backspace PageUp, klikk/tap venstre halvdel |
+| Neste slide              | → ↓ Space PageDown, swipe venstre               |
+| Forrige slide            | ← ↑ Backspace PageUp, swipe høyre               |
 | Første slide             | Home                                            |
 | Siste slide              | End                                             |
 | Reset                    | R                                               |
+| Fullscreen               | F                                               |
+| Hurtigtaster             | ?                                               |
 
 ### Andre funksjoner
 
@@ -142,6 +144,7 @@ Runtime gir en fast **16:9 canvas** (1920 × 1080 referansepunkter) som skaleres
 Workflowen `.github/workflows/pages.yml` deployer hele `presentations/`-katalogen til GitHub Pages **kun fra `main`-branchen**.
 
 - **Rot** → forsiden (`index.html` med kortoversikt over alle decks)
+- **`/2026-05-ki-i-produktteam/`** → workshop om bærekraftig KI i produktteam
 - **`/2026-04-16-fagtorsdag/html/`** → legacy Reveal.js-deck
 - **`/_template/`** → template-decken (tilgjengelig som referanse)
 
