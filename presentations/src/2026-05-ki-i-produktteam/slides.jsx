@@ -43,7 +43,7 @@ function SectionIntro({ num, title, subtitle, theme }) {
   );
 }
 
-function DiscussCard({ question, kicker = 'Diskusjon', time = '15–25 min diskusjon' }) {
+function DiscussCard({ question, kicker = 'Diskusjon', time = '3 min egne lapper · resten diskusjon' }) {
   return (
     <div className="ws-discuss-card">
       <div className="ws-discuss-card__kicker">{kicker}</div>
@@ -340,7 +340,7 @@ const slides = [
         <div className="slide slide--section slide--theme-1">
           <GridOverlay />
           <div className="slide__content slide__content--centered">
-            <DiscussCard question="Hvordan beholder vi eierskap til produktet når KI gjør mer av arbeidet?" />
+            <DiscussCard question="Hvordan tar vi ansvar for produktet når KI gjør mer av arbeidet?" />
           </div>
         </div>
       );
@@ -446,7 +446,7 @@ const slides = [
         <div className="slide slide--section slide--theme-2">
           <GridOverlay />
           <div className="slide__content slide__content--centered">
-            <DiscussCard question="Hva må vi gjøre ekstra for å sikre kvalitet når KI bidrar i produkter som påvirker folks rettigheter, økonomi eller oppfølging?" />
+            <DiscussCard question="Hvordan sikrer vi kvalitet når KI bidrar i tjenester som påvirker folks hverdag?" />
           </div>
         </div>
       );
@@ -525,7 +525,7 @@ const slides = [
         <div className="slide slide--section slide--theme-3">
           <GridOverlay />
           <div className="slide__content slide__content--centered">
-            <DiscussCard question="Hvordan bruker vi KI så juniorer bygger kompetanse, og seniorer beholder faglig dømmekraft?" />
+            <DiscussCard question="Hvordan bruker vi KI på en måte som bygger kompetanse i teamet?" />
           </div>
         </div>
       );
@@ -620,7 +620,7 @@ const slides = [
         <div className="slide slide--section slide--theme-4">
           <GridOverlay />
           <div className="slide__content slide__content--centered">
-            <DiscussCard question="Hvordan samarbeider vi godt når rollene i produktteamet bruker KI ulikt?" />
+            <DiscussCard question="Hvordan samarbeider vi godt når KI endrer måten vi jobber på?" />
           </div>
         </div>
       );
@@ -671,20 +671,20 @@ const slides = [
         <div className="slide slide--content slide--theme-5">
           <div className="slide__content slide__content--padded">
             <p className="hm-overline">Øvelse · diskusjon</p>
-            <h2 className="hm-heading-md hm-mb-sm">Hva bør være kjørereglene for KI-bruk i produktteam?</h2>
+            <h2 className="hm-heading-md hm-mb-sm">Hvordan bør vi bruke KI på en måte som hjelper oss å jobbe bedre sammen som team?</h2>
             <AccentRule width="90px" />
-            <div className="ws-traffic-grid hm-mt-md">
-              <div className="ws-traffic-card ws-traffic-card--green">
-                <h3>Grønt</h3>
-                <p>Hva kan vi bruke KI til helt fritt, uten begrensninger? For eksempel prototyping.</p>
+            <div className="ws-team-practice-grid hm-mt-md">
+              <div className="ws-team-practice-card">
+                <h3>Hva vil vi bruke KI til mer aktivt?</h3>
+                <p>Når kan KI hjelpe oss å utforske, lage utkast eller teste ideer?</p>
               </div>
-              <div className="ws-traffic-card ws-traffic-card--yellow">
-                <h3>Gult</h3>
-                <p>Hva kan vi bruke KI til, men bare med ekstra kontroll eller felles vurdering?</p>
+              <div className="ws-team-practice-card">
+                <h3>Hvilke oppgaver bør vi gjøre sammen?</h3>
+                <p>Når bør flere roller se, forstå og gå god for KI-bidraget?</p>
               </div>
-              <div className="ws-traffic-card ws-traffic-card--red">
-                <h3>Rødt</h3>
-                <p>Hvordan bør vi ikke bruke KI?</p>
+              <div className="ws-team-practice-card">
+                <h3>Hvor må vi være ekstra varsomme?</h3>
+                <p>Når kan KI-bruk skape risiko for brukere, faglighet eller tillit?</p>
               </div>
             </div>
           </div>
