@@ -620,7 +620,7 @@ const slides = [
         <div className="slide slide--section slide--theme-4">
           <GridOverlay />
           <div className="slide__content slide__content--centered">
-            <DiscussCard question="Hvordan samarbeider vi godt når KI endrer måten vi jobber på?" />
+            <DiscussCard question="Hvordan påvirker KI samarbeidet mellom ulike roller i produktteamet?" />
           </div>
         </div>
       );
