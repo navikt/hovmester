@@ -66,6 +66,7 @@
 .ws-impact-grid,
 .ws-topic-list,
 .ws-chip-grid,
+.ws-team-practice-grid,
 .ws-traffic-grid {
   width: 100%;
 }
@@ -804,6 +805,37 @@
   background: #ff6b6b;
 }
 
+.ws-team-practice-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.1rem;
+}
+
+.ws-team-practice-card {
+  min-height: 290px;
+  border: 1px solid rgba(232, 164, 74, 0.22);
+  border-radius: 30px;
+  padding: 2rem;
+  background:
+    linear-gradient(160deg, rgba(232, 164, 74, 0.12), rgba(255, 255, 255, 0.035)),
+    rgba(255, 255, 255, 0.04);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.22);
+}
+
+.ws-team-practice-card h3 {
+  margin: 0 0 1rem;
+  color: var(--hm-text-strong);
+  font-size: clamp(1.5rem, 2.4vw, 2.25rem);
+  letter-spacing: -0.03em;
+}
+
+.ws-team-practice-card p {
+  margin: 0;
+  color: var(--hm-muted);
+  font-size: clamp(1.05rem, 1.4vw, 1.35rem);
+  line-height: 1.45;
+}
+
 .ws-mural-wall {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -839,6 +871,7 @@
   .ws-scale,
   .ws-learning-card,
   .ws-amplifier,
+  .ws-team-practice-grid,
   .ws-traffic-grid,
   .ws-mural-wall {
     grid-template-columns: 1fr;
