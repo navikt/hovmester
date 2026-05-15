@@ -187,7 +187,7 @@ Når du kopierer malene til consumer-repoet under `.github/workflows/`, må du m
 
 Token-skillet er bevisst:
 
-- `GITHUB_TOKEN` brukes til re-verifisering via GitHub API og approval, ikke til auto-merge/merge queue, og eksempelet gir det `contents: read` og `pull-requests: write`
+- `GITHUB_TOKEN` brukes til re-verifisering via GitHub API og approval, ikke til auto-merge/merge queue, og referansemalen snevrer det inn til `pull-requests: write` i automerge-jobben
 - GitHub App-tokenet brukes til auto-merge/merge queue og App-installasjonen trenger minst `contents: write` og `pull-requests: write`
 - `actions/create-github-app-token` støtter permission-inputs, så referansemalen snevrer App-tokenet inn til bare disse rettighetene
 
