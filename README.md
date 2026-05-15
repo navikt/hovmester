@@ -104,23 +104,24 @@ Hvis `github_project` er satt, auto-linkes nye issues til det prosjektet. Hvis i
 
 Auto-merge er valgfritt. Hvis du bare vil ha sync-PRer og merge manuelt, kan du stoppe etter **Kom i gang**.
 
-Hvis du vil auto-merg'e sync-PRene, trenger du tre ting:
+Hvis du vil auto-merg'e sync-PRene, trenger du fire ting:
 
 1. En GitHub App som oppretter PRen
 2. En verify-workflow i consumer-repoet
-3. Branch protection som krever verify-jobben
+3. En egen automerge-workflow i consumer-repoet
+4. Branch protection som krever verify-jobben
 
 | Ønske | Det du trenger |
 |---|---|
 | Manuell merge | Kun `hovmester-sync.yml` |
 | Manuell merge + vanlig CI på sync-PRer | `hovmester-sync.yml` + GitHub App |
-| Auto-merge | `hovmester-sync.yml` + GitHub App + `hovmester-verify.yml` |
+| Auto-merge | `hovmester-sync.yml` + GitHub App + `hovmester-verify.yml` + `hovmester-automerge.yml` |
 
 **Steg 1 — Opprett GitHub App**
 
 Opprett en [GitHub App](https://docs.github.com/en/apps/creating-github-apps) og installer den i consumer-repoet.
 
-Appen trenger:
+App-installasjonen trenger minst:
 
 - **Contents: Read & write**
 - **Pull requests: Read & write**
@@ -129,7 +130,7 @@ Lagre deretter:
 
 - Private key som secret: `HOVMESTER_APP_PRIVATE_KEY`
 - App ID — du bruker den direkte i sync-workflowen (`pr_app_id: "123456"`)
-- Bot-login — du bruker den i verify-workflowen (f.eks. `my-sync-app[bot]`)
+- Bot-login — du bruker den i verify- og automerge-workflowene (f.eks. `my-sync-app[bot]`)
 
 Repoet må også ha dette slått på:
 
@@ -158,153 +159,68 @@ jobs:
 Da opprettes sync-PRen av Appen i stedet for `github-actions[bot]`. Det gjør to ting:
 
 - vanlige `pull_request`-checks og CI trigges som normalt
-- verify-workflowen kan godkjenne PRen med `GITHUB_TOKEN` uten self-approval-konflikt
+- automerge-workflowen kan godkjenne PRen med `GITHUB_TOKEN` uten self-approval-konflikt
 
 Hvis du bare trenger at CI skal trigges på sync-PRer, kan du stoppe her og merge manuelt.
 
-**Steg 3 — Legg til verify-workflow**
+**Steg 3 — Kopier referansemalene**
 
-Legg til `.github/workflows/hovmester-verify.yml` i consumer-repoet:
+Bruk repoets referansemaler som startpunkt:
 
-<details>
-<summary>Vis workflow</summary>
+- [`templates/hovmester-automerge/hovmester-verify.yml`](templates/hovmester-automerge/hovmester-verify.yml)
+- [`templates/hovmester-automerge/hovmester-automerge.yml`](templates/hovmester-automerge/hovmester-automerge.yml)
+- [`templates/hovmester-automerge/README.md`](templates/hovmester-automerge/README.md)
 
-```yaml
-name: Verify and merge hovmester sync
+Disse filene er den kanoniske YAML-referansen for verify/automerge-mønsteret. De ligger bevisst utenfor `dist/`, blir ikke distribuert av sync-scriptet, og er ment som manuell rollout-støtte når du skal legge workflowene inn i et consumer-repo.
 
-on:
-  pull_request_target:
-    types: [opened, synchronize, reopened]
-  merge_group:
+Når du kopierer malene til consumer-repoet under `.github/workflows/`, må du minst bytte ut disse plassholderne:
 
-jobs:
-  verify-hovmester-sync:
-    if: github.event_name == 'merge_group' || (github.head_ref == 'hovmester-sync' && github.event.pull_request.head.repo.full_name == github.repository)
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    permissions:
-      contents: read
-      pull-requests: write
-    steps:
-      - name: Verify file scope
-        env:
-          GH_TOKEN: ${{ github.token }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          HEAD_REF: ${{ github.head_ref }}
-          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
-          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
-          EXPECTED_PR_AUTHOR: "my-sync-app[bot]"  # din GitHub Apps bot-login
-          REPO: ${{ github.repository }}
-        run: |
-          set -euo pipefail
+- `__EXPECTED_PR_AUTHOR__` — GitHub App-botens login, for eksempel `my-sync-app[bot]`
+- `__APP_ID__` — GitHub App-ID-en som brukes for hovmester-sync
+- `__APP_PRIVATE_KEY_SECRET__` — secret-navnet som inneholder App private key
 
-          if [[ "$GITHUB_EVENT_NAME" == "merge_group" ]]; then
-            echo "✅ Merge queue — verification already completed on pull_request_target"
-            exit 0
-          fi
+`hovmester-verify.yml` er read-only: `contents: read`, `pull-requests: read`, ingen secrets og ingen write-token. Behold job-navnet `verify-hovmester-sync` uendret. Det er check-navnet branch protection og merge queue skal peke på. Workflowen skal alltid rapportere denne checken når den trigges: grønn no-op på vanlige PRer og `merge_group`, og faktisk verifisering bare for same-repo `hovmester-sync`-PRer.
 
-          if [[ "$HEAD_REF" != "hovmester-sync" ]] || [[ "$HEAD_REPO" != "$REPO" ]]; then
-            echo "Not a hovmester sync PR — skipping"
-            exit 0
-          fi
+**Steg 4 — Behold sikkerhetsmodellen i automerge-workflowen**
 
-          if [[ -z "$EXPECTED_PR_AUTHOR" ]]; then
-            echo "::error::HOVMESTER_APP_BOT_LOGIN must be set"
-            exit 1
-          fi
+`workflow_run` bruker workflow-fila fra default branch og kjører aldri PR-kode. Likevel må denne workflowen alltid re-verifisere fail closed via GitHub API før approval og auto-merge, fordi verify-workflowen på `pull_request` kan bruke workflow-definisjonen fra PR-branchen.
 
-          if [[ "$PR_AUTHOR" != "$EXPECTED_PR_AUTHOR" ]]; then
-            echo "::error::Unexpected PR author: $PR_AUTHOR"
-            echo "Expected PR author: $EXPECTED_PR_AUTHOR"
-            exit 1
-          fi
+Token-skillet er bevisst:
 
-          FILES=$(gh api "repos/${REPO}/pulls/${PR_NUMBER}/files" \
-            --paginate --jq '.[] | .filename, (.previous_filename // empty)')
+- `GITHUB_TOKEN` brukes til re-verifisering via GitHub API og approval, ikke til auto-merge/merge queue, og referansemalen snevrer det inn til `pull-requests: write` i automerge-jobben
+- GitHub App-tokenet brukes til auto-merge/merge queue og App-installasjonen trenger minst `contents: write` og `pull-requests: write`
+- `actions/create-github-app-token` støtter permission-inputs, så referansemalen snevrer App-tokenet inn til bare disse rettighetene
 
-          if [ -z "$FILES" ]; then
-            echo "::error::No files found from pull request files API; failing closed"
-            exit 1
-          fi
+**Steg 5 — Sett branch protection og merge queue**
 
-          echo "Changed files:"
-          echo "$FILES"
+- Sett `verify-hovmester-sync` som required status check på default branch. Checken rapporterer grønt/no-op for vanlige PRer og `merge_group`, og verifiserer bare same-repo `hovmester-sync`-PRer.
+- Behold repoets øvrige vanlige required checks for vanlige PRer, for eksempel CI-, test- og security-checks. `verify-hovmester-sync` er et tillegg for hovmester-sync, ikke en erstatning for annen branch protection
+- Ikke sett automerge-workflowen som required check
+- Hvis repoet bruker merge queue, må både `verify-hovmester-sync` og andre required checks støtte `merge_group`
+- Første gang: merge `hovmester-verify.yml` og `hovmester-automerge.yml` til default branch før du aktiverer branch protection
 
-          while IFS= read -r file; do
-            [[ -z "$file" ]] && continue
-            case "$file" in
-              .github/agents/*|\
-              .github/instructions/*|\
-              .github/skills/*|\
-              .github/ISSUE_TEMPLATE/*|\
-              .github/PULL_REQUEST_TEMPLATE.md|\
-              .github/.hovmester-manifest.json)
-                ;;
-              *)
-                echo "::error::File outside sync scope: $file"
-                echo "Only hovmester-managed paths are allowed in sync PRs"
-                exit 1
-                ;;
-            esac
-          done <<< "$FILES"
-
-          echo "✅ All files within hovmester sync scope"
-
-      - name: Create GitHub App token for merge
-        id: app-token
-        if: github.head_ref == 'hovmester-sync' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.user.login == 'my-sync-app[bot]'
-        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3.0.0
-        with:
-          app-id: "123456"
-          private-key: ${{ secrets.HOVMESTER_APP_PRIVATE_KEY }}
-
-      - name: Approve sync PR
-        if: github.head_ref == 'hovmester-sync' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.user.login == 'my-sync-app[bot]'
-        env:
-          GH_TOKEN: ${{ github.token }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          REPO: ${{ github.repository }}
-        run: |
-          gh pr review "$PR_NUMBER" --repo "$REPO" --approve --body "Auto-approved: file scope verified ✅"
-
-      - name: Enable auto-merge
-        if: github.head_ref == 'hovmester-sync' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.user.login == 'my-sync-app[bot]'
-        env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          REPO: ${{ github.repository }}
-        run: |
-          gh pr merge "$PR_NUMBER" --repo "$REPO" --auto --squash
-```
-
-</details>
-
-> `pull_request_target` er trygt her fordi workflowen aldri sjekker ut PR-branchen. Den leser bare filstier via GitHub API og bruker repoets egne workflow-fil fra default branch.
->
-> `merge_group`-triggeren er en no-op som lar merge queue passere — verifiseringen skjer allerede på `pull_request_target`. Uten denne vil `verify-hovmester-sync` blokkere merge queue med "Expected — Waiting for status".
->
-> Approve-steget bruker fortsatt `GITHUB_TOKEN`, men merge-steget bruker et GitHub App-token fra `HOVMESTER_APP_PRIVATE_KEY`. Det gjør at `gh pr merge --auto --squash` kan legge PRen i merge queue uten å bli stoppet av GitHub sin anti-rekursjon for `GITHUB_TOKEN`-utløste workflow-runs.
-
-**Steg 4 — Sett branch protection**
-
-Sett `verify-hovmester-sync` som required status check på default branch. Hvis dere krever approvals for å merge, må bot-approval telle for disse PRene.
-
-Første gang: merge `hovmester-verify.yml` til default branch før du aktiverer branch protection, ellers får du en chicken-and-egg-situasjon.
-
-Det er hele oppsettet. Når hovmester lager en sync-PR:
+Når hovmester lager en sync-PR:
 
 1. PRen opprettes av GitHub Appen
-2. Verify-workflowen sjekker at kun hovmester-eide stier er endret
-3. `github-actions[bot]` godkjenner PRen
-4. GitHub auto-merger når required checks er grønne
+2. `verify-hovmester-sync` kjører på `pull_request` og `merge_group`, rapporterer alltid checken og skipper ikke-hovmester-PRer med `exit 0`
+3. Automerge-workflowen trigges via `workflow_run`, re-verifiserer PRen fra default branch og godkjenner den med `GITHUB_TOKEN`
+4. GitHub App-tokenet setter PRen i auto-merge eller merge queue med `gh pr merge --auto --squash --match-head-commit`
+
+**Migrering fra gammel `pull_request_target`-workflow**
+
+1. Erstatt den gamle kombinerte workflowen med to filer: `hovmester-verify.yml` og `hovmester-automerge.yml`
+2. Behold required check-navnet `verify-hovmester-sync`
+3. Fjern gammel `pull_request_target`-workflow når de nye workflowene ligger på default branch
+4. Ikke gjør automerge-workflowen required
 
 **Sikkerhetsmodell**
 
 - Sync-scriptet forvalter bare hovmesters managed paths under `.github/`
-- `.github/workflows/` er alltid ekskludert fra sync
-- Verify-workflowen eies av consumer-repoet og kan ikke synkes over
-- Verify-jobben er den uavhengige gaten som stopper auto-merge hvis PRen inneholder andre filstier enn det hovmester skal eie
-- Når du bruker auto-merge, sendes App-credentials inn i reusable workflowen for å opprette PRen som App. Det er et bevisst kompromiss for enklere consumer-oppsett
+- `.github/workflows/` er alltid ekskludert fra sync og eksplisitt forbudt i verify- og automerge-workflowene
+- Verify-workflowen er read-only og bruker ingen secrets
+- Automerge-workflowen kjører på default branch-kode og godtar bare same-repo-PRer fra `hovmester-sync`
+- Automerge re-verifiserer konklusjon, `workflow_run.event`, forfatter, same-repo-krav, fil-allowlist og head SHA før approval og merge
+- `--match-head-commit` binder merge-steget til verifisert SHA, så en oppdatert branch ikke kan få auto-merge på gammel verifisering
 
 ## Slik fungerer det
 

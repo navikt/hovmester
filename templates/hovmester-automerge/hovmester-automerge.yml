@@ -1,0 +1,174 @@
+name: Automerge hovmester sync
+
+on:
+  workflow_run:
+    workflows: ["Verify hovmester sync"]
+    types: [completed]
+    branches: [hovmester-sync]
+
+concurrency:
+  group: hovmester-automerge
+  cancel-in-progress: false
+
+jobs:
+  automerge-hovmester-sync:
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.head_branch == 'hovmester-sync' && github.event.workflow_run.head_repository.full_name == github.repository
+    permissions:
+      pull-requests: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Re-verify sync PR
+        id: verify
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          EXPECTED_BRANCH: "hovmester-sync"
+          EXPECTED_PR_AUTHOR: "__EXPECTED_PR_AUTHOR__" # Replace with your GitHub App bot login, e.g. my-sync-app[bot]
+          REPO: ${{ github.repository }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          RUN_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+          RUN_EVENT: ${{ github.event.workflow_run.event }}
+          RUN_HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+          RUN_HEAD_REPO: ${{ github.event.workflow_run.head_repository.full_name }}
+          RUN_HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          set -euo pipefail
+
+          if [[ -z "$EXPECTED_PR_AUTHOR" ]] || [[ "$EXPECTED_PR_AUTHOR" == "__EXPECTED_PR_AUTHOR__" ]]; then
+            echo "::error::Replace __EXPECTED_PR_AUTHOR__ with your GitHub App bot login"
+            exit 1
+          fi
+
+          if [[ "$RUN_CONCLUSION" != "success" ]]; then
+            echo "::error::Unexpected workflow conclusion: $RUN_CONCLUSION"
+            exit 1
+          fi
+
+          if [[ "$RUN_EVENT" != "pull_request" ]]; then
+            echo "Workflow run event is $RUN_EVENT - skipping automerge"
+            exit 0
+          fi
+
+          if [[ "$RUN_HEAD_BRANCH" != "$EXPECTED_BRANCH" ]]; then
+            echo "Workflow run branch is $RUN_HEAD_BRANCH - skipping automerge"
+            exit 0
+          fi
+
+          if [[ "$RUN_HEAD_REPO" != "$REPO" ]]; then
+            echo "::error::Unexpected workflow head repository: $RUN_HEAD_REPO"
+            exit 1
+          fi
+
+          PR_NUMBERS=$(gh api "repos/${REPO}/pulls?state=open&head=${REPO_OWNER}:${EXPECTED_BRANCH}&base=${DEFAULT_BRANCH}&per_page=100" \
+            --paginate \
+            --jq '.[].number')
+          PR_COUNT=$(printf '%s\n' "$PR_NUMBERS" | sed '/^$/d' | wc -l | tr -d ' ')
+
+          if [[ "$PR_COUNT" -eq 0 ]]; then
+            echo "No open hovmester sync PR found - skipping automerge"
+            exit 0
+          fi
+
+          if [[ "$PR_COUNT" -ne 1 ]]; then
+            echo "::error::Expected exactly one open hovmester sync PR, found $PR_COUNT"
+            exit 1
+          fi
+
+          PR_NUMBER=$(printf '%s\n' "$PR_NUMBERS" | sed -n '1p')
+          PR_AUTHOR=$(gh api "repos/${REPO}/pulls/${PR_NUMBER}" --jq '.user.login')
+          PR_HEAD_BRANCH=$(gh api "repos/${REPO}/pulls/${PR_NUMBER}" --jq '.head.ref')
+          PR_HEAD_REPO=$(gh api "repos/${REPO}/pulls/${PR_NUMBER}" --jq '.head.repo.full_name')
+          PR_HEAD_SHA=$(gh api "repos/${REPO}/pulls/${PR_NUMBER}" --jq '.head.sha')
+
+          if [[ "$PR_AUTHOR" != "$EXPECTED_PR_AUTHOR" ]]; then
+            echo "::error::Unexpected PR author: $PR_AUTHOR"
+            echo "Expected PR author: $EXPECTED_PR_AUTHOR"
+            exit 1
+          fi
+
+          if [[ "$PR_HEAD_BRANCH" != "$EXPECTED_BRANCH" ]]; then
+            echo "::error::Unexpected PR branch: $PR_HEAD_BRANCH"
+            echo "Expected PR branch: $EXPECTED_BRANCH"
+            exit 1
+          fi
+
+          if [[ "$PR_HEAD_REPO" != "$REPO" ]]; then
+            echo "::error::Unexpected PR head repository: $PR_HEAD_REPO"
+            exit 1
+          fi
+
+          if [[ "$PR_HEAD_SHA" != "$RUN_HEAD_SHA" ]]; then
+            echo "::error::Head SHA mismatch between verify run and PR"
+            echo "Workflow run head SHA: $RUN_HEAD_SHA"
+            echo "Pull request head SHA: $PR_HEAD_SHA"
+            exit 1
+          fi
+
+          FILES=$(gh api "repos/${REPO}/pulls/${PR_NUMBER}/files" \
+            --paginate --jq '.[] | .filename, (.previous_filename // empty)')
+
+          if [[ -z "$FILES" ]]; then
+            echo "::error::No files found from pull request files API; failing closed"
+            exit 1
+          fi
+
+          echo "Changed files:"
+          echo "$FILES"
+
+          while IFS= read -r file; do
+            [[ -z "$file" ]] && continue
+
+            if [[ "$file" == .github/workflows/* ]]; then
+              echo "::error::Workflow changes are not allowed in hovmester sync PRs: $file"
+              exit 1
+            fi
+
+            case "$file" in
+              .github/agents/*|\
+              .github/instructions/*|\
+              .github/skills/*|\
+              .github/ISSUE_TEMPLATE/*|\
+              .github/PULL_REQUEST_TEMPLATE.md|\
+              .github/.hovmester-manifest.json)
+                ;;
+              *)
+                echo "::error::File outside sync scope: $file"
+                echo "Only hovmester-managed paths are allowed in sync PRs"
+                exit 1
+                ;;
+            esac
+          done <<< "$FILES"
+
+          echo "✅ Sync PR re-verified"
+          echo "pr_number=$PR_NUMBER" >> "$GITHUB_OUTPUT"
+          echo "head_sha=$PR_HEAD_SHA" >> "$GITHUB_OUTPUT"
+
+      - name: Approve sync PR with GITHUB_TOKEN
+        if: steps.verify.outputs.pr_number != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ steps.verify.outputs.pr_number }}
+          REPO: ${{ github.repository }}
+        run: |
+          gh pr review "$PR_NUMBER" --repo "$REPO" --approve --body "Auto-approved after workflow_run re-verification ✅"
+
+      - name: Create GitHub App token for merge
+        if: steps.verify.outputs.pr_number != ''
+        id: app-token
+        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3.0.0 - keep SHA pin updated with Dependabot/Renovate for GitHub Actions
+        with:
+          app-id: "__APP_ID__" # Replace with your GitHub App ID
+          permission-contents: write
+          permission-pull-requests: write
+          private-key: ${{ secrets.__APP_PRIVATE_KEY_SECRET__ }} # Replace with your GitHub App private key secret name
+
+      - name: Enable auto-merge
+        if: steps.verify.outputs.pr_number != ''
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          HEAD_SHA: ${{ steps.verify.outputs.head_sha }}
+          PR_NUMBER: ${{ steps.verify.outputs.pr_number }}
+          REPO: ${{ github.repository }}
+        run: |
+          gh pr merge "$PR_NUMBER" --repo "$REPO" --auto --squash --match-head-commit "$HEAD_SHA"
