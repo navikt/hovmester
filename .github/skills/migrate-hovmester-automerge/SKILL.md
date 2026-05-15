@@ -5,7 +5,7 @@ description: "Migrerer consumer-repoer fra pull_request_target-basert hovmester-
 
 # Migrer hovmester-automerge
 
-Repo-lokal rollout-skill for hovmester-operatører. Bruk den når et consumer-repo skal flyttes fra gammel kombinert `pull_request_target`-workflow til delt verify/automerge-modell fra PR #52.
+Repo-lokal rollout-skill for hovmester-operatører. Bruk den når et consumer-repo skal flyttes fra gammel kombinert `pull_request_target`-workflow til delt verify/automerge-modell dokumentert i repoets `README.md`.
 
 ## Hurtigstart
 
@@ -54,7 +54,7 @@ Repo-lokal rollout-skill for hovmester-operatører. Bruk den når et consumer-re
 
 ### Alltid
 
-- Følg README-oppsettet fra PR #52 for verify/automerge-splitt.
+- Følg repoets `README.md` som canonical kilde for verify/automerge-splitt, workflow-eksempler og sikkerhetsmodell.
 - Feil lukkes fail closed hvis App, bot, rulesets eller required checks ikke kan verifiseres.
 - Dokumenter hva som ble kontrollert og hva som fortsatt må avklares.
 
