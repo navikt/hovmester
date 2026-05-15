@@ -31,8 +31,6 @@ Dette er nok hvis du vil ha sync-PRer og merge manuelt. Hvis du vil auto-merg'e 
 
 Hvis repoet ditt har required CI-checks på PRer, anbefaler vi også App-oppsettet under. Da opprettes sync-PRer som vanlige PRer og trigger CI normalt.
 
-> Bruker repoet fortsatt legacy `esyfo-cli`/`copilot-config-sync`? Fjern `.github/workflows/copilot-config-auto-approve.yml` når du tar i bruk hovmester. Legacy sync-støtte for `esyfo-cli` og `copilot-kitchen` er deprecated og vedlikeholdes ikke videre.
-
 ## Agenter
 
 Bruk **@hovmester** som inngang til alt — den koordinerer planlegging, implementasjon og kodegjennomgang automatisk.

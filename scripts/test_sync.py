@@ -264,12 +264,13 @@ class TestApplySync:
         assert ".github/skills/tdd/metadata.json" in diff.removed
         assert not (target / ".github" / "skills" / "tdd" / "metadata.json").exists()
 
-    def test_does_not_migrate_legacy_manifest(self, tmp_path: Path) -> None:
+    def test_leaves_legacy_manifest_untouched_regression(self, tmp_path: Path) -> None:
         source = tmp_path / "src"
         target = tmp_path / "tgt"
         _make_source(source)
         target.mkdir()
 
+        # Regression test: sync should ignore old manifest files instead of migrating them.
         legacy_manifest = target / ".github" / ".copilot-kitchen-manifest.json"
         _write(legacy_manifest, '{"files": [".github/agents/bot.agent.md"]}')
 
