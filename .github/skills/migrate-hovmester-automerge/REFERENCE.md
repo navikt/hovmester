@@ -32,6 +32,7 @@ Må oppfylle alle punktene under:
 - Har bare read-only permissions: `contents: read`, `pull-requests: read`
 - Bruker ingen secrets og ingen write-token
 - Har job/check-navn `verify-hovmester-sync`
+- Rapporterer alltid checken når workflowen trigges: grønn no-op på vanlige PRer og `merge_group`, reell verifisering bare for same-repo `hovmester-sync`-PRer
 - Verifiserer bare hovmester-forvaltede filer og forbyr workflow-endringer
 
 ### `hovmester-automerge.yml`
@@ -57,6 +58,7 @@ Må oppfylle alle punktene under:
 ### Required checks og merge queue
 
 - `verify-hovmester-sync` er required check
+- Required checken skal fortsatt rapportere grønt/no-op på vanlige PRer og `merge_group`, så branch protection ikke blokkeres når PRen ikke er en hovmester-sync-PR
 - `hovmester-automerge.yml` er ikke required
 - Andre required checks som gjelder default branch støtter også `merge_group` hvis repoet bruker merge queue
 - Manglende oversikt over required checks eller merge queue er stoppkriterium

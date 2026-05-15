@@ -179,7 +179,7 @@ Når du kopierer malene til consumer-repoet under `.github/workflows/`, må du m
 - `__APP_ID__` — GitHub App-ID-en som brukes for hovmester-sync
 - `__APP_PRIVATE_KEY_SECRET__` — secret-navnet som inneholder App private key
 
-`hovmester-verify.yml` er read-only: `contents: read`, `pull-requests: read`, ingen secrets og ingen write-token. Behold job-navnet `verify-hovmester-sync` uendret. Det er check-navnet branch protection og merge queue skal peke på.
+`hovmester-verify.yml` er read-only: `contents: read`, `pull-requests: read`, ingen secrets og ingen write-token. Behold job-navnet `verify-hovmester-sync` uendret. Det er check-navnet branch protection og merge queue skal peke på. Workflowen skal alltid rapportere denne checken når den trigges: grønn no-op på vanlige PRer og `merge_group`, og faktisk verifisering bare for same-repo `hovmester-sync`-PRer.
 
 **Steg 4 — Behold sikkerhetsmodellen i automerge-workflowen**
 
@@ -193,7 +193,7 @@ Token-skillet er bevisst:
 
 **Steg 5 — Sett branch protection og merge queue**
 
-- Sett `verify-hovmester-sync` som required status check for hovmester-sync-flyten på default branch
+- Sett `verify-hovmester-sync` som required status check på default branch. Checken rapporterer grønt/no-op for vanlige PRer og `merge_group`, og verifiserer bare same-repo `hovmester-sync`-PRer.
 - Behold repoets øvrige vanlige required checks for vanlige PRer, for eksempel CI-, test- og security-checks. `verify-hovmester-sync` er et tillegg for hovmester-sync, ikke en erstatning for annen branch protection
 - Ikke sett automerge-workflowen som required check
 - Hvis repoet bruker merge queue, må både `verify-hovmester-sync` og andre required checks støtte `merge_group`
@@ -202,7 +202,7 @@ Token-skillet er bevisst:
 Når hovmester lager en sync-PR:
 
 1. PRen opprettes av GitHub Appen
-2. `verify-hovmester-sync` kjører på `pull_request` og `merge_group`
+2. `verify-hovmester-sync` kjører på `pull_request` og `merge_group`, rapporterer alltid checken og skipper ikke-hovmester-PRer med `exit 0`
 3. Automerge-workflowen trigges via `workflow_run`, re-verifiserer PRen fra default branch og godkjenner den med `GITHUB_TOKEN`
 4. GitHub App-tokenet setter PRen i auto-merge eller merge queue med `gh pr merge --auto --squash --match-head-commit`
 
