@@ -2,6 +2,8 @@
 
 Denne runbooken brukes sammen med `SKILL.md` når et consumer-repo skal migreres fra gammel kombinert `pull_request_target`-workflow til delt verify/automerge-modell.
 
+Start alltid fra referansemalene i `templates/hovmester-automerge/` i dette repoet. `README.md` forklarer sikkerhetsmodellen og rollout-rekkefølgen, men template-filene er den kanoniske YAML-kilden.
+
 ## Før du endrer noe
 
 Bekreft dette i consumer-repoet:
@@ -15,6 +17,12 @@ Bekreft dette i consumer-repoet:
 - Du vet om bot-approval er lov for hovmester-forvaltede paths gitt CODEOWNERS og review-regler.
 
 ## Workflow-målbildet
+
+Før du tilpasser workflowene i consumer-repoet, bytt ut plassholderne for:
+
+- GitHub App-bot-login (`__EXPECTED_PR_AUTHOR__`)
+- GitHub App-ID (`__APP_ID__`)
+- Secret-navn for App private key (`__APP_PRIVATE_KEY_SECRET__`)
 
 ### `hovmester-verify.yml`
 
@@ -33,7 +41,7 @@ Må oppfylle alle punktene under:
 - Trigges på `workflow_run`
 - Kjører fra default branch, ikke fra PR-branch
 - Re-verifiserer fail closed via GitHub API før approval og merge
-- Bekrefter minst workflow-konklusjon, event-type, same-repo-forfatter, `headRefOid`, fil-allowlist og head SHA
+- Bekrefter minst workflow-konklusjon, event-type, same-repo-krav, fil-allowlist og head SHA
 - Godkjenner PRen først etter vellykket re-verifisering, normalt via `GITHUB_TOKEN`, så approval-aktøren blir `github-actions[bot]`
 - Kjører `gh pr merge --auto --squash --match-head-commit` med GitHub App-token
 
@@ -61,7 +69,7 @@ Må oppfylle alle punktene under:
 
 ## Anbefalt rollout-rekkefølge
 
-1. Oppdater workflow-filene i consumer-repoet til nytt mønster.
+1. Kopier workflow-filene fra `templates/hovmester-automerge/` til consumer-repoet og tilpass plassholderne.
 2. Lag PR for akkurat dette repoet.
 3. Merge første PR manuelt ved behov.
 4. Vent til workflow-filene ligger på default branch.
