@@ -1,14 +1,16 @@
 ---
 name: migrate-to-hovmester
-description: "Migrering til hovmester fra esyfo-cli copilot-sync, eller oppsett av hovmester på repos uten eksisterende konfigurasjon. Brukes via /migrate-to-hovmester ved onboarding eller migrering av repos."
+description: "Migrering til hovmester fra legacy esyfo-cli/copilot-config-sync, eller oppsett av hovmester på repos uten eksisterende konfigurasjon. Brukes via /migrate-to-hovmester ved onboarding eller opprydding i legacy oppsett."
 ---
 
 # Migrer til hovmester
 
 Setter opp hovmester-sync på et navikt-repo. Håndterer tre scenarier:
-1. **Migrering** — repo har esyfo-cli (`copilot-config-auto-approve.yml`) → erstatt med hovmester
+1. **Migrering fra legacy esyfo-cli** — repo har esyfo-cli (`copilot-config-auto-approve.yml` og eventuelt annet `copilot-config-sync`-oppsett) → erstatt med hovmester
 2. **Nytt oppsett** — repo har ingenting → legg til hovmester
 3. **Allerede migrert** — repo har `hovmester-sync.yml` → ingenting å gjøre
+
+`esyfo-cli` og `copilot-kitchen` er deprecated. Ikke behold legacy sync/auto-approve-oppsett parallelt med hovmester, og ikke planlegg videre drift på gammel sync-logikk.
 
 ## Teamkonstanter
 
@@ -31,6 +33,7 @@ cd "/tmp/${REPO}"
 
 Sjekk status:
 - `copilot-config-auto-approve.yml` finnes? → Migrering
+- Legacy `copilot-config-sync`-oppsett finnes? → Migrering, ikke parallelldrift
 - `hovmester-sync.yml` finnes? → Allerede migrert, stopp
 - Ingen av delene? → Nytt oppsett
 
@@ -59,14 +62,18 @@ Vis forslag og bekreft med brukeren.
 git checkout -b hovmester-migration
 ```
 
-**Slett gammel workflow** (kun ved migrering):
+**Slett legacy auto-approve-workflow** (kun ved migrering):
 ```bash
 rm -f .github/workflows/copilot-config-auto-approve.yml
 ```
 
+Dette er et påkrevd steg ved migrering fra esyfo-cli. Workflowen er legacy og skal ikke beholdes sammen med hovmester.
+
 **Opprett `.github/workflows/hovmester-sync.yml`:**
 
 Se [REFERENCE.md](REFERENCE.md) for komplett workflow-innhold. Sett `collections` basert på detektert stack.
+
+Hovmester bruker branch/navn `hovmester-sync`. Ikke viderefør legacy `copilot-config-sync`-oppsett eller annen esyfo-cli auto-approve parallelt med dette. Hovmester rydder heller ikke opp eller migrerer gamle `copilot-kitchen`-manifest eller esyfo-markører for deg.
 
 **Opprett `.github/workflows/hovmester-verify.yml`:**
 
@@ -84,6 +91,7 @@ git push --set-upstream origin hovmester-migration
 
 Opprett PR med `gh pr create`. PR-body skal forklare:
 - Hva som endres (hvilke workflow-filer)
+- At legacy esyfo-cli-oppsett fjernes og ikke skal leve videre parallelt med hovmester
 - At `AUTOMERGE_APP_PRIVATE_KEY` allerede er på plass
 - At `verify-hovmester-sync` må legges til som required check etter merge
 
@@ -102,7 +110,9 @@ Hvis repoet **ikke** har `AUTOMERGE_APP_PRIVATE_KEY` som repository secret (sjek
 ### Alltid
 - Bekreft detektert collection med brukeren før endring
 - Sjekk at `hovmester-sync.yml` ikke allerede finnes (unngå duplikat)
+- Behandle esyfo-cli som legacy ved migrering
 - Slett `copilot-config-auto-approve.yml` ved migrering
+- Ikke behold legacy `copilot-config-sync`/esyfo-cli auto-approve parallelt med hovmester
 
 ### Spør først
 - Om collection-valget er usikkert (f.eks. monorepo)

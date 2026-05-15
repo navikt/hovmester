@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
-      contents: write
+      contents: read
       pull-requests: write
     steps:
       - name: Verify file scope
@@ -92,8 +92,7 @@ jobs:
               .github/skills/*|\
               .github/ISSUE_TEMPLATE/*|\
               .github/PULL_REQUEST_TEMPLATE.md|\
-              .github/.hovmester-manifest.json|\
-              .github/.copilot-kitchen-manifest.json)
+              .github/.hovmester-manifest.json)
                 ;;
               *)
                 echo "::error::File outside sync scope: $file"

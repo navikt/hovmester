@@ -22,8 +22,6 @@ import yaml
 # ---------------------------------------------------------------------------
 
 MANIFEST_PATH = ".github/.hovmester-manifest.json"
-LEGACY_MANIFEST_PATH = ".github/.copilot-kitchen-manifest.json"
-LEGACY_MARKER = "Managed by esyfo-cli"
 
 DIR_MAPPING: dict[str, str] = {
     "dist/agents": ".github/agents",
@@ -314,23 +312,6 @@ def _file_allowed_by_collections(
 # ---------------------------------------------------------------------------
 
 
-def migrate_legacy_manifest(target_root: Path) -> None:
-    """One-time migration from copilot-kitchen manifest to hovmester manifest.
-
-    If the legacy manifest (.copilot-kitchen-manifest.json) exists and the
-    new hovmester manifest does not, move the legacy file to the new path.
-    If the new manifest already exists, leave both files alone (this lets
-    the user clean up the orphaned legacy file manually once they are sure
-    the new manifest is authoritative).
-    """
-    legacy = target_root / LEGACY_MANIFEST_PATH
-    new = target_root / MANIFEST_PATH
-    if legacy.exists() and not new.exists():
-        new.parent.mkdir(parents=True, exist_ok=True)
-        new.write_bytes(legacy.read_bytes())
-        legacy.unlink()
-
-
 def read_manifest(target_root: Path) -> list[str] | None:
     """Read the manifest file. Returns None if it doesn't exist or is corrupt."""
     manifest_path = target_root / MANIFEST_PATH
@@ -361,6 +342,8 @@ def find_stale_by_manifest(
     """Find files that are in the manifest but no longer in the current file list."""
     stale: list[str] = []
     for rel in manifest_files:
+        if any(rel.startswith(excl) for excl in EXCLUDED_TARGET_DIRS):
+            continue
         if rel in current_files:
             continue
         target_path = target_root / rel
@@ -369,71 +352,13 @@ def find_stale_by_manifest(
     return stale
 
 
-def find_stale_legacy(target_root: Path, current_files: set[str]) -> list[str]:
-    """One-time migration: find orphaned files from previous sync tools.
-
-    Only runs when no manifest exists (first sync). After the first successful
-    sync writes a manifest, this function is never called again for that repo.
-    Can be removed once all consuming repos have completed at least one sync.
-
-    Catches two types of stale files:
-    1. Files with 'Managed by esyfo-cli' header (any file type)
-    2. Extra files inside skill directories we own (e.g. metadata.json that
-       was synced by esyfo-cli but never had a managed header)
-    """
-    print(
-        "INFO: No manifest found — running one-time legacy scan for esyfo-cli files.",
-        file=sys.stderr,
-    )
-    stale: list[str] = []
-
-    # Build set of skill directories we own (based on current files)
-    owned_skill_dirs: set[str] = set()
-    for rel in current_files:
-        if rel.startswith(".github/skills/"):
-            parts = rel.replace(".github/skills/", "").split("/")
-            if parts:
-                owned_skill_dirs.add(f".github/skills/{parts[0]}")
-
-    for scan_dir in DIR_MAPPING.values():
-        full_dir = target_root / scan_dir
-        if not full_dir.is_dir():
-            continue
-        for path in full_dir.rglob("*"):
-            if path.is_symlink():
-                continue
-            if not path.is_file():
-                continue
-            rel = str(path.relative_to(target_root))
-            if any(rel.startswith(excl) for excl in EXCLUDED_TARGET_DIRS):
-                continue
-            if rel in current_files:
-                continue
-
-            # Check 1: file has legacy managed header
-            try:
-                content = path.read_text(encoding="utf-8")
-            except (UnicodeDecodeError, OSError):
-                content = ""
-            if LEGACY_MARKER in content:
-                stale.append(rel)
-                continue
-
-            # Check 2: file is inside a skill directory we own but not in our file list
-            # (catches metadata.json and other files that never had managed headers)
-            if any(rel.startswith(d + "/") for d in owned_skill_dirs):
-                stale.append(rel)
-
-    return stale
-
-
 def _find_extra_files_in_owned_skills(
     target_root: Path, current_files: set[str]
 ) -> list[str]:
     """Find files in owned skill directories that are not in the current file list.
 
-    Catches files like metadata.json that were synced by previous tools
-    but are not tracked by the manifest.
+    Catches files like metadata.json that live inside a hovmester-owned skill
+    directory but are not part of the current source tree or manifest.
     """
     owned_skill_dirs: set[str] = set()
     for rel in current_files:
@@ -471,7 +396,6 @@ def apply_sync(
     github_project: str = "",
 ) -> SyncDiff:
     """Apply the full sync: copy new/changed, remove stale, write manifest."""
-    migrate_legacy_manifest(target_root)
     diff = compute_diff(mapping, target_root, github_project)
     current_files = set(mapping.keys())
 
@@ -488,12 +412,12 @@ def apply_sync(
             print(f"WARNING: Failed to copy {target_rel}: {e}", file=sys.stderr)
             failed.add(target_rel)
 
-    # Find stale files via manifest or legacy scan
+    # Find stale files via manifest only
     manifest_files = read_manifest(target_root)
     if manifest_files is not None:
         stale = find_stale_by_manifest(target_root, current_files, manifest_files)
     else:
-        stale = find_stale_legacy(target_root, current_files)
+        stale = []
 
     # Always clean up extra files in owned skill directories (e.g. metadata.json
     # that was never in any manifest but lives inside a skill dir we own)

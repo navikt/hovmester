@@ -2,21 +2,16 @@
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 from sync import (
-    LEGACY_MANIFEST_PATH,
-    LEGACY_MARKER,
     MANIFEST_PATH,
-    SyncDiff,
     apply_sync,
     build_file_mapping,
     compute_diff,
     filter_mapping_by_collections,
     filter_mapping_by_exclude,
     find_stale_by_manifest,
-    find_stale_legacy,
     read_manifest,
     resolve_collections,
     write_manifest,
@@ -154,63 +149,13 @@ class TestManifest:
         )
         assert stale == []
 
-
-# ---------------------------------------------------------------------------
-# Legacy migration
-# ---------------------------------------------------------------------------
-
-
-class TestLegacyMigration:
-    def test_finds_orphaned_legacy_file(self, tmp_path: Path) -> None:
-        _write(
-            tmp_path / ".github" / "agents" / "old.agent.md",
-            f"<!-- {LEGACY_MARKER} -->\nold agent",
-        )
-        stale = find_stale_legacy(tmp_path, current_files=set())
-        assert ".github/agents/old.agent.md" in stale
-
-    def test_ignores_unmanaged_file(self, tmp_path: Path) -> None:
-        _write(
-            tmp_path / ".github" / "agents" / "custom.md",
-            "No managed marker here",
-        )
-        stale = find_stale_legacy(tmp_path, current_files=set())
-        assert stale == []
-
-    def test_ignores_current_files(self, tmp_path: Path) -> None:
-        _write(
-            tmp_path / ".github" / "agents" / "active.md",
-            f"<!-- {LEGACY_MARKER} -->\nactive agent",
-        )
-        stale = find_stale_legacy(
-            tmp_path, current_files={".github/agents/active.md"}
-        )
-        assert stale == []
-
-    def test_catches_extra_files_in_owned_skill_dirs(self, tmp_path: Path) -> None:
-        # We own the "tdd" skill (SKILL.md is in current_files)
-        # metadata.json is NOT in current_files and has no managed header
-        _write(tmp_path / ".github" / "skills" / "tdd" / "SKILL.md", "skill")
-        _write(tmp_path / ".github" / "skills" / "tdd" / "metadata.json", '{"no": "header"}')
-        stale = find_stale_legacy(
+    def test_find_stale_by_manifest_ignores_workflows(self, tmp_path: Path) -> None:
+        _write(tmp_path / ".github" / "workflows" / "legacy.yml", "name: legacy")
+        stale = find_stale_by_manifest(
             tmp_path,
-            current_files={".github/skills/tdd/SKILL.md"},
+            current_files=set(),
+            manifest_files=[".github/workflows/legacy.yml"],
         )
-        assert ".github/skills/tdd/metadata.json" in stale
-
-    def test_ignores_extra_files_in_unowned_skill_dirs(self, tmp_path: Path) -> None:
-        # We do NOT own "custom-skill" — it's not in current_files at all
-        _write(tmp_path / ".github" / "skills" / "custom-skill" / "SKILL.md", "custom")
-        _write(tmp_path / ".github" / "skills" / "custom-skill" / "notes.md", "notes")
-        stale = find_stale_legacy(tmp_path, current_files=set())
-        assert stale == []
-
-    def test_never_touches_workflows(self, tmp_path: Path) -> None:
-        _write(
-            tmp_path / ".github" / "workflows" / "old.yml",
-            f"# {LEGACY_MARKER}\nname: old",
-        )
-        stale = find_stale_legacy(tmp_path, current_files=set())
         assert stale == []
 
 
@@ -239,20 +184,19 @@ class TestApplySync:
         assert ".github/agents/bot.agent.md" in manifest_files
         assert ".github/instructions/copilot-review.instructions.md" in manifest_files
 
-    def test_deletes_stale_file_via_legacy_scan(self, tmp_path: Path) -> None:
+    def test_preserves_orphaned_agent_when_manifest_is_missing(self, tmp_path: Path) -> None:
         source = tmp_path / "src"
         target = tmp_path / "tgt"
         _make_source(source)
 
-        # No manifest → first run → legacy scan
         orphan = target / ".github" / "agents" / "removed.agent.md"
-        _write(orphan, f"<!-- {LEGACY_MARKER} -->\nwill be removed")
+        _write(orphan, "legacy file that sync should ignore without a hovmester manifest")
 
         mapping = build_file_mapping(source)
         diff = apply_sync(mapping, target)
 
-        assert ".github/agents/removed.agent.md" in diff.removed
-        assert not orphan.exists()
+        assert ".github/agents/removed.agent.md" not in diff.removed
+        assert orphan.exists()
 
     def test_deletes_stale_file_via_manifest(self, tmp_path: Path) -> None:
         source = tmp_path / "src"
@@ -306,26 +250,34 @@ class TestApplySync:
         assert diff2.removed == []
         assert len(diff2.unchanged) > 0
 
-    def test_migrates_legacy_manifest_on_first_sync(self, tmp_path: Path) -> None:
+    def test_removes_extra_files_in_owned_skill_dirs(self, tmp_path: Path) -> None:
         source = tmp_path / "src"
         target = tmp_path / "tgt"
         _make_source(source)
         target.mkdir()
 
-        # Pre-populate target with a legacy manifest
-        legacy = target / LEGACY_MANIFEST_PATH
-        legacy.parent.mkdir(parents=True, exist_ok=True)
-        legacy.write_text(
-            '{"files": [".github/agents/bot.agent.md"]}', encoding="utf-8"
-        )
+        _write(target / ".github" / "skills" / "tdd" / "metadata.json", '{"extra": true}')
+
+        mapping = build_file_mapping(source)
+        diff = apply_sync(mapping, target)
+
+        assert ".github/skills/tdd/metadata.json" in diff.removed
+        assert not (target / ".github" / "skills" / "tdd" / "metadata.json").exists()
+
+    def test_does_not_migrate_legacy_manifest(self, tmp_path: Path) -> None:
+        source = tmp_path / "src"
+        target = tmp_path / "tgt"
+        _make_source(source)
+        target.mkdir()
+
+        legacy_manifest = target / ".github" / ".copilot-kitchen-manifest.json"
+        _write(legacy_manifest, '{"files": [".github/agents/bot.agent.md"]}')
 
         mapping = build_file_mapping(source)
         apply_sync(mapping, target)
 
-        # Legacy manifest should be gone, new manifest should exist
-        assert not legacy.exists()
-        new = target / MANIFEST_PATH
-        assert new.exists()
+        assert legacy_manifest.exists()
+        assert (target / MANIFEST_PATH).exists()
 
 
 # ---------------------------------------------------------------------------
@@ -708,44 +660,3 @@ class TestSyncWithGithubProject:
 
         agent_result = (target / ".github" / "agents" / "bot.agent.md").read_text(encoding="utf-8")
         assert agent_result == "agent content\n"
-
-
-# ---------------------------------------------------------------------------
-# Manifest rename migration
-# ---------------------------------------------------------------------------
-
-
-class TestMigrateLegacyManifest:
-    def test_moves_legacy_to_new_when_new_absent(self, tmp_path: Path) -> None:
-        from sync import LEGACY_MANIFEST_PATH, MANIFEST_PATH, migrate_legacy_manifest
-
-        legacy = tmp_path / LEGACY_MANIFEST_PATH
-        _write(legacy, '{"files": [".github/agents/bot.md"]}')
-
-        migrate_legacy_manifest(tmp_path)
-
-        assert not legacy.exists()
-        new = tmp_path / MANIFEST_PATH
-        assert new.exists()
-        assert '"files"' in new.read_text(encoding="utf-8")
-
-    def test_noop_when_new_already_exists(self, tmp_path: Path) -> None:
-        from sync import LEGACY_MANIFEST_PATH, MANIFEST_PATH, migrate_legacy_manifest
-
-        legacy = tmp_path / LEGACY_MANIFEST_PATH
-        new = tmp_path / MANIFEST_PATH
-        _write(legacy, '{"files": ["legacy"]}')
-        _write(new, '{"files": ["current"]}')
-
-        migrate_legacy_manifest(tmp_path)
-
-        # New should be untouched, legacy should remain (we do not delete if new exists)
-        assert new.read_text(encoding="utf-8") == '{"files": ["current"]}'
-        assert legacy.exists()
-
-    def test_noop_when_legacy_absent(self, tmp_path: Path) -> None:
-        from sync import MANIFEST_PATH, migrate_legacy_manifest
-
-        migrate_legacy_manifest(tmp_path)
-
-        assert not (tmp_path / MANIFEST_PATH).exists()
