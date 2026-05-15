@@ -31,13 +31,17 @@ Repo-lokal rollout-skill for hovmester-operatører. Bruk den når et consumer-re
 - Workflowen skal være read-only: `contents: read`, `pull-requests: read`, ingen secrets og ingen write-token.
 - Behold job/check-navnet `verify-hovmester-sync`.
 - `hovmester-automerge.yml` skal trigges via `workflow_run` og re-verifisere fail closed fra default branch før approval og `gh pr merge --auto --squash --match-head-commit`.
+- Forventet PR-forfatter er GitHub App-boten som oppretter hovmester-sync-PRer.
+- Approval kommer normalt fra `github-actions[bot]` via `GITHUB_TOKEN`.
+- Merge eller auto-merge settes med GitHub App-token.
 
 ### 3. Kontroller repo-oppsett
 
 - `verify-hovmester-sync` må være required check.
 - Automerge-workflowen skal ikke være required.
 - Alle andre required checks som treffer merge queue må støtte `merge_group`.
-- CODEOWNERS og branch protection må tillate bot-approval for hovmester-forvaltede paths.
+- CODEOWNERS og branch protection må tillate approval fra `github-actions[bot]` for hovmester-forvaltede paths.
+- PR-forfatteren skal samtidig fortsatt være forventet GitHub App-bot.
 
 ### 4. Rull ut trygt
 
@@ -57,7 +61,7 @@ Repo-lokal rollout-skill for hovmester-operatører. Bruk den når et consumer-re
 ### Spør først
 
 - Hvis repoet har flere sync-workflows eller avvikende hovmester-oppsett.
-- Hvis det er uklart om bot-approval er gyldig med gjeldende CODEOWNERS eller branch protection.
+- Hvis det er uklart om approval fra `github-actions[bot]` er gyldig med gjeldende CODEOWNERS eller branch protection.
 - Hvis merge queue eller rulesets ikke er synlige fra repoet du jobber i.
 
 ### Aldri

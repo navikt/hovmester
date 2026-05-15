@@ -34,8 +34,8 @@ Må oppfylle alle punktene under:
 - Kjører fra default branch, ikke fra PR-branch
 - Re-verifiserer fail closed via GitHub API før approval og merge
 - Bekrefter minst workflow-konklusjon, event-type, same-repo-forfatter, `headRefOid`, fil-allowlist og head SHA
-- Godkjenner PRen først etter vellykket re-verifisering
-- Kjører `gh pr merge --auto --squash --match-head-commit`
+- Godkjenner PRen først etter vellykket re-verifisering, normalt via `GITHUB_TOKEN`, så approval-aktøren blir `github-actions[bot]`
+- Kjører `gh pr merge --auto --squash --match-head-commit` med GitHub App-token
 
 ## Repo-oppsett som må verifiseres
 
@@ -43,6 +43,7 @@ Må oppfylle alle punktene under:
 
 - `pr_app_id` peker til riktig App
 - Bot-login matcher Appen som faktisk oppretter hovmester-sync-PRer
+- Forventet PR-forfatter er denne GitHub App-boten, ikke `github-actions[bot]`
 - Ukjent App eller bot-login er stoppkriterium
 
 ### Required checks og merge queue
@@ -54,7 +55,8 @@ Må oppfylle alle punktene under:
 
 ### CODEOWNERS og review-regler
 
-- Bot-approval må være gyldig for hovmester-forvaltede paths
+- Approval fra `github-actions[bot]` må være gyldig for hovmester-forvaltede paths
+- PR-forfatteren vil normalt være GitHub App-boten, mens merge eller auto-merge bruker GitHub App-token
 - Hvis CODEOWNERS krever menneskelig godkjenning uten unntak for bot, stopp og avklar før rollout
 
 ## Anbefalt rollout-rekkefølge
@@ -72,12 +74,12 @@ Må oppfylle alle punktene under:
 
 Bruk en ekte hovmester-sync PR, ikke bare statisk filreview:
 
-- PRen opprettes av forventet GitHub App/bot
+- PRen opprettes av forventet GitHub App-bot
 - `verify-hovmester-sync` blir grønn
 - Workflowen er required check på default branch
 - Automerge-workflowen re-verifiserer og feiler lukket ved avvik
-- Approval registreres fra forventet bot
-- `gh pr merge --auto --squash --match-head-commit` lykkes, eller PRen går korrekt inn i merge queue
+- Approval registreres normalt fra `github-actions[bot]` via `GITHUB_TOKEN`
+- `gh pr merge --auto --squash --match-head-commit` med GitHub App-token lykkes, eller PRen går korrekt inn i merge queue
 
 ## Stoppkriterier
 
