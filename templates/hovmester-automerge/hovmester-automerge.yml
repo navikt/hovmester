@@ -4,11 +4,7 @@ on:
   workflow_run:
     workflows: ["Verify hovmester sync"]
     types: [completed]
-
-permissions:
-  actions: read
-  contents: read
-  pull-requests: write
+    branches: [hovmester-sync]
 
 concurrency:
   group: hovmester-automerge
@@ -17,6 +13,8 @@ concurrency:
 jobs:
   automerge-hovmester-sync:
     if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.head_branch == 'hovmester-sync' && github.event.workflow_run.head_repository.full_name == github.repository
+    permissions:
+      pull-requests: write
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
