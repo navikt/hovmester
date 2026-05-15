@@ -104,23 +104,24 @@ Hvis `github_project` er satt, auto-linkes nye issues til det prosjektet. Hvis i
 
 Auto-merge er valgfritt. Hvis du bare vil ha sync-PRer og merge manuelt, kan du stoppe etter **Kom i gang**.
 
-Hvis du vil auto-merg'e sync-PRene, trenger du tre ting:
+Hvis du vil auto-merg'e sync-PRene, trenger du fire ting:
 
 1. En GitHub App som oppretter PRen
 2. En verify-workflow i consumer-repoet
-3. Branch protection som krever verify-jobben
+3. En egen automerge-workflow i consumer-repoet
+4. Branch protection som krever verify-jobben
 
 | Ønske | Det du trenger |
 |---|---|
 | Manuell merge | Kun `hovmester-sync.yml` |
 | Manuell merge + vanlig CI på sync-PRer | `hovmester-sync.yml` + GitHub App |
-| Auto-merge | `hovmester-sync.yml` + GitHub App + `hovmester-verify.yml` |
+| Auto-merge | `hovmester-sync.yml` + GitHub App + `hovmester-verify.yml` + `hovmester-automerge.yml` |
 
 **Steg 1 — Opprett GitHub App**
 
 Opprett en [GitHub App](https://docs.github.com/en/apps/creating-github-apps) og installer den i consumer-repoet.
 
-Appen trenger:
+App-installasjonen trenger minst:
 
 - **Contents: Read & write**
 - **Pull requests: Read & write**
@@ -129,7 +130,7 @@ Lagre deretter:
 
 - Private key som secret: `HOVMESTER_APP_PRIVATE_KEY`
 - App ID — du bruker den direkte i sync-workflowen (`pr_app_id: "123456"`)
-- Bot-login — du bruker den i verify-workflowen (f.eks. `my-sync-app[bot]`)
+- Bot-login — du bruker den i verify- og automerge-workflowene (f.eks. `my-sync-app[bot]`)
 
 Repoet må også ha dette slått på:
 
@@ -158,7 +159,7 @@ jobs:
 Da opprettes sync-PRen av Appen i stedet for `github-actions[bot]`. Det gjør to ting:
 
 - vanlige `pull_request`-checks og CI trigges som normalt
-- verify-workflowen kan godkjenne PRen med `GITHUB_TOKEN` uten self-approval-konflikt
+- automerge-workflowen kan godkjenne PRen med `GITHUB_TOKEN` uten self-approval-konflikt
 
 Hvis du bare trenger at CI skal trigges på sync-PRer, kan du stoppe her og merge manuelt.
 
@@ -170,27 +171,28 @@ Legg til `.github/workflows/hovmester-verify.yml` i consumer-repoet:
 <summary>Vis workflow</summary>
 
 ```yaml
-name: Verify and merge hovmester sync
+name: Verify hovmester sync
 
 on:
-  pull_request_target:
+  pull_request:
     types: [opened, synchronize, reopened]
   merge_group:
 
+permissions:
+  contents: read
+  pull-requests: read
+
 jobs:
   verify-hovmester-sync:
-    if: github.event_name == 'merge_group' || (github.head_ref == 'hovmester-sync' && github.event.pull_request.head.repo.full_name == github.repository)
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    permissions:
-      contents: read
-      pull-requests: write
     steps:
-      - name: Verify file scope
+      - name: Verify hovmester sync scope
         env:
           GH_TOKEN: ${{ github.token }}
+          EVENT_NAME: ${{ github.event_name }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
-          HEAD_REF: ${{ github.head_ref }}
+          HEAD_BRANCH: ${{ github.head_ref }}
           HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
           PR_AUTHOR: ${{ github.event.pull_request.user.login }}
           EXPECTED_PR_AUTHOR: "my-sync-app[bot]"  # din GitHub Apps bot-login
@@ -198,41 +200,42 @@ jobs:
         run: |
           set -euo pipefail
 
-          if [[ "$GITHUB_EVENT_NAME" == "merge_group" ]]; then
-            echo "✅ Merge queue — verification already completed on pull_request_target"
+          if [[ "$EVENT_NAME" == "merge_group" ]]; then
+            echo "✅ merge_group-passering for required check"
             exit 0
           fi
 
-          if [[ "$HEAD_REF" != "hovmester-sync" ]] || [[ "$HEAD_REPO" != "$REPO" ]]; then
-            echo "Not a hovmester sync PR — skipping"
+          if [[ "$HEAD_BRANCH" != "hovmester-sync" ]] || [[ "$HEAD_REPO" != "$REPO" ]]; then
+            echo "Ikke en hovmester-sync-PR i samme repo — hopper over"
             exit 0
           fi
 
           if [[ -z "$EXPECTED_PR_AUTHOR" ]]; then
-            echo "::error::HOVMESTER_APP_BOT_LOGIN must be set"
+            echo "::error::EXPECTED_PR_AUTHOR må settes"
             exit 1
           fi
 
           if [[ "$PR_AUTHOR" != "$EXPECTED_PR_AUTHOR" ]]; then
-            echo "::error::Unexpected PR author: $PR_AUTHOR"
-            echo "Expected PR author: $EXPECTED_PR_AUTHOR"
+            echo "::error::Uventet PR-forfatter: $PR_AUTHOR"
+            echo "Forventet PR-forfatter: $EXPECTED_PR_AUTHOR"
             exit 1
           fi
 
-          FILES=$(gh api "repos/${REPO}/pulls/${PR_NUMBER}/files" \
+          FILES=$(gh api "/repos/${REPO}/pulls/${PR_NUMBER}/files" \
             --paginate --jq '.[] | .filename, (.previous_filename // empty)')
 
-          if [ -z "$FILES" ]; then
-            echo "::error::No files found from pull request files API; failing closed"
+          if [[ -z "$FILES" ]]; then
+            echo "::error::Ingen filer fra PR files-API; fail closed"
             exit 1
           fi
-
-          echo "Changed files:"
-          echo "$FILES"
 
           while IFS= read -r file; do
             [[ -z "$file" ]] && continue
             case "$file" in
+              .github/workflows/*)
+                echo "::error::Workflow-filer er aldri tillatt i hovmester-sync-PRer"
+                exit 1
+                ;;
               .github/agents/*|\
               .github/instructions/*|\
               .github/skills/*|\
@@ -241,70 +244,238 @@ jobs:
               .github/.hovmester-manifest.json)
                 ;;
               *)
-                echo "::error::File outside sync scope: $file"
-                echo "Only hovmester-managed paths are allowed in sync PRs"
+                echo "::error::Fil utenfor sync-scope: $file"
+                echo "Bare hovmester-eide stier er tillatt i sync-PRer"
                 exit 1
                 ;;
             esac
           done <<< "$FILES"
 
-          echo "✅ All files within hovmester sync scope"
-
-      - name: Create GitHub App token for merge
-        id: app-token
-        if: github.head_ref == 'hovmester-sync' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.user.login == 'my-sync-app[bot]'
-        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3.0.0
-        with:
-          app-id: "123456"
-          private-key: ${{ secrets.HOVMESTER_APP_PRIVATE_KEY }}
-
-      - name: Approve sync PR
-        if: github.head_ref == 'hovmester-sync' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.user.login == 'my-sync-app[bot]'
-        env:
-          GH_TOKEN: ${{ github.token }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          REPO: ${{ github.repository }}
-        run: |
-          gh pr review "$PR_NUMBER" --repo "$REPO" --approve --body "Auto-approved: file scope verified ✅"
-
-      - name: Enable auto-merge
-        if: github.head_ref == 'hovmester-sync' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.user.login == 'my-sync-app[bot]'
-        env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          REPO: ${{ github.repository }}
-        run: |
-          gh pr merge "$PR_NUMBER" --repo "$REPO" --auto --squash
+          echo "✅ Alle filer er innenfor hovmester-scope"
 ```
 
 </details>
 
-> `pull_request_target` er trygt her fordi workflowen aldri sjekker ut PR-branchen. Den leser bare filstier via GitHub API og bruker repoets egne workflow-fil fra default branch.
->
-> `merge_group`-triggeren er en no-op som lar merge queue passere — verifiseringen skjer allerede på `pull_request_target`. Uten denne vil `verify-hovmester-sync` blokkere merge queue med "Expected — Waiting for status".
->
-> Approve-steget bruker fortsatt `GITHUB_TOKEN`, men merge-steget bruker et GitHub App-token fra `HOVMESTER_APP_PRIVATE_KEY`. Det gjør at `gh pr merge --auto --squash` kan legge PRen i merge queue uten å bli stoppet av GitHub sin anti-rekursjon for `GITHUB_TOKEN`-utløste workflow-runs.
+Denne workflowen er read-only: `contents: read`, `pull-requests: read`, ingen secrets og ingen write-token. Behold job-navnet `verify-hovmester-sync` uendret. Det er check-navnet branch protection og merge queue skal peke på.
 
-**Steg 4 — Sett branch protection**
+**Steg 4 — Legg til automerge-workflow**
 
-Sett `verify-hovmester-sync` som required status check på default branch. Hvis dere krever approvals for å merge, må bot-approval telle for disse PRene.
+Legg til `.github/workflows/hovmester-automerge.yml` i consumer-repoet:
 
-Første gang: merge `hovmester-verify.yml` til default branch før du aktiverer branch protection, ellers får du en chicken-and-egg-situasjon.
+<details>
+<summary>Vis workflow</summary>
 
-Det er hele oppsettet. Når hovmester lager en sync-PR:
+```yaml
+name: Automerge hovmester sync
+
+on:
+  workflow_run:
+    workflows: ["Verify hovmester sync"]
+    types: [completed]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: hovmester-automerge
+  cancel-in-progress: false
+
+jobs:
+  automerge-hovmester-sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Re-verify hovmester sync from default branch
+        id: verify
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          RUN_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+          RUN_EVENT: ${{ github.event.workflow_run.event }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+          HEAD_REPOSITORY: ${{ github.event.workflow_run.head_repository.full_name }}
+          EXPECTED_PR_AUTHOR: "my-sync-app[bot]"  # din GitHub Apps bot-login
+        run: |
+          set -euo pipefail
+
+          echo "should-merge=false" >> "$GITHUB_OUTPUT"
+
+          if [[ "$RUN_EVENT" != "pull_request" ]]; then
+            echo "Hopper over: workflow_run.event=$RUN_EVENT (forventer pull_request)"
+            exit 0
+          fi
+
+          if [[ "$RUN_CONCLUSION" != "success" ]]; then
+            echo "Hopper over: verify-workflowen konkluderte med $RUN_CONCLUSION"
+            exit 0
+          fi
+
+          if [[ "$HEAD_BRANCH" != "hovmester-sync" ]]; then
+            echo "Hopper over: workflow_run.head_branch=$HEAD_BRANCH"
+            exit 0
+          fi
+
+          if [[ "$HEAD_REPOSITORY" != "$REPO" ]]; then
+            echo "::error::workflow_run.head_repository.full_name må være samme repo"
+            exit 1
+          fi
+
+          mapfile -t PR_NUMBERS < <(
+            gh api "/repos/${REPO}/pulls?state=open&head=${REPO_OWNER}:hovmester-sync" \
+              --jq '.[].number'
+          )
+
+          if [[ "${#PR_NUMBERS[@]}" -ne 1 ]]; then
+            echo "::error::Forventet nøyaktig én åpen PR fra ${REPO_OWNER}:hovmester-sync, fant ${#PR_NUMBERS[@]}"
+            exit 1
+          fi
+
+          PR_NUMBER="${PR_NUMBERS[0]}"
+          REPO_NAME="${REPO#*/}"
+
+          PR_AUTHOR=$(gh api "/repos/${REPO}/pulls/${PR_NUMBER}" --jq '.user.login')
+          PR_HEAD_REPO=$(gh api "/repos/${REPO}/pulls/${PR_NUMBER}" --jq '.head.repo.full_name')
+          PR_HEAD_BRANCH=$(gh api "/repos/${REPO}/pulls/${PR_NUMBER}" --jq '.head.ref')
+          PR_HEAD_SHA=$(gh api graphql \
+            -f query='
+              query($owner: String!, $repo: String!, $prNumber: Int!) {
+                repository(owner: $owner, name: $repo) {
+                  pullRequest(number: $prNumber) {
+                    headRefOid
+                  }
+                }
+              }
+            ' \
+            -F owner="$REPO_OWNER" \
+            -F repo="$REPO_NAME" \
+            -F prNumber="$PR_NUMBER" \
+            --jq '.data.repository.pullRequest.headRefOid')
+
+          if [[ "$PR_AUTHOR" != "$EXPECTED_PR_AUTHOR" ]]; then
+            echo "::error::Uventet PR-forfatter: $PR_AUTHOR"
+            exit 1
+          fi
+
+          if [[ "$PR_HEAD_REPO" != "$REPO" ]]; then
+            echo "::error::PR-head må komme fra samme repo"
+            exit 1
+          fi
+
+          if [[ "$PR_HEAD_BRANCH" != "hovmester-sync" ]]; then
+            echo "::error::Uventet PR-head branch: $PR_HEAD_BRANCH"
+            exit 1
+          fi
+
+          if [[ "$PR_HEAD_SHA" != "$HEAD_SHA" ]]; then
+            echo "::error::PRens headRefOid matcher ikke workflow_run.head_sha"
+            exit 1
+          fi
+
+          FILES=$(gh api "/repos/${REPO}/pulls/${PR_NUMBER}/files" \
+            --paginate --jq '.[] | .filename, (.previous_filename // empty)')
+
+          if [[ -z "$FILES" ]]; then
+            echo "::error::Ingen filer fra PR files-API; fail closed"
+            exit 1
+          fi
+
+          while IFS= read -r file; do
+            [[ -z "$file" ]] && continue
+            case "$file" in
+              .github/workflows/*)
+                echo "::error::Workflow-filer er aldri tillatt i hovmester-sync-PRer"
+                exit 1
+                ;;
+              .github/agents/*|\
+              .github/instructions/*|\
+              .github/skills/*|\
+              .github/ISSUE_TEMPLATE/*|\
+              .github/PULL_REQUEST_TEMPLATE.md|\
+              .github/.hovmester-manifest.json)
+                ;;
+              *)
+                echo "::error::Fil utenfor sync-scope: $file"
+                exit 1
+                ;;
+            esac
+          done <<< "$FILES"
+
+          echo "should-merge=true" >> "$GITHUB_OUTPUT"
+          echo "pr-number=$PR_NUMBER" >> "$GITHUB_OUTPUT"
+          echo "head-sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+
+      - name: Approve sync PR with GITHUB_TOKEN
+        if: steps.verify.outputs.should-merge == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ steps.verify.outputs.pr-number }}
+          REPO: ${{ github.repository }}
+        run: |
+          gh pr review "$PR_NUMBER" --repo "$REPO" --approve --body "Auto-approved: hovmester sync re-verifisert ✅"
+
+      - name: Create GitHub App token for auto-merge
+        id: app-token
+        if: steps.verify.outputs.should-merge == 'true'
+        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3.0.0
+        with:
+          app-id: "123456"
+          private-key: ${{ secrets.HOVMESTER_APP_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+
+      - name: Enable auto-merge / merge queue
+        if: steps.verify.outputs.should-merge == 'true'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          PR_NUMBER: ${{ steps.verify.outputs.pr-number }}
+          HEAD_SHA: ${{ steps.verify.outputs.head-sha }}
+          REPO: ${{ github.repository }}
+        run: |
+          gh pr merge "$PR_NUMBER" --repo "$REPO" --auto --squash --match-head-commit "$HEAD_SHA"
+```
+
+</details>
+
+`workflow_run` bruker workflow-fila fra default branch og kjører aldri PR-kode. Likevel må denne workflowen alltid re-verifisere fail closed via GitHub API før approval og auto-merge, fordi verify-workflowen på `pull_request` kan bruke workflow-definisjonen fra PR-branchen.
+
+Token-skillet er bevisst:
+
+- `GITHUB_TOKEN` brukes bare til approval og trenger `pull-requests: write`
+- GitHub App-tokenet brukes til auto-merge/merge queue og App-installasjonen trenger minst `contents: write` og `pull-requests: write`
+- `actions/create-github-app-token` støtter permission-inputs, så eksempelet snevrer App-tokenet inn til bare disse rettighetene
+
+**Steg 5 — Sett branch protection og merge queue**
+
+- Sett `verify-hovmester-sync` som required status check på default branch
+- Ikke sett automerge-workflowen som required check
+- Hvis repoet bruker merge queue, må også andre required checks støtte `merge_group`
+- Første gang: merge `hovmester-verify.yml` og `hovmester-automerge.yml` til default branch før du aktiverer branch protection
+
+Når hovmester lager en sync-PR:
 
 1. PRen opprettes av GitHub Appen
-2. Verify-workflowen sjekker at kun hovmester-eide stier er endret
-3. `github-actions[bot]` godkjenner PRen
-4. GitHub auto-merger når required checks er grønne
+2. `verify-hovmester-sync` kjører på `pull_request` og `merge_group`
+3. Automerge-workflowen trigges via `workflow_run`, re-verifiserer PRen fra default branch og godkjenner den med `GITHUB_TOKEN`
+4. GitHub App-tokenet setter PRen i auto-merge eller merge queue med `gh pr merge --auto --squash --match-head-commit`
+
+**Migrering fra gammel `pull_request_target`-workflow**
+
+1. Erstatt den gamle kombinerte workflowen med to filer: `hovmester-verify.yml` og `hovmester-automerge.yml`
+2. Behold required check-navnet `verify-hovmester-sync`
+3. Fjern gammel `pull_request_target`-workflow når de nye workflowene ligger på default branch
+4. Ikke gjør automerge-workflowen required
 
 **Sikkerhetsmodell**
 
 - Sync-scriptet forvalter bare hovmesters managed paths under `.github/`
-- `.github/workflows/` er alltid ekskludert fra sync
-- Verify-workflowen eies av consumer-repoet og kan ikke synkes over
-- Verify-jobben er den uavhengige gaten som stopper auto-merge hvis PRen inneholder andre filstier enn det hovmester skal eie
-- Når du bruker auto-merge, sendes App-credentials inn i reusable workflowen for å opprette PRen som App. Det er et bevisst kompromiss for enklere consumer-oppsett
+- `.github/workflows/` er alltid ekskludert fra sync og eksplisitt forbudt i verify- og automerge-workflowene
+- Verify-workflowen er read-only og bruker ingen secrets
+- Automerge-workflowen kjører på default branch-kode og godtar bare same-repo-PRer fra `hovmester-sync`
+- Automerge re-verifiserer konklusjon, `workflow_run.event`, forfatter, `headRefOid`, fil-allowlist og head SHA før approval og merge
+- `--match-head-commit` binder merge-steget til verifisert SHA, så en oppdatert branch ikke kan få auto-merge på gammel verifisering
 
 ## Slik fungerer det
 
