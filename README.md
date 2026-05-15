@@ -323,17 +323,16 @@ jobs:
             exit 1
           fi
 
-          mapfile -t PR_NUMBERS < <(
-            gh api "/repos/${REPO}/pulls?state=open&head=${REPO_OWNER}:hovmester-sync" \
-              --jq '.[].number'
-          )
+          PR_NUMBERS=$(gh api "/repos/${REPO}/pulls?state=open&head=${REPO_OWNER}:hovmester-sync" \
+            --jq '.[].number')
+          PR_COUNT=$(printf '%s\n' "$PR_NUMBERS" | sed '/^$/d' | wc -l | tr -d ' ')
 
-          if [[ "${#PR_NUMBERS[@]}" -ne 1 ]]; then
-            echo "::error::Forventet nøyaktig én åpen PR fra ${REPO_OWNER}:hovmester-sync, fant ${#PR_NUMBERS[@]}"
+          if [[ "$PR_COUNT" -ne 1 ]]; then
+            echo "::error::Forventet nøyaktig én åpen PR fra ${REPO_OWNER}:hovmester-sync, fant $PR_COUNT"
             exit 1
           fi
 
-          PR_NUMBER="${PR_NUMBERS[0]}"
+          PR_NUMBER=$(printf '%s\n' "$PR_NUMBERS" | sed -n '1p')
           REPO_NAME="${REPO#*/}"
 
           PR_AUTHOR=$(gh api "/repos/${REPO}/pulls/${PR_NUMBER}" --jq '.user.login')
@@ -449,9 +448,10 @@ Token-skillet er bevisst:
 
 **Steg 5 — Sett branch protection og merge queue**
 
-- Sett `verify-hovmester-sync` som required status check på default branch
+- Sett `verify-hovmester-sync` som required status check for hovmester-sync-flyten på default branch
+- Behold repoets øvrige vanlige required checks for vanlige PRer, for eksempel CI-, test- og security-checks. `verify-hovmester-sync` er et tillegg for hovmester-sync, ikke en erstatning for annen branch protection
 - Ikke sett automerge-workflowen som required check
-- Hvis repoet bruker merge queue, må også andre required checks støtte `merge_group`
+- Hvis repoet bruker merge queue, må både `verify-hovmester-sync` og andre required checks støtte `merge_group`
 - Første gang: merge `hovmester-verify.yml` og `hovmester-automerge.yml` til default branch før du aktiverer branch protection
 
 Når hovmester lager en sync-PR:
