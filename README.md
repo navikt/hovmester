@@ -327,8 +327,13 @@ jobs:
             --jq '.[].number')
           PR_COUNT=$(printf '%s\n' "$PR_NUMBERS" | sed '/^$/d' | wc -l | tr -d ' ')
 
-          if [[ "$PR_COUNT" -ne 1 ]]; then
-            echo "::error::Forventet nøyaktig én åpen PR fra ${REPO_OWNER}:hovmester-sync, fant $PR_COUNT"
+          if [[ "$PR_COUNT" -eq 0 ]]; then
+            echo "Hopper over: ingen åpne PRer fra ${REPO_OWNER}:hovmester-sync"
+            exit 0
+          fi
+
+          if [[ "$PR_COUNT" -gt 1 ]]; then
+            echo "::error::Forventet maks én åpen PR fra ${REPO_OWNER}:hovmester-sync, fant $PR_COUNT"
             exit 1
           fi
 
@@ -442,7 +447,7 @@ jobs:
 
 Token-skillet er bevisst:
 
-- `GITHUB_TOKEN` brukes bare til approval og trenger `pull-requests: write`
+- `GITHUB_TOKEN` brukes til re-verifisering via GitHub API og approval, ikke til auto-merge/merge queue, og eksempelet gir det `contents: read` og `pull-requests: write`
 - GitHub App-tokenet brukes til auto-merge/merge queue og App-installasjonen trenger minst `contents: write` og `pull-requests: write`
 - `actions/create-github-app-token` støtter permission-inputs, så eksempelet snevrer App-tokenet inn til bare disse rettighetene
 
