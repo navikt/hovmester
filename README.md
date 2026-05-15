@@ -238,8 +238,7 @@ jobs:
               .github/skills/*|\
               .github/ISSUE_TEMPLATE/*|\
               .github/PULL_REQUEST_TEMPLATE.md|\
-              .github/.hovmester-manifest.json|\
-              .github/.copilot-kitchen-manifest.json)
+              .github/.hovmester-manifest.json)
                 ;;
               *)
                 echo "::error::File outside sync scope: $file"

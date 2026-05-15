@@ -83,7 +83,7 @@ Bruk kortnavn uten filendelse: `hovmester` (ikke `hovmester.agent.md`), `securit
 - Norsk innhold i instruksjoner/skills (teamets arbeidsspråk)
 
 ### Manifest og cleanup
-Sync-scriptet skriver `.hovmester-manifest.json` i target-repo for å spore synkede filer. Stale filer fjernes automatisk. Consumer-repoer skal ikke redigere synkede filer. Repoer som tidligere brukte `.copilot-kitchen-manifest.json` migreres automatisk til det nye navnet ved første sync.
+Sync-scriptet skriver `.hovmester-manifest.json` i target-repo for å spore synkede filer. Stale filer fjernes automatisk for hovmester-filer som allerede er sporet i dette manifestet. Consumer-repoer skal ikke redigere synkede filer.
 
 ## Kommandoer
 
