@@ -23,11 +23,12 @@ Disse malene er manuell rollout-støtte for consumer-repoer som vil auto-merg'e 
 - Malene ligger utenfor `dist/` og blir ikke synket til consumer-repoer automatisk.
 - Workflowene forbyr endringer i `.github/workflows/*` og godtar bare hovmester-forvaltede stier.
 - `hovmester-automerge.yml` bruker `GITHUB_TOKEN` til approval og et GitHub App-token med minst mulige rettigheter til merge.
+- SHA-pinnede GitHub Actions i malene må holdes oppdatert. Bruk gjerne Dependabot eller Renovate for GitHub Actions, så oppdateringer fanges opp løpende.
 
-## Eksempelverdier
+## Eksempler på format
 
-Disse verdiene gjelder bare hvis de faktisk matcher repoet ditt:
+Bytt ut plassholderne med verdier som faktisk hører til repoet ditt:
 
-- `__EXPECTED_PR_AUTHOR__` → `teamesyfo-automerge[bot]`
-- `__APP_ID__` → `2906300`
-- `__APP_PRIVATE_KEY_SECRET__` → `AUTOMERGE_APP_PRIVATE_KEY`
+- `__EXPECTED_PR_AUTHOR__` → `my-sync-app[bot]`
+- `__APP_ID__` → `123456`
+- `__APP_PRIVATE_KEY_SECRET__` → `MY_SYNC_APP_PRIVATE_KEY`
