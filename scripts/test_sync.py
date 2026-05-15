@@ -6,6 +6,7 @@ from pathlib import Path
 
 from sync import (
     MANIFEST_PATH,
+    ManifestError,
     apply_sync,
     build_file_mapping,
     compute_diff,
@@ -126,9 +127,21 @@ class TestManifest:
     def test_read_manifest_returns_none_when_missing(self, tmp_path: Path) -> None:
         assert read_manifest(tmp_path) is None
 
-    def test_read_manifest_returns_none_when_corrupt(self, tmp_path: Path) -> None:
+    def test_read_manifest_raises_when_corrupt_json(self, tmp_path: Path) -> None:
         _write(tmp_path / MANIFEST_PATH, "not json{{{")
-        assert read_manifest(tmp_path) is None
+        try:
+            read_manifest(tmp_path)
+            assert False, "Expected ManifestError"
+        except ManifestError:
+            pass
+
+    def test_read_manifest_raises_when_structure_is_invalid(self, tmp_path: Path) -> None:
+        _write(tmp_path / MANIFEST_PATH, '{"files": {"unexpected": true}}')
+        try:
+            read_manifest(tmp_path)
+            assert False, "Expected ManifestError"
+        except ManifestError:
+            pass
 
     def test_find_stale_by_manifest(self, tmp_path: Path) -> None:
         _write(tmp_path / ".github" / "agents" / "old.md", "old")
@@ -157,6 +170,15 @@ class TestManifest:
             manifest_files=[".github/workflows/legacy.yml"],
         )
         assert stale == []
+
+    def test_find_stale_by_manifest_matches_directory_boundaries(self, tmp_path: Path) -> None:
+        _write(tmp_path / ".github" / "workflows-old" / "legacy.yml", "name: legacy")
+        stale = find_stale_by_manifest(
+            tmp_path,
+            current_files=set(),
+            manifest_files=[".github/workflows-old/legacy.yml"],
+        )
+        assert stale == [".github/workflows-old/legacy.yml"]
 
 
 # ---------------------------------------------------------------------------
@@ -197,6 +219,42 @@ class TestApplySync:
 
         assert ".github/agents/removed.agent.md" not in diff.removed
         assert orphan.exists()
+
+    def test_fails_closed_when_manifest_is_corrupt(self, tmp_path: Path) -> None:
+        source = tmp_path / "src"
+        target = tmp_path / "tgt"
+        _make_source(source)
+        target.mkdir()
+
+        _write(target / MANIFEST_PATH, "not json{{{")
+
+        try:
+            apply_sync(build_file_mapping(source), target)
+            assert False, "Expected ManifestError"
+        except ManifestError:
+            pass
+
+        assert (target / MANIFEST_PATH).read_text(encoding="utf-8") == "not json{{{"
+        assert not (target / ".github" / "agents" / "bot.agent.md").exists()
+
+    def test_fails_closed_when_manifest_structure_is_invalid(self, tmp_path: Path) -> None:
+        source = tmp_path / "src"
+        target = tmp_path / "tgt"
+        _make_source(source)
+        target.mkdir()
+
+        _write(target / MANIFEST_PATH, '{"files": {"unexpected": true}}')
+
+        try:
+            apply_sync(build_file_mapping(source), target)
+            assert False, "Expected ManifestError"
+        except ManifestError:
+            pass
+
+        assert (target / MANIFEST_PATH).read_text(encoding="utf-8") == (
+            '{"files": {"unexpected": true}}'
+        )
+        assert not (target / ".github" / "agents" / "bot.agent.md").exists()
 
     def test_deletes_stale_file_via_manifest(self, tmp_path: Path) -> None:
         source = tmp_path / "src"

@@ -50,6 +50,10 @@ class SyncDiff:
     unchanged: list[str] = field(default_factory=list)
 
 
+class ManifestError(ValueError):
+    """Raised when the hovmester manifest exists but cannot be trusted."""
+
+
 # ---------------------------------------------------------------------------
 # Core functions
 # ---------------------------------------------------------------------------
@@ -73,6 +77,11 @@ def transform_issue_template(content: str, github_project: str) -> str:
         content,
         flags=re.MULTILINE,
     )
+
+
+def _is_excluded_target_path(rel: str) -> bool:
+    """Return True when rel is inside an excluded target directory."""
+    return any(rel == excl or rel.startswith(f"{excl}/") for excl in EXCLUDED_TARGET_DIRS)
 
 
 def build_file_mapping(source: Path) -> dict[str, tuple[Path, str]]:
@@ -101,7 +110,7 @@ def build_file_mapping(source: Path) -> dict[str, tuple[Path, str]]:
                 continue
             rel = src_file.relative_to(src_dir)
             target_rel = f"{tgt_dir}/{rel}"
-            if any(target_rel.startswith(excl) for excl in EXCLUDED_TARGET_DIRS):
+            if _is_excluded_target_path(target_rel):
                 continue
             source_rel = f"{src_dir_name}/{rel}"
             mapping[target_rel] = (src_file, source_rel)
@@ -111,7 +120,7 @@ def build_file_mapping(source: Path) -> dict[str, tuple[Path, str]]:
         if src_file.is_symlink():
             continue
         if src_file.is_file():
-            if any(tgt_rel.startswith(excl) for excl in EXCLUDED_TARGET_DIRS):
+            if _is_excluded_target_path(tgt_rel):
                 continue
             mapping[tgt_rel] = (src_file, src_name)
 
@@ -313,15 +322,27 @@ def _file_allowed_by_collections(
 
 
 def read_manifest(target_root: Path) -> list[str] | None:
-    """Read the manifest file. Returns None if it doesn't exist or is corrupt."""
+    """Read the manifest file. Returns None only when it doesn't exist."""
     manifest_path = target_root / MANIFEST_PATH
     if not manifest_path.exists():
         return None
     try:
         data = json.loads(manifest_path.read_text(encoding="utf-8"))
-        return data.get("files", [])
-    except (json.JSONDecodeError, OSError):
-        return None
+    except json.JSONDecodeError as e:
+        raise ManifestError(f"Invalid JSON in {manifest_path}: {e}") from e
+    except OSError as e:
+        raise ManifestError(f"Failed to read {manifest_path}: {e}") from e
+
+    if not isinstance(data, dict):
+        raise ManifestError(f"Invalid manifest format in {manifest_path}: expected object")
+
+    files = data.get("files")
+    if not isinstance(files, list) or not all(isinstance(path, str) for path in files):
+        raise ManifestError(
+            f"Invalid manifest format in {manifest_path}: expected 'files' to be a list of strings"
+        )
+
+    return files
 
 
 def write_manifest(target_root: Path, files: list[str], source_sha: str = "") -> None:
@@ -342,7 +363,7 @@ def find_stale_by_manifest(
     """Find files that are in the manifest but no longer in the current file list."""
     stale: list[str] = []
     for rel in manifest_files:
-        if any(rel.startswith(excl) for excl in EXCLUDED_TARGET_DIRS):
+        if _is_excluded_target_path(rel):
             continue
         if rel in current_files:
             continue
@@ -399,6 +420,12 @@ def apply_sync(
     diff = compute_diff(mapping, target_root, github_project)
     current_files = set(mapping.keys())
 
+    manifest_files = read_manifest(target_root)
+    if manifest_files is not None:
+        stale = find_stale_by_manifest(target_root, current_files, manifest_files)
+    else:
+        stale = []
+
     # Copy added and changed files (via helper so template transforms apply)
     failed: set[str] = set()
     for target_rel in diff.added + diff.changed:
@@ -411,13 +438,6 @@ def apply_sync(
         except OSError as e:
             print(f"WARNING: Failed to copy {target_rel}: {e}", file=sys.stderr)
             failed.add(target_rel)
-
-    # Find stale files via manifest only
-    manifest_files = read_manifest(target_root)
-    if manifest_files is not None:
-        stale = find_stale_by_manifest(target_root, current_files, manifest_files)
-    else:
-        stale = []
 
     # Always clean up extra files in owned skill directories (e.g. metadata.json
     # that was never in any manifest but lives inside a skill dir we own)
