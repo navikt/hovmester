@@ -16,10 +16,13 @@ Opprett en ny Flyway-migreringsfil etter teamets konvensjoner.
 ## Konvensjoner
 
 - Foretrekk fail-fast i versjonerte migreringer — bruk `IF NOT EXISTS` / `IF EXISTS` bare når du bevisst vil gjøre migreringen idempotent
+- Unntak: `CREATE INDEX CONCURRENTLY IF NOT EXISTS` på eksisterende tabeller er et bevisst idempotent valg for trygg deploy og re-kjøring etter avbrudd
 - Bruk `TIMESTAMPTZ` for tidsstempler (med `DEFAULT NOW()`)
 - Bruk `UUID` med `gen_random_uuid()` for primærnøkler der det passer
 - Bruk `TEXT` i stedet for `VARCHAR`
 - Legg til indekser for kolonner det søkes ofte på
+- Bruk `CREATE INDEX CONCURRENTLY IF NOT EXISTS` for nye indekser på eksisterende PostgreSQL-tabeller
+- Bruk vanlig `CREATE INDEX` bare når indeksen opprettes sammen med en ny tom tabell i samme migrering
 - Én fokusert endring per migrering
 
 ## Mal
@@ -35,19 +38,38 @@ CREATE TABLE table_name (
 CREATE INDEX idx_table_name_field ON table_name(field);
 ```
 
-## CONCURRENTLY-indekser
+Bruk eksempelet over bare når tabellen opprettes i samme migrering og fortsatt er tom.
 
-Bruk egen migrering når du må opprette indeks på stor tabell i produksjon uten å blokkere skriving.
+## Indekser på eksisterende tabeller
+
+Bruk `CREATE INDEX CONCURRENTLY IF NOT EXISTS` for nye indekser på eksisterende tabeller, også når brukeren ikke sier at tabellen er stor. Dette er standardvalget i PostgreSQL-migreringer som treffer tabeller med data.
 
 ```sql
 -- V5__add_index_concurrently.sql
 -- NB: CREATE INDEX CONCURRENTLY kan ikke kjøre i transaksjon
--- Kjør denne migreringen alene og verifiser Flyway-oppsettet først
+-- Legg denne i egen migrering og verifiser Flyway-oppsettet først
 -- migration:executeInTransaction=false
 CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_vedtak_bruker ON vedtak (bruker_id);
 ```
 
-Hvis prosjektet bruker rammeverk-konfig for Flyway, verifiser tilsvarende innstilling der i stedet for å gjette på globale properties.
+`CREATE INDEX CONCURRENTLY` må ligge i egen migrering og ikke kjøre i transaksjon. Hvis prosjektet bruker rammeverk-konfig for Flyway, verifiser tilsvarende innstilling der i stedet for å gjette på globale properties.
+
+## Langvarige migreringer og NAIS
+
+Hvis migreringen kan ta tid, sjekk også `nais/` eller `.nais/` for appens manifest. Verifiser at appen har `spec.startup` hvis Flyway må få tid til å fullføre før liveness overtar.
+
+Hvis `spec.startup` mangler, foreslå eller legg den til med samme health-path som appen allerede bruker, for eksempel:
+
+```yaml
+spec:
+  startup:
+    path: /isAlive
+    initialDelay: 10
+    periodSeconds: 5
+    failureThreshold: 60
+```
+
+Ikke endre liveness/readiness unødvendig. Målet er å unngå at poden blir restartet før migreringen er ferdig.
 
 ## Repeterbare migreringer
 
