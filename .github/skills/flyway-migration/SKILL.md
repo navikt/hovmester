@@ -16,12 +16,11 @@ Opprett en ny Flyway-migreringsfil etter teamets konvensjoner.
 ## Konvensjoner
 
 - Foretrekk fail-fast i versjonerte migreringer — bruk `IF NOT EXISTS` / `IF EXISTS` bare når du bevisst vil gjøre migreringen idempotent
-- Unntak: `CREATE INDEX CONCURRENTLY IF NOT EXISTS` på eksisterende tabeller er et bevisst idempotent valg for trygg deploy og re-kjøring etter avbrudd
 - Bruk `TIMESTAMPTZ` for tidsstempler (med `DEFAULT NOW()`)
 - Bruk `UUID` med `gen_random_uuid()` for primærnøkler der det passer
 - Bruk `TEXT` i stedet for `VARCHAR`
 - Legg til indekser for kolonner det søkes ofte på
-- Bruk `CREATE INDEX CONCURRENTLY IF NOT EXISTS` for nye indekser på eksisterende PostgreSQL-tabeller
+- Bruk `CREATE INDEX CONCURRENTLY IF NOT EXISTS` for nye indekser på eksisterende PostgreSQL-tabeller, men behandle avbrudd eksplisitt: en invalid indeks med samme navn kan bli liggende igjen
 - Bruk vanlig `CREATE INDEX` bare når indeksen opprettes sammen med en ny tom tabell i samme migrering
 - Én fokusert endring per migrering
 
@@ -48,11 +47,11 @@ Bruk `CREATE INDEX CONCURRENTLY IF NOT EXISTS` for nye indekser på eksisterende
 -- V5__add_index_concurrently.sql
 -- NB: CREATE INDEX CONCURRENTLY kan ikke kjøre i transaksjon
 -- Legg denne i egen migrering og verifiser Flyway-oppsettet først
--- migration:executeInTransaction=false
+-- flyway:executeInTransaction=false
 CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_vedtak_bruker ON vedtak (bruker_id);
 ```
 
-`CREATE INDEX CONCURRENTLY` må ligge i egen migrering og ikke kjøre i transaksjon. Hvis prosjektet bruker rammeverk-konfig for Flyway, verifiser tilsvarende innstilling der i stedet for å gjette på globale properties.
+`CREATE INDEX CONCURRENTLY IF NOT EXISTS` må ligge i egen migrering og ikke kjøre i transaksjon. Hvis en slik migrering ble avbrutt, må du sjekke om en invalid indeks med samme navn ligger igjen og rydde den opp før ny kjøring; `IF NOT EXISTS` kan ellers skjule problemet i stedet for å gjøre re-kjøring trygg. Hvis prosjektet bruker rammeverk-konfig for Flyway, verifiser tilsvarende innstilling der i stedet for å gjette på globale properties.
 
 ## Langvarige migreringer og NAIS
 
