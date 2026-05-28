@@ -74,13 +74,13 @@ Kjør rask etikksjekk (alle 7 dimensjoner). Se [REFERENCE.md](REFERENCE.md) for 
 
 | Dimensjon | Spørsmål |
 |-----------|----------|
-| **F**airness | Rammer noen grupper urettferdig? |
-| **O**penness | Er dultingen synlig og forklarbar? |
-| **R**espect | Respekteres autonomi og verdighet? |
-| **G**oals | Er målet i brukerens interesse? |
-| **O**pinions | Ville brukerne akseptere dette? |
-| **O**ptions | Bevares reell valgfrihet? |
-| **D**elegation | Er det riktig instans som dulter? |
+| Fairness | Rammer noen grupper urettferdig? |
+| Openness | Er dultingen synlig og forklarbar? |
+| Respect | Respekteres autonomi og verdighet? |
+| Goals | Er målet i brukerens interesse? |
+| Opinions | Ville brukerne akseptere dette? |
+| Options | Bevares reell valgfrihet? |
+| Delegation | Er det riktig instans som dulter? |
 
 ### Steg 6: Produser dulting brief
 
