@@ -73,7 +73,7 @@ Collections grupperer instruksjoner, skills og agenter i navngitte pakker du vel
 |---|---|
 | `hovmester` *(alltid inkludert)* | Orkestrator-agentene, felles instruksjoner (sikkerhet, Docker, GitHub Actions), 13 generiske skills og issue-/PR-templates |
 | `backend` | Kotlin-instruksjon + 7 backend-skills (Ktor, Spring, Flyway, Kafka, Postgres, API-design, auth) |
-| `frontend` | Frontend- og tilgjengelighets-instruksjoner + 6 frontend-skills (Aksel, auth, Figma-workflow, Lumi, prototype, accessibility-review) + designer-agent |
+| `frontend` | Frontend- og tilgjengelighets-instruksjoner + 7 frontend-skills (accessibility-review, Aksel, auth, dulting, Figma-workflow, Lumi, prototype) + designer-agent |
 
 **Eksempler:**
 - `"backend"` — backend-repo
