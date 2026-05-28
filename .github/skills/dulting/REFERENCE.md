@@ -8,6 +8,19 @@ Teknikkatalog, etiske vurderinger og måleprinsipper for `/dulting`.
 - Bruk dem som inspirasjon og utgangspunkt, ikke som bevis for effekt.
 - DellaVigna & Linos (2022) viser at nudge-effekter ikke alltid replikerer i stor skala.
 
+## Barriere → teknikk
+
+Bruk denne tabellen for rask lookup etter at du har diagnostisert hovedbarrieren (Steg 2 i SKILL.md):
+
+| Barriere | Førstevalg-teknikker | Unngå |
+|----------|---------------------|-------|
+| **Lav motivasjon** | Sosial norm, tapsframing (varsomt), vis gevinst, personalisering | Friksjonsfjerning alene løser ikke motivasjon |
+| **Lav evne / for vanskelig** | Forenkling, defaults, stegvis avsløring, friksjonsfjerning | Tapsframing (skaper press uten å gjøre det enklere) |
+| **Manglende prompt** | Triggere/påminnelser, salience, handlingsrettet språk | For mange samtidige prompter (notifikasjonstretthet) |
+| **Lav tillit** | Åpenhet, forklar defaults, vis kilde for normer, empatisk tone | Tidspress, sosial norm (oppleves som manipulasjon) |
+| **Sårbar situasjon** | Lav friksjon, empatisk tone, tydelig «hopp over», små steg | Tapsframing, sterke defaults, tidspress |
+| **Vet ikke at de skal** | Tydelig informasjon, prompt i riktig øyeblikk | Dulting (informasjon først, dulting deretter) |
+
 ## Teknikkatalog
 
 ### 1. Defaults (forhåndsvalg)
