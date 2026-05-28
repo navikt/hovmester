@@ -1,101 +1,120 @@
 ---
 name: dulting
-description: Dulting (nudging) i Nav-tjenester — utforsking, design og prototyping av atferdsteknikker som øker bruk, senker terskel og styrker ønsket handling uten mørke mønstre. Brukes via /dulting ved utforsking av dulting-muligheter, design av varsler, påminnelser, defaults, fremdrift eller motiverende tekst, og for skissering med design-agenten.
+description: "Dulting (nudging) i Nav-tjenester — utforsk muligheter, design intervensjoner og prototype med EAST, Fogg og FORGOOD-etikk. Brukes via /dulting ved utforsking av dulting-muligheter eller design av atferdsintervensjoner."
 ---
 
 # Dulting — atferdsdesign for Nav-tjenester
 
-Retningslinjer for å utforske, designe og implementere dulting (nudging) i Nav-tjenester. Bygger på EAST-rammeverket, Fogg Behavior Model, choice architecture og FORGOOD-etikk. Eksemplene er designhypoteser fra oppfølgingsplan-kontekst og tjener som mønstre — de er ikke bevist i produksjon og krever egen tilpasning og testing i hver tjeneste.
+Hjelper med å utforske, designe og teste dulting (nudging) i Nav-tjenester gjennom guidet dialog. Bygger på EAST, Fogg, FORGOOD og Nav-spesifikke guardrails.
 
-## Når du skal bruke skillen
+## Når brukes denne?
 
-Bruk `/dulting` når du:
+- Utforsker en brukerreise for dulting-muligheter
+- Designer varsler, påminnelser, defaults eller motiverende tekst
+- Vil redusere friksjon eller øke gjennomføring av ønsket handling
+- Skisserer eller prototyper en dulte-idé
 
-- Utforsker en eksisterende løsning for dulting-muligheter
-- Identifiserer nudge-punkter i en brukerreise
-- Designer varsler, påminnelser, statusmeldinger eller onboarding
-- Velger defaults og forhåndsutfylte verdier
-- Skriver motiverende eller handlingsrettet mikrotekst
-- Vil redusere friksjon eller øke motivasjon for handling
-- Skisserer eller prototyper en dulte-idé (gjerne sammen med `/prototype` eller `@designer`)
+## Prosess
 
-## Kjernemodeller
+Still spørsmål **ett om gangen**. Bruk flervalg der mulig.
 
-### EAST (gjør det Enkelt, Attraktivt, Sosialt, Tidsriktig)
+### Steg 0: Er dette et dulte-problem?
 
-BIT oppdaterte EAST i desember 2024 med Digital EAST Cards for å bryte ned digitale brukerreiser og finne riktige dultepunkter.
+Før du foreslår dulting, avklar om problemet faktisk bør løses med atferdspåvirkning:
 
-| Prinsipp | Anvendelse (eksempler fra oppfølgingsplanen) |
-|----------|--------------------------------------------------------|
-| **Enkelt** | Fjern steg, bruk defaults, forhåndsutfyll, vis én ting om gangen |
-| **Attraktivt** | Vis gevinst, bruk fremdrift, personaliser budskap |
-| **Sosialt** | Vis at andre gjør det, bruk normative formuleringer |
-| **Tidsriktig** | Dulte i beslutningsøyeblikket, bruk frister aktivt |
+> Hva hindrer brukeren i dag?
+> A) Vet ikke at de skal gjøre noe (manglende prompt)
+> B) Vet det, men det er for vanskelig/kronglete (friksjon/sludge)
+> C) Vet det, men er ikke motivert nok (motivasjon)
+> D) Forstår ikke regelverket eller konsekvensene (informasjon/tillit)
+> E) Usikker — jeg vil utforske brukerreisen
 
-### Fogg: B = MAP (Behavior = Motivation + Ability + Prompt)
+**Hvis B:** Fjern friksjon/sludge først — det er ikke dulting, det er bedre tjenestedesign.
+**Hvis D:** Forbedre informasjon og språk — bruk `/klarsprak`.
+**Hvis A, C eller E:** Fortsett til neste steg.
 
-Handling skjer når motivasjon, evne og en trigger møtes samtidig. Hvis brukeren ikke handler — finn hvilken faktor som mangler:
+### Steg 1: Forstå kontekst
 
-- **Lav motivasjon** → Vis konsekvens, gevinst eller sosial norm
-- **Lav evne** → Fjern friksjon, forenkle, bruk defaults
-- **Manglende prompt** → Riktig tidspunkt, tydelig CTA, visuell salience
+Spør om:
+1. Hvilken brukerreise eller flate gjelder det?
+2. Hvilken konkret handling vil du ha mer av? (Formuler: *Når X skjer, skal bruker Y gjøre Z*)
+3. Hva skjer i dag? Hvor stopper det opp?
+4. Er handlingen frivillig, pliktig eller rettighetskritisk?
 
-## Teknikker
+### Steg 2: Diagnostiser barriere
 
-Se [REFERENCE.md](REFERENCE.md) for fullstendig katalog med eksempler.
+Bruk Fogg (B = MAP) for å finne hovedbarrieren:
 
-### Tekstlig dulting
+| Faktor | Tegn | Tiltak |
+|--------|------|--------|
+| **Motivasjon** | Brukeren kan, men gidder ikke / ser ikke poenget | Vis konsekvens, gevinst, sosial norm |
+| **Evne** | Brukeren vil, men det er for vanskelig | Forenkling, defaults, stegvis avsløring |
+| **Prompt** | Brukeren vil og kan, men glemmer / ser ikke | Riktig tidspunkt, synlig CTA, påminnelse |
 
-1. **Tapsframing** — vis hva man mister ved å ikke handle (sterkere enn gevinst)
-2. **Handlingsrettet språk** — konkret neste steg, ikke abstrakt informasjon
-3. **Sosial norm** — «De fleste arbeidsgivere lager planen innen 2 uker»
-4. **Personalisering** — bruk navn, situasjon, tidsreferanser
-5. **Fristbevissthet** — gjør frister konkrete med dato, ikke «innen 4 uker»
+Spør: *Tror du hovedbarrieren er motivasjon, evne eller prompt?*
 
-### Visuell/funksjonell dulting
+### Steg 3: Fjern sludge først
 
-1. **Smarte defaults** — forhåndsutfyll, foreslå innhold, velg beste alternativ
-2. **Fremdriftsindikator** — vis hvor langt brukeren har kommet
-3. **Stegvis avsløring** — én beslutning om gangen, ikke overvelm
-4. **Salience** — fremhev viktigste handling visuelt (størrelse, farge, plassering)
-5. **Friksjonsfjerning** — fjern unødvendige klikk, bekreftelser og omveier
+Før sterkere dulting, kartlegg unødvendig friksjon i reisen:
+- Unødvendige klikk, bekreftelser, omveier?
+- Dokumentkrav som kunne vært forhåndsutfylt?
+- Informasjon som forvirrer mer enn den hjelper?
 
-## FORGOOD — etisk vurdering av dulting
+Fjern sludge før du legger på dulting.
 
-Hver dulte skal vurderes gjennom FORGOOD-rammeverket (Lades & Delaney, 2022), et sentralt etisk rammeverk for atferdsintervensjoner som også brukes i internasjonalt veiledningsarbeid hos blant annet OECD og UNICEF.
+### Steg 4: Design dultehypotese
 
-| Dimensjon | Spørsmål for Nav-tjenesten din |
-|-----------|--------------------------------|
-| **F**airness | Rammer dultingen noen grupper urettferdig? |
-| **O**penness | Er dultingen åpen og synlig? |
-| **R**espect | Respekterer dultingen brukerens autonomi og verdighet? |
-| **G**oals | Er målet legitimt og i brukerens interesse? |
-| **O**pinions | Ville brukerne akseptere dultingen? |
-| **O**ptions | Bevares valgfriheten? |
+Foreslå **2-3 intervensjoner** med ulik styrke. Se [REFERENCE.md](REFERENCE.md) for teknikkatalog.
+
+For hver: beskriv teknikk, plassering i flyten, og forventet effekt.
+
+### Steg 5: FORGOOD-vurdering
+
+Kjør rask etikksjekk (alle 7 dimensjoner). Se [REFERENCE.md](REFERENCE.md) for detaljer.
+
+| Dimensjon | Spørsmål |
+|-----------|----------|
+| **F**airness | Rammer noen grupper urettferdig? |
+| **O**penness | Er dultingen synlig og forklarbar? |
+| **R**espect | Respekteres autonomi og verdighet? |
+| **G**oals | Er målet i brukerens interesse? |
+| **O**pinions | Ville brukerne akseptere dette? |
+| **O**ptions | Bevares reell valgfrihet? |
 | **D**elegation | Er det riktig instans som dulter? |
 
-### Sjekkliste for hver dulte
+### Steg 6: Produser dulting brief
 
-- [ ] Bestått FORGOOD-vurdering (alle syv dimensjoner)
-- [ ] Normative utsagn basert på faktiske data
-- [ ] Ingen mørke mønstre (dark patterns / sludge)
-- [ ] Sårbare grupper ivaretatt
+Lever et strukturert artefakt:
 
-## Målgrupper
+```markdown
+## Dulting brief
+- **Brukerreise:** [beskrivelse]
+- **Ønsket atferd:** Når X, skal Y gjøre Z
+- **Dagens atferd / baseline:** [hva skjer nå]
+- **Barriere:** motivasjon / evne / prompt
+- **Intervensjon:** [teknikk + plassering]
+- **Risiko:** [FORGOOD-funn, sårbare grupper]
+- **Måling:** [primærmetrikk + guardrail-metrikk]
+- **Neste steg:** prototype / brukertest / A/B-test
+```
 
-| Målgruppe | Motivasjon | Barriere | Dulte-strategi |
-|-----------|-----------|----------|----------------|
-| **Arbeidsgiver** | Unngå lovbrudd, beholde ansatt | Vet ikke hvordan, travel, usikker | Forenkling + tidspress + veiledning |
-| **Sykmeldt** | Komme tilbake, beholde jobb | Syk, lav energi, usikker på rettigheter | Lav friksjon + empatisk tone + små steg |
-| **Egen målgruppe** | Tilpass til faktisk mål, gevinst og plikt i domenet ditt | Kartlegg faktisk brukerreise, sårbarhet og beslutningsøyeblikk | Bruk oppfølgingsplan-eksemplene som mønstre, ikke som bevis for effekt i ditt domene |
+### Steg 7: Prototype og test
 
-## Arbeidsflyt
+- Bruk `/prototype` eller `@designer` for å visualisere
+- Bruk `/aksel-design` for komponentvalg
+- Bruk `/klarsprak` for mikrotekst
+- A/B-test én endring om gangen. Mål effekt OG skadevirkninger.
 
-1. **Identifiser** — Utforsk eksisterende brukerreise for dulting-muligheter (Digital EAST Cards, sludge audit)
-2. **Design** — Velg teknikk(er), vurder FORGOOD-etikk, skisser konkret løsning
-3. **Prototype** — Bruk `/prototype` eller `@designer` for å visualisere dulte-ideen
-4. **Test** — A/B-test én endring om gangen i faktisk tjeneste. Mål effekt. Iterer.
+## Stopp-regler
+
+Bruk **ALDRI** disse teknikkene uten eksplisitt fag-/juridisk avklaring:
+- Tapsframing mot brukere i akutt krise eller alvorlig sykdom
+- Defaults som deler helse- eller personopplysninger
+- Tidspress der konsekvensen er tap av rettigheter
+- Sosiale normer basert på tall du ikke har kildebelagt
+
+Foreslå ALDRI konkrete prosenttall eller statistikk i sosiale normer — brukeren må oppgi faktisk datagrunnlag.
 
 ## Referanser
 
-Se [REFERENCE.md](REFERENCE.md) for detaljerte teknikker, eksempler, sludge audit og akademisk grunnlag.
+Se [REFERENCE.md](REFERENCE.md) for teknikkatalog, FORGOOD-utdyping, sludge audit, måling og akademisk grunnlag.
