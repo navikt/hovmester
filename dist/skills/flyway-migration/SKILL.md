@@ -20,7 +20,7 @@ Opprett en ny Flyway-migreringsfil etter teamets konvensjoner.
 - Bruk `UUID` med `gen_random_uuid()` for primærnøkler der det passer
 - Bruk `TEXT` i stedet for `VARCHAR`
 - Legg til indekser for kolonner det søkes ofte på
-- Bruk `CREATE INDEX CONCURRENTLY IF NOT EXISTS` for nye indekser på eksisterende PostgreSQL-tabeller, men behandle avbrudd eksplisitt: en invalid indeks med samme navn kan bli liggende igjen
+- Bruk `CREATE INDEX CONCURRENTLY IF NOT EXISTS` for nye indekser på eksisterende PostgreSQL-tabeller, men behandle avbrudd eksplisitt: en ugyldig indeks med samme navn kan bli liggende igjen
 - Bruk vanlig `CREATE INDEX` bare når indeksen opprettes sammen med en ny tom tabell i samme migrering
 - Én fokusert endring per migrering
 
@@ -51,7 +51,7 @@ Bruk `CREATE INDEX CONCURRENTLY IF NOT EXISTS` for nye indekser på eksisterende
 CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_vedtak_bruker ON vedtak (bruker_id);
 ```
 
-`CREATE INDEX CONCURRENTLY IF NOT EXISTS` må ligge i egen migrering og ikke kjøre i transaksjon. Hvis en slik migrering ble avbrutt, må du sjekke om en invalid indeks med samme navn ligger igjen og rydde den opp før ny kjøring; `IF NOT EXISTS` kan ellers skjule problemet i stedet for å gjøre re-kjøring trygg. Hvis prosjektet bruker rammeverk-konfig for Flyway, verifiser tilsvarende innstilling der i stedet for å gjette på globale properties.
+`CREATE INDEX CONCURRENTLY IF NOT EXISTS` må ligge i egen migrering og ikke kjøre i transaksjon. Hvis en slik migrering ble avbrutt, må du sjekke om en ugyldig indeks med samme navn ligger igjen og rydde den opp før ny kjøring; `IF NOT EXISTS` kan ellers skjule problemet i stedet for å gjøre re-kjøring trygg. Hvis prosjektet bruker rammeverk-konfig for Flyway, verifiser tilsvarende innstilling der i stedet for å gjette på globale properties.
 
 ## Langvarige migreringer og NAIS
 
