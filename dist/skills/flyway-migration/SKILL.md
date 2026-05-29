@@ -68,6 +68,8 @@ spec:
     failureThreshold: 60
 ```
 
+Informer bruker om hvor lang tid startup-proben er konfigurert med om den finnes fra før, eller hvor lang tid ditt forslag setter den til.
+
 Ikke endre liveness/readiness unødvendig. Målet er å unngå at poden blir restartet før migreringen er ferdig.
 
 ## Repeterbare migreringer
@@ -75,6 +77,7 @@ Ikke endre liveness/readiness unødvendig. Målet er å unngå at poden blir res
 `R__*.sql`-filer kjøres på nytt hver gang innholdet endres.
 
 Bruk dem for:
+
 - views
 - funksjoner
 - triggers
