@@ -1,7 +1,7 @@
 ---
 name: kokk
 description: "(internt) Systemutvikler for funksjonalitet — eier hele backend-delen: API, tjenester, database, Kafka, infrastruktur og testing"
-model: "gpt-5.4"
+model: "gpt-5.3-codex"
 user-invocable: false
 ---
 
