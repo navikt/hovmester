@@ -19,7 +19,7 @@ Main changes:
 - Made Souschef optional for low-risk and clear medium work.
 - Made review gates risk-aware:
   - R0: no inspector.
-- R1: no inspector by default, but ask "Ønsker du kryssmodell-review her?" when uncertain.
+  - R1: no inspector by default, but ask "Ønsker du kryssmodell-review her?" when uncertain.
   - R2: cross-model review by default, but can be skipped if the user actively opts out for clearly low-risk work.
   - R3/R4: cross-model review remains mandatory.
 - Replaced Konditor's manual "check aksel.nav.no" habit with direct use of `/aksel-design`.
@@ -29,8 +29,6 @@ Main changes:
 - Restricted `juniorkokk` from git and GitHub side effects. It may draft commit/issue/PR text, but must not commit, push, create issues, change labels, or mutate PR state.
 
 Tests currently pass: `cd scripts && python3 -m pytest test_sync.py -v` gives `50 passed`.
-
-No commit has been made.
 
 ## Why this work was done
 
