@@ -1,6 +1,6 @@
 # hovmester 🍽️
 
-Multi-agent Copilot-orkestrering for Nav-team. Én workflow gir repoet ditt en orkestrator (hovmester), en planlegger (souschef), spesialister (kokk/konditor) og kryssmodell-reviewere (inspektører) — pluss felles instruksjoner, skills og issue-/PR-templates.
+Multi-agent Copilot-orkestrering for Nav-team. Én workflow gir repoet ditt en orkestrator (hovmester), en planlegger (souschef), en lavrisiko-vedlikeholder (juniorkokk), spesialister (kokk/konditor) og kryssmodell-reviewere (inspektører) — pluss felles instruksjoner, skills og issue-/PR-templates.
 
 ## Kom i gang
 
@@ -38,15 +38,17 @@ Bruk **@hovmester** som inngang til alt — den koordinerer planlegging, impleme
 ```mermaid
 graph TD
     U["🍽️ <b>Hovmester</b><br/>Orkestrator · GPT 5.5"]
-    S["📋 Souschef<br/>Planlegger · Opus"]
-    K["👨‍🍳 Kokk<br/>Backend-utvikler · GPT 5.4"]
-    KO["🎂 Konditor<br/>Frontend-utvikler · Opus"]
-    IC["🔬 Inspektor-Claude<br/>Reviewer for GPT-kode · Opus"]
-    IG["🔬 Inspektor-GPT<br/>Reviewer for Opus-kode · GPT 5.5"]
+    S["📋 Souschef<br/>Planlegger · Opus 4.8"]
+    J["🧑‍🍳 Juniorkokk<br/>Lavrisiko vedlikehold · GPT-5.4 mini"]
+    K["👨‍🍳 Kokk<br/>Backend-utvikler · GPT-5.4"]
+    KO["🎂 Konditor<br/>Frontend-utvikler · Claude Sonnet 4.6"]
+    IC["🔬 Inspektor-Claude<br/>Reviewer for GPT-kode · Opus 4.8"]
+    IG["🔬 Inspektor-GPT<br/>Reviewer for Claude-kode · GPT 5.5"]
 
     U -- planlegging --> S
     S -. planreview .-> IG
     IG -. planstatus .-> U
+    U -- lavrisiko --> J
     U -- backend --> K
     U -- frontend --> KO
     K -.-> IC -.-> U
@@ -56,14 +58,15 @@ graph TD
 | Agent | Rolle | Modell |
 |-------|-------|--------|
 | **@hovmester** 🍽️ | Orkestrator — mottar forespørselen, delegerer, konsoliderer | GPT 5.5 |
-| *@kokk* 👨‍🍳 | *(intern)* Backend-utvikler — API, tjenester, database, Kafka, infra | GPT 5.4 |
-| *@konditor* 🎂 | *(intern)* Frontend-utvikler — UI, Aksel, tilgjengelighet, state | Opus |
-| *@souschef* 📋 | *(intern)* Planlegger — utforsker kodebasen, lager implementasjonsplaner | Opus |
-| **@designer** ✏️ | Designer-agent — designhjelp, Figma-skisser og visuelle konsepter | Opus |
-| *@inspektor-claude* 🔬 | *(intern)* Kryssmodell-reviewer — Opus gjennomgår GPT-kode | Opus |
-| *@inspektor-gpt* 🔬 | *(intern)* Kryssmodell-reviewer — GPT gjennomgår Opus-kode | GPT 5.5 |
+| *@juniorkokk* 🧑‍🍳 | *(intern)* Lavrisiko vedlikeholder — docs, tekst, templates, små config-endringer | GPT-5.4 mini |
+| *@kokk* 👨‍🍳 | *(intern)* Backend-utvikler — API, tjenester, database, Kafka, infra | GPT-5.4 |
+| *@konditor* 🎂 | *(intern)* Frontend-utvikler — UI, Aksel, tilgjengelighet, state | Claude Sonnet 4.6 |
+| *@souschef* 📋 | *(intern)* Planlegger — utforsker kodebasen, lager implementasjonsplaner | Opus 4.8 |
+| **@designer** ✏️ | Designer-agent — designhjelp, Figma-skisser og visuelle konsepter | Opus 4.8 |
+| *@inspektor-claude* 🔬 | *(intern)* Kryssmodell-reviewer — Opus 4.8 gjennomgår GPT-kode | Opus 4.8 |
+| *@inspektor-gpt* 🔬 | *(intern)* Kryssmodell-reviewer — GPT gjennomgår Claude-kode | GPT 5.5 |
 
-> Én agent eier hele funksjonssnitt vertikalt. I ikke-trivielle arbeidsflyter fanger kryssmodell-review blindsoner: Opus gjennomgår GPT-kode, og GPT gjennomgår både Opus-kode og Souschef-planer for medium/store oppgaver før hovmester presenterer planen.
+> Én agent eier hele funksjonssnitt vertikalt. I ikke-trivielle arbeidsflyter fanger kryssmodell-review blindsoner: Claude gjennomgår GPT-kode, og GPT gjennomgår både Claude-kode og Souschef-planer for medium/store oppgaver før hovmester presenterer planen.
 
 ## Collections
 
@@ -71,7 +74,7 @@ Collections grupperer instruksjoner, skills og agenter i navngitte pakker du vel
 
 | Collection | Beskrivelse |
 |---|---|
-| `hovmester` *(alltid inkludert)* | Orkestrator-agentene, felles instruksjoner (sikkerhet, Docker, GitHub Actions), 13 generiske skills og issue-/PR-templates |
+| `hovmester` *(alltid inkludert)* | Orkestrator-agentene, felles instruksjoner (sikkerhet, Docker, GitHub Actions), generiske skills og issue-/PR-templates |
 | `backend` | Kotlin-instruksjon + 7 backend-skills (Ktor, Spring, Flyway, Kafka, Postgres, API-design, auth) |
 | `frontend` | Frontend- og tilgjengelighets-instruksjoner + 7 frontend-skills (accessibility-review, Aksel, auth, dulting, Figma-workflow, Lumi, prototype) + designer-agent |
 
