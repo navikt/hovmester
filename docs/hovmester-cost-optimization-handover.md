@@ -11,7 +11,7 @@ The Hovmester setup has been rebalanced to reduce expensive model usage without 
 Main changes:
 
 - Added a new internal agent, `juniorkokk`, for narrow low-risk maintenance work.
-- Moved Kokk from `gpt-5.4` to `gpt-5.3-codex`.
+- Kept Kokk on `gpt-5.4` after review feedback: quality and agentic understanding are prioritized, while Codex savings are small/uncertain.
 - Moved Konditor from Opus to `claude-sonnet-4.6`.
 - Upgraded all existing Opus 4.6 usages to `claude-opus-4.8`.
 - Kept Hovmester and Inspektor-GPT on `gpt-5.5`.
@@ -26,7 +26,7 @@ Main changes:
 - Split accessibility context:
   - Short always-loaded `accessibility.instructions.md`.
   - Detailed `/accessibility-review` skill for deeper review and tests.
-- Restricted `juniorkokk` from git and GitHub side effects. It may draft commit/issue/PR text, but must not commit, push, create issues, change labels, or mutate PR state.
+- Juniorkokk is instructed to avoid git and GitHub side effects. It may draft commit/issue/PR text, but should return `BLOCKED` instead of committing, pushing, creating issues, changing labels, or mutating PR state.
 
 Tests currently pass: `cd scripts && python3 -m pytest test_sync.py -v` gives `50 passed`.
 
@@ -79,15 +79,15 @@ Juniorkokk is not a cheap replacement for Kokk/Konditor. It is a low-risk mainte
 
 ### Kokk
 
-Current model: `gpt-5.3-codex`
+Current model: `gpt-5.4`
 
-Decision: downgrade from `gpt-5.4`.
+Decision: keep `gpt-5.4`.
 
-Reason: Kokk is the backend implementer. `gpt-5.3-codex` should be cheaper while still being code-oriented enough for scoped backend work. Higher-risk work remains protected by Hovmester, Souschef when needed, and cross-model inspection.
+Reason: Kokk is the backend implementer. We prioritize quality and agentic understanding here, and expected savings from a cheaper alternative are small/uncertain relative to the quality tradeoff. Higher-risk work remains protected by Hovmester, Souschef when needed, and cross-model inspection.
 
 Review concern:
 
-Check that `gpt-5.3-codex` is accepted by both GitHub Copilot CLI and VS Code custom agents. If the runtime warns, this model string may need adjustment.
+Keep validating that `gpt-5.4` is accepted by both GitHub Copilot CLI and VS Code custom agents.
 
 ### Konditor
 
@@ -317,7 +317,7 @@ GitHub Copilot-modellkostnader har endret seg, og dagens Hovmester-oppsett bruke
 ## Foreslått løsning
 
 - Legg til `juniorkokk` som intern lavrisiko-agent på `gpt-5.4-mini`.
-- Flytt Kokk til `gpt-5.3-codex`.
+- Behold Kokk på `gpt-5.4` fordi kvalitet og agentisk forståelse prioriteres, og kostgevinsten ved Codex er liten/usikker.
 - Flytt Konditor til `claude-sonnet-4.6`.
 - Oppgrader Opus 4.6-bruk til `claude-opus-4.8`.
 - Behold Hovmester og Inspektor-GPT på `gpt-5.5`.
@@ -339,7 +339,7 @@ GitHub Copilot-modellkostnader har endret seg, og dagens Hovmester-oppsett bruke
 - [ ] Hovmester har tydelig R0-R4-risikotabell.
 - [ ] Hovmester spør om kryssmodell-review ved tvil i R1.
 - [ ] R2 har review som default, men kan gates av bruker ved tydelig lav risiko.
-- [ ] Juniorkokk kan ikke utføre git-/GitHub-sideeffekter.
+- [ ] Juniorkokk har tydelig mandat om å unngå git-/GitHub-sideeffekter (instruks/boundary, ikke teknisk tools-allowlist).
 - [ ] Konditor bruker `/aksel-design` som primær Aksel-kilde.
 - [ ] Accessibility instruction er kort, og `/accessibility-review` har detaljene.
 - [ ] `.github` og `dist` er synkronisert.
@@ -360,7 +360,7 @@ Fokus:
 4. Er modellvalgene fornuftige gitt kost/kvalitet:
    - Hovmester: gpt-5.5
    - Juniorkokk: gpt-5.4-mini
-   - Kokk: gpt-5.3-codex
+   - Kokk: gpt-5.4
    - Konditor: claude-sonnet-4.6
    - Souschef/Designer/Inspektor-Claude: claude-opus-4.8
    - Inspektor-GPT: gpt-5.5
@@ -396,7 +396,7 @@ Medium. The changes are instruction/model-routing changes, not application runti
 ## Review focus
 
 - Validate model strings and review/plan routing behavior.
-- Validate that Juniorkokk is narrow enough and cannot create git/GitHub side effects.
+- Validate that Juniorkokk is narrow enough and clearly instructed to avoid git/GitHub side effects.
 - Validate that R1/R2 review gates are clear and safe.
 - Validate `.github`/`dist` sync.
 - Validate that accessibility context reduction does not remove required default rules.
@@ -415,7 +415,7 @@ Optimize Hovmester agent routing and model usage
 ## Open questions for reviewer
 
 - Does GitHub Copilot accept all model identifiers exactly as written?
-- Is `gpt-5.3-codex` good enough for Kokk in practice, or should Kokk be lifted for some task classes?
+- Does Kokk on `gpt-5.4` give the expected quality for backend tasks, and are there concrete signs that another model choice is needed later?
 - Should R2 always ask the user about review, or is "review default unless actively opted out" better?
 
 ## Recommended next steps

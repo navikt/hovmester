@@ -40,7 +40,7 @@ graph TD
     U["🍽️ <b>Hovmester</b><br/>Orkestrator · GPT 5.5"]
     S["📋 Souschef<br/>Planlegger · Opus 4.8"]
     J["🧑‍🍳 Juniorkokk<br/>Lavrisiko vedlikehold · GPT-5.4 mini"]
-    K["👨‍🍳 Kokk<br/>Backend-utvikler · GPT-5.3-Codex"]
+    K["👨‍🍳 Kokk<br/>Backend-utvikler · GPT-5.4"]
     KO["🎂 Konditor<br/>Frontend-utvikler · Claude Sonnet 4.6"]
     IC["🔬 Inspektor-Claude<br/>Reviewer for GPT-kode · Opus 4.8"]
     IG["🔬 Inspektor-GPT<br/>Reviewer for Claude-kode · GPT 5.5"]
@@ -59,7 +59,7 @@ graph TD
 |-------|-------|--------|
 | **@hovmester** 🍽️ | Orkestrator — mottar forespørselen, delegerer, konsoliderer | GPT 5.5 |
 | *@juniorkokk* 🧑‍🍳 | *(intern)* Lavrisiko vedlikeholder — docs, tekst, templates, små config-endringer | GPT-5.4 mini |
-| *@kokk* 👨‍🍳 | *(intern)* Backend-utvikler — API, tjenester, database, Kafka, infra | GPT-5.3-Codex |
+| *@kokk* 👨‍🍳 | *(intern)* Backend-utvikler — API, tjenester, database, Kafka, infra | GPT-5.4 |
 | *@konditor* 🎂 | *(intern)* Frontend-utvikler — UI, Aksel, tilgjengelighet, state | Claude Sonnet 4.6 |
 | *@souschef* 📋 | *(intern)* Planlegger — utforsker kodebasen, lager implementasjonsplaner | Opus 4.8 |
 | **@designer** ✏️ | Designer-agent — designhjelp, Figma-skisser og visuelle konsepter | Opus 4.8 |

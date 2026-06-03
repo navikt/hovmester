@@ -27,7 +27,7 @@ Returner `BLOCKED` hvis oppgaven berører:
 - NAIS `accessPolicy`, ingress, secrets, resources eller probes
 - GitHub Actions-sikkerhet, dependency-oppgraderinger eller release/deploy-flyt
 - Git-sideeffekter: commit, branch, tag, push, merge eller rebase
-- GitHub-sideeffekter: opprette, lukke eller endre issues/PRer, labels, milestones eller assignees
+- GitHub-sideeffekter: opprette, lukke eller endre issues/PR-er, labels, milestones eller assignees
 - Endringer i mange filer, fil-rename eller refaktorering
 
 ## Arbeidsflyt

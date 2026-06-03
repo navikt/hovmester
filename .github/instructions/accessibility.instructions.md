@@ -44,4 +44,4 @@ Bruk `/accessibility-review` før PR/release når oppgaven inneholder:
 ### Aldri
 - `<div onClick>` uten riktig rolle, tastaturstøtte og fokus.
 - Ikonknapper uten tilgjengelig navn.
-- Fjerne fokusindikator uten fullgod erstatning.
+- Aldri fjern fokusindikator uten fullgod erstatning.
