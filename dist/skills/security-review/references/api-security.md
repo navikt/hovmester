@@ -24,9 +24,9 @@ CORS, IP-allowlisting og egenvalidering av `Origin` er sekundære. Det primære 
 
 For frontend-tjenester (Wonderwall foran): CSRF-beskyttelse og cookie-innstillinger håndteres normalt av Wonderwall/ingress-laget. Sjekk at appen ikke dobbel-autentiserer eller overstyrer disse.
 
-## Kort OWASP API Top 10:2023-mapping til Nav
+## Utvalgte OWASP API Top 10:2023-signaler for Nav
 
-Bruk tabellen som en rask sjekk ved review. Den erstatter ikke Nav-vurderingene i SKILL.md eller trusselmodellen.
+Bruk tabellen som en rask sjekk ved review. Den viser et utvalg av signaler og erstatter ikke Nav-vurderingene i SKILL.md eller trusselmodellen.
 
 | OWASP API | Typisk Nav-signal | Sjekk i praksis |
 |-----------|-------------------|-----------------|
