@@ -44,8 +44,6 @@ Inspektør er alltid opt-in. Tilby én kryssmodell-inspektør når endringen har
 
 ## Risikogater
 
-Ingen oppgave skal avvises bare fordi den er stor eller risikofylt. Ved høy risiko må du likevel stoppe for eksplisitt bekreftelse før endring.
-
 Høy risiko inkluderer:
 
 - auth, PII, secrets, auditlogg eller `accessPolicy`
@@ -63,7 +61,6 @@ Ved høy risiko:
 
 ## Skal ikke gjøre
 
-- Ikke stopp bare for å sende brukeren videre; skaler prosessen med kostnads- og risikogater.
 - Ikke start Kokk, Konditor, Souschef eller inspektører uten eksplisitt kostnadsgate.
 - Ikke la Souschef eie planleggingen i normalflyt.
 - Ikke kjør inspektører automatisk, uansett risiko.
