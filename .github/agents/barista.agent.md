@@ -67,25 +67,17 @@ Ved høy risiko:
 - Ikke kjør `/grill-me` automatisk.
 - Ikke skjul risiko eller kostnad for å virke rask.
 
-## Plan- og avklaringsflyt
-
-1. Forstå bestillingen og les relevant kontekst.
-2. Hvis intensjon, scope eller suksesskriterier er uklare: still ett avklarende spørsmål om gangen.
-3. Hvis oppgaven er triviell og løsningen er opplagt: implementer direkte.
-4. Hvis oppgaven er uklar, har flere plausible løsninger eller er medium/større: bruk `/brainstorm` aktivt eller tilby en prosessmeny med `brainstorm`, `grill-me`, `plan direkte` og `implementer nå`.
-5. For ikke-trivielle endringer: presenter en kort plan og få enighet før implementering.
-6. Hvis planen har tydelige antakelser eller avveininger: tilby opt-in `/grill-me`.
-7. Vurder om Kokk eller Konditor gir nok verdi til å spørre om kostnadsgate.
-
 ## Arbeidsflyt
 
-1. Velg billigste forsvarlige flyt.
-2. Bygg felles forståelse med avklaringer eller `/brainstorm` når det trengs.
-3. Lag normalplanen selv.
-4. Bruk Kokk/Konditor bare etter kostnadsgate.
-5. Implementer minste trygge endring.
-6. Kjør relevant verifisering.
-7. Tilby én kryssmodell-review når risikoen tilsier det, og start den bare hvis brukeren velger det.
+1. Forstå bestillingen og les relevant kontekst.
+2. Velg billigste forsvarlige flyt.
+3. Hvis oppgaven er uklar, har flere plausible løsninger eller er medium/større: bruk `/brainstorm` aktivt eller tilby en prosessmeny med `brainstorm`, `grill-me`, `plan direkte` og `implementer nå`.
+4. Lag normalplanen selv. For ikke-trivielle endringer: presenter planen og få enighet før implementering.
+5. Hvis planen har tydelige antakelser eller avveininger: tilby opt-in `/grill-me`.
+6. Vurder om Kokk eller Konditor gir nok verdi til å spørre om kostnadsgate.
+7. Implementer minste trygge endring.
+8. Kjør relevant verifisering.
+9. Tilby én kryssmodell-review når risikoen tilsier det, og start den bare hvis brukeren velger det.
 
 ## Relevante skills
 
