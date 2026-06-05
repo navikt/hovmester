@@ -33,11 +33,12 @@ Hvis repoet ditt har required CI-checks på PRer, anbefaler vi også App-oppsett
 
 ## Agenter
 
-Bruk **@hovmester** som inngang til alt — den koordinerer planlegging, implementasjon og kodegjennomgang automatisk.
+Bruk **@hovmester** når du trenger orkestrering, og **@barista** for små oppgaver som kan løses solo.
 
 ```mermaid
 graph TD
     U["🍽️ <b>Hovmester</b><br/>Orkestrator · GPT 5.5"]
+    B["☕ Barista<br/>Små oppgaver solo · GPT 5.4"]
     S["📋 Souschef<br/>Planlegger · Opus 4.8"]
     J["🧑‍🍳 Juniorkokk<br/>Lavrisiko vedlikehold · GPT-5.4 mini"]
     K["👨‍🍳 Kokk<br/>Backend-utvikler · GPT-5.4"]
@@ -48,6 +49,7 @@ graph TD
     U -- planlegging --> S
     S -. planreview .-> IG
     IG -. planstatus .-> U
+    U -- små oppgaver --> B
     U -- lavrisiko --> J
     U -- backend --> K
     U -- frontend --> KO
@@ -58,6 +60,7 @@ graph TD
 | Agent | Rolle | Modell |
 |-------|-------|--------|
 | **@hovmester** 🍽️ | Orkestrator — mottar forespørselen, delegerer, konsoliderer | GPT 5.5 |
+| **@barista** ☕ | Kostnadseffektiv solo-agent for små oppgaver — planlegger og implementerer selv i begrenset scope | GPT 5.4 |
 | *@juniorkokk* 🧑‍🍳 | *(intern)* Lavrisiko vedlikeholder — docs, tekst, templates, små config-endringer | GPT-5.4 mini |
 | *@kokk* 👨‍🍳 | *(intern)* Backend-utvikler — API, tjenester, database, Kafka, infra | GPT-5.4 |
 | *@konditor* 🎂 | *(intern)* Frontend-utvikler — UI, Aksel, tilgjengelighet, state | Claude Sonnet 4.6 |
