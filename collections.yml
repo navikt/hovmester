@@ -4,6 +4,7 @@
 
 hovmester:
   agents:
+    - barista
     - hovmester
     - souschef
     - juniorkokk
