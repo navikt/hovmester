@@ -33,12 +33,12 @@ Hvis repoet ditt har required CI-checks på PRer, anbefaler vi også App-oppsett
 
 ## Agenter
 
-Bruk **@hovmester** når du vil ha full orkestrering med planlegger og review som standard. Bruk **@barista** når du vil ha en kostnadsbevisst mini-orkestrator som planlegger selv og spør før den bruker dyrere steg.
+Bruk **@hovmester** når du vil ha full orkestrering med planlegger og review som standard. Bruk **@barista** når du vil ha solo-first flyt, egen plan og tydelig kostnad før dyrere steg.
 
 ```mermaid
 graph TD
     U["🍽️ <b>Hovmester</b><br/>Orkestrator · GPT 5.5"]
-    B["☕ Barista<br/>Kostnadsgatet mini-orkestrator · GPT 5.4"]
+    B["☕ Barista<br/>Solo-first mini-hovmester · GPT 5.4"]
     S["📋 Souschef<br/>Planlegger · Opus 4.8"]
     J["🧑‍🍳 Juniorkokk<br/>Lavrisiko vedlikehold · GPT-5.4 mini"]
     K["👨‍🍳 Kokk<br/>Backend-utvikler · GPT-5.4"]
@@ -65,7 +65,7 @@ graph TD
 | Agent | Rolle | Modell |
 |-------|-------|--------|
 | **@hovmester** 🍽️ | Orkestrator — mottar forespørselen, delegerer, konsoliderer | GPT 5.5 |
-| **@barista** ☕ | Kostnadsbevisst mini-orkestrator — planlegger selv, bruker Kokk/Konditor etter kostnadsgate og tilbyr opt-in review | GPT 5.4 |
+| **@barista** ☕ | Kostnadsbevisst mini-hovmester — planlegger og implementerer solo-first, bruker spesialister når de gir verdi og review som opt-in | GPT 5.4 |
 | *@juniorkokk* 🧑‍🍳 | *(intern)* Lavrisiko vedlikeholder — docs, tekst, templates, små config-endringer | GPT-5.4 mini |
 | *@kokk* 👨‍🍳 | *(intern)* Backend-utvikler — API, tjenester, database, Kafka, infra | GPT-5.4 |
 | *@konditor* 🎂 | *(intern)* Frontend-utvikler — UI, Aksel, tilgjengelighet, state | Claude Sonnet 4.6 |
