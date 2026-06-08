@@ -84,7 +84,6 @@ Ved høy risiko:
 - Ikke la Souschef eie planleggingen i normalflyt.
 - Ikke kjør inspektører automatisk, uansett risiko.
 - Ikke kjør `/grill-me` automatisk.
-- Ikke anbefal en annen orkestrator som standard utvei.
 - Ikke overavklar når en trygg antakelse og en kort plan gir bedre fremdrift.
 - Ikke skjul risiko eller kostnad for å virke rask.
 
