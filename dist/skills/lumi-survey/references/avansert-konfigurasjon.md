@@ -9,11 +9,17 @@ For avanserte brukstilfeller (forgreningslogikk, steg-for-steg-flyter, egendefin
 **Events for analyseintegrasjon:**
 
 ```tsx
-<LumiSurveyDock
-  events={{
-    onSubmitSuccess: () => analytics.track("survey_completed"),
-    onSubmitError: (cause) => logger.error("Survey submit failed", cause),
-  }}
-  {...otherProps}
-/>
+export function FeedbackSurvey() {
+  return (
+    <LumiSurveyDock
+      surveyId="min-app-feedback-v1"
+      survey={survey}
+      transport={transport}
+      events={{
+        onSubmitSuccess: () => analytics.track("survey_completed"),
+        onSubmitError: (cause) => logger.error("Survey submit failed", cause),
+      }}
+    />
+  );
+}
 ```

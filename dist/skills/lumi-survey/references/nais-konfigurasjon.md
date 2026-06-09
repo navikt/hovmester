@@ -19,6 +19,8 @@ spec:
       value: "dev-gcp:team-esyfo:lumi-api"
     - name: LUMI_FEEDBACK_PATH
       value: /api/tokenx/v1/feedback
+    - name: LUMI_IDENTITY_PROVIDER  # Kun for Kotlin/Texas
+      value: tokenx
 ```
 
 ```yaml
@@ -31,6 +33,8 @@ spec:
       value: "prod-gcp:team-esyfo:lumi-api"
     - name: LUMI_FEEDBACK_PATH
       value: /api/tokenx/v1/feedback
+    - name: LUMI_IDENTITY_PROVIDER  # Kun for Kotlin/Texas
+      value: tokenx
 ```
 
 **AzureAD (interne apper):**

@@ -23,6 +23,8 @@ Hvis utvikleren er usikker, anbefal `rating` med emoji og ett oppfølgingsspørs
 ## Eksempel: rating
 
 ```tsx
+import type { LumiSurveyConfig } from "@navikt/lumi-survey";
+
 export const survey = {
   type: "rating",
   questions: [
@@ -47,6 +49,8 @@ export const survey = {
 ## Eksempel: top tasks
 
 ```tsx
+import type { LumiSurveyConfig } from "@navikt/lumi-survey";
+
 export const survey = {
   type: "topTasks",
   questions: [

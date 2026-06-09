@@ -11,8 +11,8 @@ GITHUB = os.path.join(REPO_ROOT, ".github")
 
 # Pre-existing violations som ikke skal blokkere nav-pilot-adopsjon.
 # Disse skal splittes opp i egen oppfølging.
-LINE_CAP_ALLOWLIST = {"lumi-survey"}  # pre-existing; split in follow-up
-TRIGGER_DESCRIPTION_ALLOWLIST = {"lumi-survey"}  # handled with the lumi follow-up
+LINE_CAP_ALLOWLIST = set()
+TRIGGER_DESCRIPTION_ALLOWLIST = set()
 
 # Skills som lever KUN i .github/ (hovmester-repoets egen Copilot-config)
 # og ikke i dist/. Disse parity-testen ignorerer.
