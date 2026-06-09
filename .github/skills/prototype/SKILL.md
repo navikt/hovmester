@@ -28,8 +28,6 @@ Visual Companion er best for **tidlig utforsking** — når retningen er uklar o
 
 Interaktivt nettleserverktøy for å utforske designkonsepter med Aksel-styling.
 
-### Oppstart
-
 ### Forutsetninger
 
 - Node.js ≥ 18 (for HTTP-server)
@@ -112,12 +110,7 @@ Etter at designeren har sett skjermen:
 
 ### Situasjoner brukeren møter
 
-Vis ulike situasjoner som separate mockups eller som sekvens:
-- Normaltilstand (bruker kan handle)
-- Venter (lasting/spinner)
-- Feil (hva kan bruker gjøre?)
-- Tom tilstand (ingenting å vise ennå)
-- Ferdig / bekreftelse
+Vis ulike situasjoner som separate mockups eller sekvens: normal, venter (lasting), feil, tom tilstand, og ferdig/bekreftelse.
 
 ## Fase 2: Figma-leveranse
 
@@ -165,10 +158,17 @@ Finnes den ikke? → Bygg custom, men med Aksel-tokens.
 
 Se `references/figma-prototype.md` for fullstendige regler og eksempler.
 
-## Valgfritt: Kodeprototype
+## Valgfritt: Kodeprototype (opt-in)
 
-> «Vil du se dette bygget med ekte Aksel-komponenter i appen?»
-> → Deleger til konditor for å bygge på en prototype-branch. Designer-agenten skriver **aldri** kode selv.
+Fra skisse til **ekte, klikkbar kode** med `@navikt/ds-react` og mockdata — kjørbar lokalt og i demo. Tilbys etter et Visual Companion- og/eller Figma-resultat når retningen er valgt.
+
+Designer-agenten skriver **aldri** kode selv. Spør «Skal jeg få bygget dette som en klikkbar prototype med mockdata?» og deleger til **konditor** med disse rammene:
+- Ekte Aksel-komponenter + alle tilstander (normal/lasting/feil/tom/ferdig)
+- **Kun mockdata** (fixtures/MSW) — ingen ekte API-er, PII, secrets eller accessPolicy
+- Egen `prototype/*`-branch, aldri `main`/prod, merket «prototype – ikke for prod»
+- Kjørbar lokalt + efemert demo-miljø; utviklere tar over for ekte data og UU-live-review før prod
+
+Etter bygging: del demo-lenke/branch. Tilby Issue så utviklerne tar prototypen videre.
 
 ## Iterasjon
 
@@ -193,7 +193,7 @@ Vis resultat → designer gir feedback → juster → gjenta til fornøyd.
 
 ### 🚫 Aldri
 - Skriv kode i prosjektets kildekode (deleger til konditor)
-- Lever prototype som ferdig kode
+- Lever kodeprototype til `main`/prod eller mot ekte data — kun `prototype/*`-branch med mockdata
 - Eksponer verktøynavn til designeren
 - Feilsøk build-problemer (fall tilbake til neste metode)
 - Hopp over UU-sjekk ved leveranse
