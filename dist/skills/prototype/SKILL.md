@@ -132,8 +132,8 @@ Figma MCP-verktøy tilgjengelig.
 1. `whoami` → finn planKey
 2. `create_new_file` → opprett fil, **del URL med designeren**
 3. `search_design_system` → finn relevante Aksel-komponenter
-4. `use_figma` **preflight** → importer + logg varianter, tekst-node-navn og fonter (se referanse)
-5. `use_figma` → bygg skissen med eksakte variant-navn og node-navn fra preflight
+4. `use_figma` **preflight** → importer + logg varianter, default-variant, tekst-node-navn og fonter (se referanse)
+5. `use_figma` → bygg skissen **inkrementelt, én seksjon per kall** med eksakte variant-navn og node-navn fra preflight
 6. **`get_screenshot`** → verifiser visuelt (se referanse for sjekkliste)
 7. Fiks eventuelle problemer, del oppdatert lenke ved milepæler
 
@@ -154,10 +154,13 @@ Finnes den ikke? → Bygg custom, men med Aksel-tokens.
 
 ### Komponent-instansiering
 
-- **Preflight først**: Importer + logg varianter og tekst-noder i ETT kall
-- **Eksakt navnematch** for variant, `defaultVariant` som fallback
-- **Tekst**: `findOne` med eksakt name — IKKE `setProperties()` (ustabile nøkler)
+- **Preflight først**: Importer + logg varianter, default og tekst-noder i ETT kall
+- **Bygg inkrementelt**: ett `use_figma`-kall per seksjon — `use_figma` er atomisk, så én feil ruller tilbake HELE kallet
+- **Eksakt navnematch** for variant. NB: `defaultVariant` er ofte feil farge/tilstand (GlobalAlert=Error/rød, Tag=Neutral, Checkbox=unchecked) — velg variant bevisst
+- **Tekst**: `findOne`/`findAllWithCriteria` med eksakt name — IKKE `setProperties()` for tekst (ustabile nøkler). `setProperties` er derimot OK for variant-akser (Color/Variant/Size)
+- **Font**: les fonten fra noden og `loadFontAsync(node.fontName)` — aldri hardkod (Aksel = `Source Sans 3`, ikke Inter)
 - **`layoutSizingHorizontal = "FILL"`** kun etter append til auto-layout
+- **Tabell**: ingen `Table`-komponent finnes — komponer fra `Table cell` (se referanse)
 - **Farger**: Slå opp via `search_design_system` — aldri gjett RGB
 
 Se `references/figma-prototype.md` for fullstendige regler og eksempler.
