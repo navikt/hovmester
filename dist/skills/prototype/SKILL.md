@@ -130,7 +130,7 @@ Figma MCP-verktøy tilgjengelig.
 6. **`get_screenshot`** → parity-gate: sammenlign mot Visual Companion-fasiten (se referanse for sjekkliste)
 7. Fiks eventuelle problemer, del oppdatert lenke ved milepæler
 
-**Sjekk katalogen først** — for ~30 vanlige komponenter er akser, defaults, tekst-noder og feller ferdig uttrukket i `references/aksel-figma-katalog.md`. Preflight kun det den ikke dekker. Se `references/figma-prototype.md` for detaljer.
+**Sjekk katalogen først — den er fasiten.** Alle 45 aktive Aksel-komponenter har key, akser, defaults, tekst-noder og feller ferdig uttrukket i `references/aksel-figma-katalog.json` (maskinlesbar kilde) og `.md` (lesbar). Drift-validert, så hopp over preflight for det katalogen dekker. Detaljer + drift-harness i `references/figma-prototype.md`.
 
 Bygg kun den nye komponenten/endringen — ikke hele siden. Bruk ekte Aksel-komponenter, riktige tokens, og vis varianter som egne frames.
 

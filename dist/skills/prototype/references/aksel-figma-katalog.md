@@ -2,7 +2,7 @@
 
 Komplett oppslag over **alle aktive Aksel-komponenter** i Figma-biblioteket `02 Aksel Components`, uttrukket via preflight (import + instans-inspeksjon). Bruk denne i stedet for å gjette variant-navn, defaults, tekstnode-navn eller fonter — det fjerner preflight-runder og gjettefeil.
 
-> Vår egen «manifest» inntil Aksel publiserer en maskinlesbar én (jf. Issue #58). Verdiene er hentet direkte fra biblioteket. **44 komponenter** dekket; 10 er kun kode/ikke i Figma (se bunn).
+> Vår egen «manifest» inntil Aksel publiserer en maskinlesbar én (jf. Issue #58). Verdiene er hentet direkte fra biblioteket. **45 komponenter** dekket; 10 er kun kode/ikke i Figma (se bunn).
 
 ## Slik leser du katalogen
 
@@ -113,4 +113,4 @@ Disse finnes i `@navikt/ds-react`, men ikke som instansierbare Figma-komponenter
 
 ## Dekning
 
-**44/54 aktive komponenter** uttrukket empirisk (skjema, status, layout, overlegg, navigasjon, typografi, data komplett). 10 er kun kode / ikke i Figma (over). Oppdater ved nye Aksel-utgivelser ved å kjøre samme preflight-mønster (se `figma-prototype.md`).
+**45/55 aktive komponenter** uttrukket empirisk (skjema, status, layout, overlegg, navigasjon, typografi, data komplett). 10 er kun kode / ikke i Figma (over). Oppdater ved nye Aksel-utgivelser ved å kjøre samme preflight-mønster (se `figma-prototype.md`).

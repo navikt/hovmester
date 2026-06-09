@@ -139,9 +139,13 @@ Forhåndsvalgt tilstand (valgt radio/checkbox i en gruppe) finnes ikke som grupp
 
 ## Preflight (ALLTID før bygging)
 
-> **Sjekk katalogen først.** For ~30 vanlige Aksel-komponenter er akser, default-varianter, tekst-node-navn, fonter og kjente feller allerede uttrukket empirisk i [`aksel-figma-katalog.md`](./aksel-figma-katalog.md). Finner du komponenten der, kan du hoppe over preflight og bruke verdiene direkte. Preflight kun det katalogen ikke dekker.
+> **Sjekk katalogen først — den er fasiten.** Alle 45 aktive Aksel-Figma-komponenter er empirisk uttrukket (key, akser, default, tekst-node-navn, fonter, antall-akser, slot-feller). To formater, samme innhold:
+> - [`aksel-figma-katalog.json`](./aksel-figma-katalog.json) — **kilde til sannhet** (maskinlesbar; bruk feltene direkte: `key`, `axes[].default`, `countAxis`, `slot`, `textNodes`).
+> - [`aksel-figma-katalog.md`](./aksel-figma-katalog.md) — lesbart oppslag for mennesker.
+>
+> Finner du komponenten i katalogen, **hopp over preflight** og bruk verdiene direkte. Katalogen er drift-validert (se under), så keys og defaults stemmer. Preflight kun det katalogen ikke dekker.
 
-Kjør alltid en preflight-sjekk med EN instans av hver komponenttype du planlegger å bruke (som ikke står i katalogen). Dette avdekker varianter, text-node-navn og font-krav. **Hopp aldri over dette** — det er den eneste pålitelige kilden til faktiske node-navn (som `"intput text"`) og default-varianter.
+Preflight er kun nødvendig for komponenter **utenfor** katalogen (sjelden). Da kjører du EN instans for å avdekke varianter, text-node-navn og font-krav — den eneste pålitelige kilden til faktiske node-navn (som `"intput text"`) og default-varianter. Legg gjerne funnet inn i katalogen etterpå.
 
 ```javascript
 // Preflight-mønster — kjør som FØRSTE use_figma-kall
@@ -162,6 +166,35 @@ return JSON.stringify({ variants: variantNames, default: defaultName, textNodes:
 ```
 
 Dette forhindrer feil-runder der du gjetter variant-navn, default-varianter, fonter eller tekst-node-navn.
+
+## Vedlikehold av katalogen (drift-validering)
+
+Katalogen er en **selv-validert kontrakt**, ikke et statisk dokument:
+
+- **Vokter-test** (`scripts/test_catalog.py`, kjøres i CI sammen med de andre testene): verifiserer at JSON er internt konsistent (gyldige akser/defaults, `countAxis` peker på en ekte akse, keys er 40-tegns hex) **og** at markdown speiler JSON (samme navn + keys). JSON og markdown kan derfor ikke drifte fra hverandre usett.
+- **Figma-drift-harness**: når Aksel slipper ny versjon, kjør ett `use_figma`-kall som looper over alle `key` i JSON, importerer hver og sammenligner `defaultVariant`-akser mot fasiten. Avvik = Aksel har endret en key/akse/default → oppdater katalogen. Mønster:
+
+```javascript
+// Drift-harness — lim inn [{navn,kind,key,axes:{Akse:default}}] fra JSON
+const issues = [];
+for (const e of EXP) {
+  const s = e.kind === 'component'
+    ? await figma.importComponentByKeyAsync(e.key)
+    : await figma.importComponentSetByKeyAsync(e.key);
+  if (!s) { issues.push(`${e.navn}: import feilet`); continue; }
+  if (e.kind === 'component') continue;
+  const defVP = s.defaultVariant.variantProperties || {};
+  const defs = s.componentPropertyDefinitions || {};
+  for (const [ax, val] of Object.entries(e.axes)) {
+    if (!(ax in defs)) issues.push(`${e.navn}: akse "${ax}" borte`);
+    else if (defVP[ax] !== undefined && defVP[ax] !== val)
+      issues.push(`${e.navn}: default ${ax}=${defVP[ax]} (fasit ${val})`);
+  }
+}
+return { av: EXP.length, avvik: issues };  // avvik=[] → katalogen er i synk
+```
+
+Sist verifisert: **45/45 importerer, null avvik.**
 
 ## Plugin API-mønster for instansiering
 
