@@ -264,3 +264,38 @@ def test_github_mirror_parity_with_dist():
         "--output /tmp/sync.json --source-sha $(git rev-parse HEAD) "
         "--collections hovmester,backend,frontend\n\n" + "\n\n".join(problems)
     )
+
+
+def test_aksel_markup_fasit_present_and_wired():
+    """VC-markup-fasiten skal finnes, ha rot-konteksten og dekke kjernekomponenter,
+    og skill-filene + frame-malen skal peke på/sette den opp. Regenerer med
+    `node scripts/generate_markup_fasit.mjs` hvis fasiten mangler/er utdatert."""
+    prototype = os.path.join(DIST, "skills", "prototype")
+    fasit = os.path.join(prototype, "references", "aksel-markup-fasit.md")
+    assert os.path.isfile(fasit), "aksel-markup-fasit.md mangler — kjør generatoren"
+    with open(fasit, encoding="utf-8") as f:
+        fasit_md = f.read()
+
+    # Rot-konteksten som gjør at ekte Aksel-markup rendrer autentisk.
+    assert 'class="aksel-theme light"' in fasit_md and 'data-color="accent"' in fasit_md, (
+        "fasiten mangler rot-konteksten (aksel-theme light / data-color=accent)"
+    )
+    # Kjernekomponenter skal være dekket.
+    for comp in ("### Button", "### FormSummary", "### Alert", "### TextField"):
+        assert comp in fasit_md, f"fasiten mangler {comp}"
+    # Ekte ds-react-output (ikke .mock-*) skal være kilden.
+    assert "aksel-button" in fasit_md, "fasiten ser ikke ut til å ha ekte .aksel-*-markup"
+
+    # Skill-filene skal peke på fasiten.
+    for rel in ("SKILL.md", os.path.join("references", "visual-companion.md")):
+        p = os.path.join(prototype, rel)
+        with open(p, encoding="utf-8") as f:
+            assert "aksel-markup-fasit.md" in f.read(), f"{rel} refererer ikke fasiten"
+
+    # Frame-malen skal sette rot-konteksten.
+    tmpl = os.path.join(prototype, "scripts", "frame-template.tmpl")
+    with open(tmpl, encoding="utf-8") as f:
+        tmpl_src = f.read()
+    assert 'aksel-theme light" data-color="accent"' in tmpl_src, (
+        "frame-template.tmpl setter ikke rot-konteksten på innholdet"
+    )

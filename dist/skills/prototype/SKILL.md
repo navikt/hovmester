@@ -78,9 +78,10 @@ Før du skriver en HTML-mockup, sjekk alltid `/aksel-design` skill for:
 - Korrekt spacing (token = pixelverdi, f.eks. `--ax-space-16` = 16px)
 - Korrekt fargebruk (`--ax-bg-*`, `--ax-text-*`, `--ax-border-*`)
 
-Bruk **`.mock-*` snarvei-klasser** (`.mock-button`, `.mock-alert--info`, …): de er
-token-drevne og rendrer ekte Aksel-farger/fasonger. Bruk IKKE rå `.aksel-*`-klasser —
-ds-css gir kun struktur, fargene settes runtime av ds-react (felle, se visual-companion.md).
+Bruk **ekte `.aksel-*`-markup fra `references/aksel-markup-fasit.md`** — generert fra
+`@navikt/ds-react` (ds-reacts egen DOM), rendrer autentisk Aksel via ds-css. Frame-malen
+setter rot-konteksten (`data-color="accent"`) som gjør primærknapper blå. `.mock-*` er kun
+for ikke-Aksel-stillas. Fargene ligger i CSS-en (`data-color`/`data-variant`), ikke i JS.
 
 Tokens i v8: `--ax-space-{px}` (f.eks. `--ax-space-16` = 16px, `--ax-space-24` = 24px).
 Radius: `--ax-radius-4`, `--ax-radius-8`, `--ax-radius-12`.
