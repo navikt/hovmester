@@ -729,7 +729,7 @@
         "Text",
         "Comma"
       ],
-      "merknad": "Oppsummering før innsending."
+      "merknad": "Oppsummering før innsending. Har skjulte sm-breakpoint-kopier: fyll gjentatte 'Text'/'Item Label'-noder KUN for synlige noder, ellers lander verdiene på skjulte sm-kopier og synlige svar blir stående som 'Tekst'."
     },
     {
       "navn": "HelpText",

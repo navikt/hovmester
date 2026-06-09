@@ -247,6 +247,24 @@ const gpHeading = guidePanelInstance.findOne(n => n.type === "TEXT" && n.name ==
 
 **Skjul/erstatt placeholder-tekst.** Mange Aksel-instanser leveres med synlig demo-tekst: TextField/TextArea har en `"Description"`-node, GuidePanel har Star Wars-tekst. Hvis skissen ikke har en beskrivelse, må du sette `.visible = false` på noden — ellers blir placeholder stående.
 
+**Antall-akse-komponenter har skjulte breakpoint-kopier — fyll KUN synlige noder.** Komponenter med Breakpoint-akse (xl/sm) og gjentatte tekstnoder (f.eks. FormSummary `Item Label`/`Text`, ErrorSummary, FormSummary-svar) inneholder en skjult `sm`-kopi av hver rad i tillegg til den synlige `xl`-raden. Fyller du gjentatte noder blindt i rekkefølge, lander verdiene på de skjulte sm-kopiene og de synlige radene blir stående som placeholder («Tekst»). Filtrer alltid på synlighet før du fyller:
+
+```javascript
+// ✅ Bare synlige noder — hopper over skjulte sm-breakpoint-kopier
+function synlig(node, root){
+  let p = node;
+  while (p && p !== root){ if (p.visible === false) return false; p = p.parent; }
+  return root.visible !== false;
+}
+const verdier = ["1. juni 2025", "15 uker", "Nei"];
+let i = 0;
+for (const t of fs.findAll(n => n.type === "TEXT")){
+  if (t.name !== "Text" || !synlig(t, fs)) continue;
+  await figma.loadFontAsync(t.fontName);
+  t.characters = verdier[i++];
+}
+```
+
 **Bruk `findAllWithCriteria` for robust traversering.** `findOne`/`findAll` med predikat kan kaste «Node not found» på ferske, komplekse instanser (se Gotchas). `findAllWithCriteria` er mer stabilt:
 
 ```javascript

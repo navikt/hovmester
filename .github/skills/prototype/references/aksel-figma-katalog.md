@@ -35,7 +35,7 @@ Komplett oppslag over **alle aktive Aksel-komponenter** i Figma-biblioteket `02 
 | FormProgress | `FormProgress` `09c3f76750b876883d302d70429a8df41c2efde7` | State(**Default**/Hover) · Open(**False**/True) | `Steg`, `333`, `av`, `999`, `label` | Søknadssteg — **bruk denne, ikke Stepper**. `333`=gjeldende, `999`=totalt (tekstnoder, ikke akse) |
 | FileUpload | `FileUpload-ItemList` `da7dfbe17329c3262d786c69f1e5a7a8f4721822` `(component)` | _ingen akser_ | `Label`, `Text`+`Details` per fil | Liste over opplastede filer |
 | ErrorSummary | `ErrorSummary` `28098a551f358c8e5caea1c585b440bc6a8469c2` | Size(**Medium**/Small) · **Amount(1–10, def 1)** | `Heading`, `Text` per feil | Antall-akse. Valideringsoversikt med lenker til felt |
-| FormSummary | `FormSummary` `6ea440aa853552224bf6d02f3b4983aa34cfb445` | Breakpoint(**xl**/sm) · **Answers(1–12, def 1)** | `Heading`, `Item Label`, `Text`, `Comma`… | Antall-akse. Oppsummering før innsending |
+| FormSummary | `FormSummary` `6ea440aa853552224bf6d02f3b4983aa34cfb445` | Breakpoint(**xl**/sm) · **Answers(1–12, def 1)** | `Heading`, `Item Label`, `Text`, `Comma`… | Antall-akse. Skjulte sm-kopier: fyll gjentatte noder KUN synlige |
 | HelpText | `HelpText` `81162cfb1871b11c176a6255033eadc3cb51aa32` | State(**Default**/Hover/Active) · Placement(**Top**/Right/Bottom/Left) · Breakpoint(**xl**/sm) | _(innhold i popover)_ | `?`-trigger ved siden av label |
 
 > **Antall-akser (skjema):** Checkbox/Radio `Options` 2–7, ToggleGroup `Amount` 2–5, ErrorSummary `Amount` 1–10, FormSummary `Answers` 1–12. Default lavest.
