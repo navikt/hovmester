@@ -144,6 +144,8 @@ Forhåndsvalgt tilstand (valgt radio/checkbox i en gruppe) finnes ikke som grupp
 > - [`aksel-figma-katalog.md`](./aksel-figma-katalog.md) — lesbart oppslag for mennesker.
 >
 > Finner du komponenten i katalogen, **hopp over preflight** og bruk verdiene direkte. Katalogen er drift-validert (se under), så keys og defaults stemmer. Preflight kun det katalogen ikke dekker.
+>
+> **For layouten rundt komponentene** (luft, bakgrunner, kanter, hjørner, løs tekst) bruk [`aksel-figma-tokens.md`](./aksel-figma-tokens.md) — spacing-skala, semantiske farger, radius og typografi. Da blir hele skissen Aksel-korrekt, ikke bare komponentene. Ved tvil: `get_variable_defs` på en eksisterende Aksel-node viser de faktiske `--ax-*`-tokenene.
 
 Preflight er kun nødvendig for komponenter **utenfor** katalogen (sjelden). Da kjører du EN instans for å avdekke varianter, text-node-navn og font-krav — den eneste pålitelige kilden til faktiske node-navn (som `"intput text"`) og default-varianter. Legg gjerne funnet inn i katalogen etterpå.
 
