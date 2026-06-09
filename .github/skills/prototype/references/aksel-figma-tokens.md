@@ -21,40 +21,45 @@ Praktiske valg: feltavstand i skjema **24**, seksjonsavstand **40–48**, tett g
 | `radius-12` | 12 | paneler, modaler |
 | `radius-full` | 9999 | pill/sirkel |
 
-## Semantiske farger (navn → hex)
+## Semantiske farger (token-navn → bruk)
 
-**Bakgrunn**
-| Token | Hex | Bruk |
-|---|---|---|
-| `bg-default` | `#ffffff` | standard sidebakgrunn |
-| `bg-raised` | `#ffffff` | kort/svevende bokser |
-| `bg-sunken` | — | nedsunket seksjon (lysere grå) |
-| `bg-neutral-soft` | `#f5f6f7` | subtil grå flate |
-| `bg-neutral-moderate` | `#ecedef` | tydeligere grå |
-| `bg-info-moderate` | `#e3eff7` | info-flate |
-| `bg-success-moderate` | `#d5f6db` | suksess-flate |
-| `bg-success-strong` | `#00893c` | meningsbærende grønn |
-| `bg-accent-strong` | `#2176d4` | primær blå (knapp/markering) |
+> **Ikke hardkod hex.** Hent den faktiske verdien live: `get_variable_defs` på en
+> node, eller `search_design_system` på token-navnet for å binde variabelen. Da kan
+> fargene aldri drifte fra Aksel. Listene under er *navnekart* — hvilket token som
+> hører til hvilken situasjon — ikke en verditabell.
 
-**Tekst**
-| Token | Hex | Bruk |
-|---|---|---|
-| `text-neutral` | `#202733` | standard tekst |
-| `text-neutral-subtle` | `#49515e` | dempet/sekundær tekst |
-| `text-neutral-contrast` | `#ffffff` | tekst på mørk/sterk flate |
-| `text-accent-subtle` | `#005bb6` | lenke/aksent-tekst |
-| `text-success` | `#002e00` | suksess-tekst |
-| `text-info` | `#002942` | info-tekst |
+**Bakgrunn** (`--ax-bg-*`)
+| Token | Bruk |
+|---|---|
+| `bg-default` | standard sidebakgrunn |
+| `bg-raised` | kort/svevende bokser |
+| `bg-sunken` | nedsunket seksjon (lysere grå) |
+| `bg-neutral-soft` | subtil grå flate |
+| `bg-neutral-moderate` | tydeligere grå |
+| `bg-info-moderate` | info-flate |
+| `bg-success-moderate` | suksess-flate |
+| `bg-success-strong` | meningsbærende grønn |
+| `bg-accent-strong` | primær blå (knapp/markering) |
 
-**Kant**
-| Token | Hex | Bruk |
-|---|---|---|
-| `border-neutral` | `#6f7785` | standard kant |
-| `border-neutral-subtleA` | `#00163030` | subtil skillelinje (alpha) |
-| `border-neutral-strong` | `#5d6573` | tydelig kant |
-| `border-accent` | `#2176d4` | aksent-kant |
-| `border-success` | `#00893c` | suksess-kant |
-| `border-info` | `#457c9d` | info-kant |
+**Tekst** (`--ax-text-*`)
+| Token | Bruk |
+|---|---|
+| `text-neutral` | standard tekst |
+| `text-neutral-subtle` | dempet/sekundær tekst |
+| `text-neutral-contrast` | tekst på mørk/sterk flate |
+| `text-accent-subtle` | lenke/aksent-tekst |
+| `text-success` | suksess-tekst |
+| `text-info` | info-tekst |
+
+**Kant** (`--ax-border-*`)
+| Token | Bruk |
+|---|---|
+| `border-neutral` | standard kant |
+| `border-neutral-subtleA` | subtil skillelinje (alpha) |
+| `border-neutral-strong` | tydelig kant |
+| `border-accent` | aksent-kant |
+| `border-success` | suksess-kant |
+| `border-info` | info-kant |
 
 ## Typografi (for LØS tekst du lager selv)
 
@@ -72,7 +77,7 @@ Bruk komponentene `Heading`/`Detail` der det passer. For ren tekst i layout, mat
 
 ## Slik bruker du tokens i `use_figma`
 
-- **Raskt (90 %):** bruk råverdiene direkte — `frame.itemSpacing = 24`, `frame.cornerRadius = 8`, `fill = {#f5f6f7}`. Dekker nesten alle skisser.
+- **Raskt (90 %):** rå px-verdier direkte for layout — `frame.itemSpacing = 24`, `frame.cornerRadius = 8`. For *farger*, hent token-verdien live (`get_variable_defs` / `search_design_system`) i stedet for å gjette hex. Dekker nesten alle skisser.
 - **Token-bundet (presist):** importer variabelen og bind den:
   ```javascript
   const v = await figma.variables.importVariableByKeyAsync(KEY); // key fra search_design_system
