@@ -1,6 +1,6 @@
 {
   "source": "navikt/hovmester",
-  "source_sha": "2f500949ccc07f6639151834ab6b78d01c530b15",
+  "source_sha": "f8064a4f67256a4697b6e49efbbdd831e614a0bd",
   "files": [
     ".github/ISSUE_TEMPLATE/bug.yml",
     ".github/ISSUE_TEMPLATE/config.yml",
@@ -87,6 +87,7 @@
     ".github/skills/postgresql-review/references/migration-flyway.md",
     ".github/skills/postgresql-review/references/sql-patterns.md",
     ".github/skills/prototype/SKILL.md",
+    ".github/skills/prototype/references/aksel-figma-katalog.md",
     ".github/skills/prototype/references/figma-prototype.md",
     ".github/skills/prototype/references/visual-companion.md",
     ".github/skills/prototype/scripts/frame-template.tmpl",

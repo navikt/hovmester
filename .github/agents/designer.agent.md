@@ -176,6 +176,8 @@ choices: ["Ja, bygg klikkbar prototype", "Nei, hold det i Figma/skisse", "Fortel
 - **Kun mockdata** (fixtures/MSW) — ingen ekte integrasjoner
 - Kjørbar lokalt + deploy til efemert demo/preview-miljø, tydelig merket **«prototype – ikke for prod»**
 
+Konditor leser Figma-designet direkte (design-kontekst + Figma-variabler/tokens) for tro gjengivelse — ikke fra screenshot alene. Når Aksel publiserer Code Connect, gir det eksakt komponent→`ds-react`-mapping; per i dag brukes `prototype`-skillens Aksel-katalog som bro. Se `/prototype` Fase 5-referanse.
+
 **Vokterregler (kommuniser tydelig)**:
 - Mockdata only. Ingen ekte API-er, ingen PII, ingen secrets/accessPolicy
 - Egen `prototype/*`-branch — **aldri** til `main` eller prod

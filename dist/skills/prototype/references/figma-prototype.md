@@ -139,7 +139,9 @@ Forhåndsvalgt tilstand (valgt radio/checkbox i en gruppe) finnes ikke som grupp
 
 ## Preflight (ALLTID før bygging)
 
-Kjør alltid en preflight-sjekk med EN instans av hver komponenttype du planlegger å bruke. Dette avdekker varianter, text-node-navn og font-krav. **Hopp aldri over dette** — det er den eneste pålitelige kilden til faktiske node-navn (som `"intput text"`) og default-varianter.
+> **Sjekk katalogen først.** For ~30 vanlige Aksel-komponenter er akser, default-varianter, tekst-node-navn, fonter og kjente feller allerede uttrukket empirisk i [`aksel-figma-katalog.md`](./aksel-figma-katalog.md). Finner du komponenten der, kan du hoppe over preflight og bruke verdiene direkte. Preflight kun det katalogen ikke dekker.
+
+Kjør alltid en preflight-sjekk med EN instans av hver komponenttype du planlegger å bruke (som ikke står i katalogen). Dette avdekker varianter, text-node-navn og font-krav. **Hopp aldri over dette** — det er den eneste pålitelige kilden til faktiske node-navn (som `"intput text"`) og default-varianter.
 
 ```javascript
 // Preflight-mønster — kjør som FØRSTE use_figma-kall
@@ -345,25 +347,36 @@ Hvis du er usikker på en farge, slå opp tokenet i Aksel-biblioteket FØR du by
 
 **Bruk kun frame-navn** — aldri lag separate tekst-labels over frames. Figma viser frame-navnene automatisk. Doble labels overlapper.
 
-## Verifiseringssløyfe (OBLIGATORISK)
+## Parity-gate: Figma vs Visual Companion-fasit (OBLIGATORISK)
 
-**Aldri lever uten visuell verifisering.** Etter bygging:
+**Aldri lever uten visuell verifisering mot fasiten.** Visual Companion-skissen er fasit — Figma-resultatet skal matche den. Etter bygging:
 
-1. Ta screenshot: `get_screenshot(fileKey, nodeId)` av hovedframen
-2. Sjekk visuelt:
-   - Overlapper tekst eller elementer?
-   - Er alle felter synlige (textarea, input, knapper)?
-   - Er spacing proporsjonal og ikke akkumulert?
-   - Matcher resultatet konseptet fra Visual Companion?
-3. Fiks problemer funnet i steg 2
-4. Ta nytt screenshot for å bekrefte
-5. Lever til designeren
+1. Ta screenshot av Figma: `get_screenshot(fileKey, nodeId)` av hovedframen
+2. Hent fasiten: VC-screenshotet fra `screen_dir` (det designeren valgte)
+3. Sammenlign side om side mot denne sjekklisten (avledet fra faktiske feil-moduser):
+   - **Struktur**: samme komponenter, samme rekkefølge, ingen manglende felter
+   - **Overlapp**: overlapper tekst/elementer? (auto-layout ikke satt)
+   - **Kollaps**: textarea/input kollapset til 0px? (mangler resize/minHeight)
+   - **Spacing**: proporsjonal, ikke akkumulert dobbel-spacing fra nøstede frames
+   - **Variant/tilstand**: riktig variant (ikke default Error/Neutral/unchecked)? riktig antall barn?
+   - **Tekst**: faktisk innhold, ikke placeholder (`Label`/`intput text`/«Erstatt med eget innhold»)?
+   - **Slot**: Modal/Accordion/ExpansionCard — er Slot-placeholdere skjult/erstattet?
+   - **Font**: `Source Sans 3`, ikke Inter/hardkodet
+4. Fiks alle avvik funnet i steg 3
+5. Ta nytt screenshot og bekreft mot fasiten
+6. Lever til designeren først når Figma matcher VC-skissen
 
-Typiske feil å fange:
-- Tekstnoder som overlapper fordi auto-layout ikke er satt
-- Textarea/input som kollapser til 0px høyde (mangler resize eller minHeight)
-- Dobbel spacing fra nøstede frames med itemSpacing + padding
-- Komponent-instanser som bruker default-tekst fordi setProperties feilet stille
+Hvis du ikke har en VC-fasit (gikk rett til Figma), bruk samme sjekkliste mot det avtalte konseptet.
+
+## Figma→kode-handoff (Fase 5)
+
+Når en Figma-skisse skal bli klikkbar kode (Fase 5), leser konditor designet med disse verktøyene — ikke gjett fra screenshot alene:
+
+- **`get_design_context(nodeId, fileKey)`** — primærkilden. Gir referansekode + struktur for en node/seleksjon, som tilpasses til prosjektets stack (`@navikt/ds-react`).
+- **`get_variable_defs(nodeId, fileKey)`** — Figma-variabler/tokens brukt i seleksjonen → map til Aksel design-tokens i kode for tro gjengivelse av farger/spacing.
+- **`get_metadata(nodeId, fileKey)`** — sparsom XML (id/navn/type/posisjon/størrelse) for å forstå hierarkiet før koding.
+
+**Code Connect (`get_code_connect_map`) — status i Nav:** Verifisert empirisk at Aksel **ikke** publiserer Code Connect-mappinger i dag (`get_code_connect_map` på Aksel-noder returnerer `{}`). Når/hvis Aksel-teamet publiserer det org-bredt (via Code Connect CLI i aksel-repoet), gir dette node→`@navikt/ds-react`-komponent + props automatisk — da bør Fase 5 slå opp mappingen i stedet for å mappe manuelt. Inntil da er [`aksel-figma-katalog.md`](./aksel-figma-katalog.md) den manuelle broen. `add_code_connect_map` skriver kun til egne filer (propagerer ikke til delt bibliotek), så det løser ikke org-bred mapping.
 
 ## Lever
 

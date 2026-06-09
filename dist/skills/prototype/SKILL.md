@@ -127,10 +127,10 @@ Figma MCP-verktøy tilgjengelig.
 3. `search_design_system` → finn relevante Aksel-komponenter
 4. `use_figma` **preflight** → importer + logg varianter, default-variant, tekst-node-navn og fonter (se referanse)
 5. `use_figma` → bygg skissen **inkrementelt, én seksjon per kall** med eksakte variant-navn og node-navn fra preflight
-6. **`get_screenshot`** → verifiser visuelt (se referanse for sjekkliste)
+6. **`get_screenshot`** → parity-gate: sammenlign mot Visual Companion-fasiten (se referanse for sjekkliste)
 7. Fiks eventuelle problemer, del oppdatert lenke ved milepæler
 
-**Aldri hopp over preflight** — det forhindrer gjetting og feil-runder. Se `references/figma-prototype.md` for detaljer.
+**Sjekk katalogen først** — for ~30 vanlige komponenter er akser, defaults, tekst-noder og feller ferdig uttrukket i `references/aksel-figma-katalog.md`. Preflight kun det den ikke dekker. Se `references/figma-prototype.md` for detaljer.
 
 Bygg kun den nye komponenten/endringen — ikke hele siden. Bruk ekte Aksel-komponenter, riktige tokens, og vis varianter som egne frames.
 
