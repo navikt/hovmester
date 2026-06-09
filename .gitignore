@@ -8,3 +8,4 @@ presentations/node_modules/
 # Visual Companion (prototype skill)
 .visual-companion/
 .playwright-mcp/
+node_modules/
