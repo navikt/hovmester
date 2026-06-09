@@ -210,6 +210,27 @@ const instance = (variant || componentSet.defaultVariant).createInstance();
 frame.appendChild(instance);
 ```
 
+### Byggrobusthet (to vanlige Plugin API-feller)
+
+1. **Auto-layout-barn må appendes FØR størrelse settes.** `layoutSizingHorizontal = "FILL"` kaster `FILL can only be set on children of auto-layout frames` hvis du setter den før `appendChild`. Rekkefølge: opprett instans → `frame.appendChild(instance)` → `instance.layoutSizingHorizontal = "FILL"`.
+
+```javascript
+frame.appendChild(instance);
+try { instance.layoutSizingHorizontal = "FILL"; } catch (e) {}  // etter append
+```
+
+2. **Pakk `findOne` i try/catch.** Komponenter med slot-/placeholder-noder (LinkCard, FormSummary, Accordion) kan transient kaste `Node ... not found` midt i traverseringen. Uten try/catch stopper hele byggescriptet. Gjør tekst-fyll defensiv slik at én ustabil node ikke velter resten:
+
+```javascript
+async function setText(node, name, value) {
+  let t = null;
+  try { t = node.findOne(n => n.type === "TEXT" && n.name === name); } catch (e) { return; }
+  if (!t) return;
+  try { await figma.loadFontAsync(t.fontName); t.characters = value; } catch (e) {}
+}
+```
+
+
 ### Korrekt tekst-overstyring i komponent-instanser
 
 Aksel-komponentenes `componentProperties` har nøkler med instansspesifikke ID-suffiks (f.eks. `"Label Text#21497:30"`) som varierer mellom instanser. `setProperties()` fungerer derfor **ikke pålitelig** for tekstendringer.
