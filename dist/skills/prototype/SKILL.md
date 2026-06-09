@@ -31,7 +31,7 @@ Interaktivt nettleserverktøy for å utforske designkonsepter med Aksel-styling.
 ### Forutsetninger
 
 - Node.js ≥ 18 (for HTTP-server)
-- `@navikt/ds-css` i node_modules (for Aksel-styling; fungerer uten, men viser advarsel)
+- `@navikt/ds-css` i node_modules — KREVES for ekte farger; uten den blir alt fargeløst/klint
 
 1. Sørg for at avhengigheter er installert (kreves for Aksel CSS):
    ```bash
@@ -78,9 +78,9 @@ Før du skriver en HTML-mockup, sjekk alltid `/aksel-design` skill for:
 - Korrekt spacing (token = pixelverdi, f.eks. `--ax-space-16` = 16px)
 - Korrekt fargebruk (`--ax-bg-*`, `--ax-text-*`, `--ax-border-*`)
 
-Serveren laster ekte Aksel CSS. Du kan bruke:
-1. **Ekte Aksel-klasser** (`.aksel-button`, `.aksel-text-field`, etc.) for high-fidelity
-2. **`.mock-*` snarvei-klasser** for raske wireframes (se visual-companion.md)
+Bruk **`.mock-*` snarvei-klasser** (`.mock-button`, `.mock-alert--info`, …): de er
+token-drevne og rendrer ekte Aksel-farger/fasonger. Bruk IKKE rå `.aksel-*`-klasser —
+ds-css gir kun struktur, fargene settes runtime av ds-react (felle, se visual-companion.md).
 
 Tokens i v8: `--ax-space-{px}` (f.eks. `--ax-space-16` = 16px, `--ax-space-24` = 24px).
 Radius: `--ax-radius-4`, `--ax-radius-8`, `--ax-radius-12`.

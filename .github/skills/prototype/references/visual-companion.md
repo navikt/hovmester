@@ -5,8 +5,13 @@ under designutforsking.
 
 ## Aksel-korrekthet (VIKTIG)
 
-Serveren laster **ekte `@navikt/ds-css`** fra prosjektets node_modules.
-Alle Aksel-tokens og komponentklasser er tilgjengelige.
+Serveren laster **ekte `@navikt/ds-css`** fra prosjektets node_modules, slik at
+alle Aksel-tokens (`--ax-*`) er definert. Disse tokenene er motoren bak `.mock-*`-klassene.
+
+**Forutsetning for korrekt utseende:** `@navikt/ds-css` MÅ være installert
+(`[ -d node_modules/@navikt/ds-css ] || pnpm install`). Uten den er `--ax-*`-tokenene
+udefinerte, og alt blir fargeløst og «klint» — knapper uten fyll, alerts uten farge.
+Ser du det røde «Aksel CSS mangler»-banneret: kjør `pnpm install` før du fortsetter.
 
 **Før du skriver HTML-mockups:**
 1. Sjekk `/aksel-design` skill for komponent-API og spacing-regler
@@ -14,9 +19,18 @@ Alle Aksel-tokens og komponentklasser er tilgjengelige.
 3. Ved senere iterasjoner i samme sesjon: gjenbruk konteksten fra steg 2, med mindre nye tokens trengs
 4. Bruk korrekte v8-tokens: `--ax-space-{px}`, `--ax-radius-{px}`, `--ax-bg-*`, `--ax-text-*`
 
-**To nivåer av nøyaktighet:**
-- **Ekte Aksel-klasser** (`.aksel-button`, `.aksel-text-field`, etc.): For high-fidelity mockups som skal se pixel-perfect ut
-- **`.mock-*` snarveiklasser**: For raske wireframes der layout og konsept er viktigere enn detaljer
+**Bruk `.mock-*`-klassene — IKKE rå `.aksel-*`-klasser.** ⚠️
+
+`.mock-*`-klassene (`.mock-button`, `.mock-input`, `.mock-alert--info`, …) er
+token-drevne og rendrer autentiske Aksel-farger og -fasonger når ds-css er lastet.
+**Dette er den eneste pålitelige veien til Aksel-likt utseende i VC.**
+
+Rå `.aksel-*`-klasser (`.aksel-button[data-variant=primary]`, `.aksel-alert`, …) er
+en **felle**: ds-css gir kun *struktur*, mens Aksel v8 setter de semantiske fargene
+(info/success/error, knappefyll) runtime via JS i `@navikt/ds-react` — ikke via CSS-klasser.
+I statisk VC-HTML mangler den JS-en, så `.aksel-*`-mockups ser ufullstendige/ødelagte ut
+(ustylte knapper, fargeløse alerts). **Ikke bruk dem.** Trenger du pixel-perfekt Aksel,
+hører det hjemme i Figma (katalogen) eller en ekte ds-react-kodeprototype (Fase 5) — ikke i VC.
 
 **Token-regler (v8):**
 - `--ax-space-16` = 16px (token = pixelverdi direkte)
@@ -185,25 +199,14 @@ Legg til `data-multiselect` på container:
 | `.section` | Innholdsseksjon (32px gap) | VStack |
 | `.label` | Skjemaetikett (16px, bold) | Label |
 
-### Ekte Aksel-klasser (for high-fidelity)
+### Hvorfor ikke rå `.aksel-*`-klasser? (felle)
 
-Serveren laster `@navikt/ds-css` — du kan bruke ekte Aksel HTML-struktur:
-
-```html
-<!-- Ekte Aksel Button -->
-<button class="aksel-button" data-variant="primary">
-  <span class="aksel-button__inner">Send melding</span>
-</button>
-
-<!-- Ekte Aksel TextField -->
-<div class="aksel-form-field">
-  <label class="aksel-form-field__label">Tema</label>
-  <input class="aksel-text-field" type="text">
-</div>
-```
-
-For korrekt HTML-struktur av Aksel-komponenter, hent `aksel.nav.no/llm.md`
-(bør allerede være i kontekst fra steg 2 over).
+Det er fristende å skrive «ekte» Aksel-HTML som
+`<button class="aksel-button" data-variant="primary">…`. **Ikke gjør det.**
+ds-css gir bare strukturen; Aksel v8 fargelegger komponentene runtime via JS i
+`@navikt/ds-react` (semantiske `data-color`/CSS-variabler som ikke finnes i statisk HTML).
+Resultatet i VC blir ustylte knapper og fargeløse alerts. `.mock-*`-klassene over gir
+derimot ekte Aksel-farger fordi de leser `--ax-*`-tokenene direkte — bruk dem.
 
 ### Spacing i innhold
 

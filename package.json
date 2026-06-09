@@ -7,6 +7,7 @@
     "biome:write-sync-content": "biome check --write ."
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.10"
+    "@biomejs/biome": "2.4.10",
+    "@navikt/ds-css": "^8.12.0"
   }
 }
