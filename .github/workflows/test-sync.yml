@@ -10,6 +10,7 @@ on:
       - 'package.json'
       - 'pnpm-lock.yaml'
       - 'biome.json'
+      - '.npmrc'
       - '.github/workflows/test-sync.yml'
 
 permissions:
@@ -33,6 +34,9 @@ jobs:
               - 'package.json'
               - 'pnpm-lock.yaml'
               - 'biome.json'
+              - '.npmrc'
+              - 'scripts/generate_markup_fasit.mjs'
+              - 'dist/skills/prototype/references/aksel-markup-fasit.md'
               - '.github/workflows/test-sync.yml'
 
       - name: Set up pnpm
@@ -63,6 +67,12 @@ jobs:
         if: steps.biome-changes.outputs.biome == 'true'
         run: pnpm run biome:check-sync-content
 
+      - name: Verify markup fasit matches generator output
+        if: steps.biome-changes.outputs.biome == 'true'
+        run: |
+          node scripts/generate_markup_fasit.mjs
+          git diff --exit-code dist/skills/prototype/references/aksel-markup-fasit.md
+
       - name: Run tests
         working-directory: scripts
-        run: python -m pytest test_sync.py test_content.py -v
+        run: python -m pytest test_sync.py test_content.py test_catalog.py -v

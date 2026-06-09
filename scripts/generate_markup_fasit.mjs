@@ -237,7 +237,7 @@ const entries = [
     "Skjema og input",
     "CopyButton",
     "Kopierer tekst til utklippstavle.",
-    h(CopyButton, { copyText: "12345678901", text: "Kopier fødselsnummer" }),
+    h(CopyButton, { copyText: "00000000000", text: "Kopier fødselsnummer" }),
   ],
   [
     "Skjema og input",
@@ -315,7 +315,7 @@ const entries = [
           FormSummary.Answer,
           null,
           h(FormSummary.Label, null, "Fødselsnummer"),
-          h(FormSummary.Value, null, "01010012345"),
+          h(FormSummary.Value, null, "00000000000"),
         ),
       ),
     ),

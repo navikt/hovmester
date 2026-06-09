@@ -501,7 +501,7 @@ Oppsummering av svar før innsending. (Dette er komponenten som startet fidelity
     </div>
     <div data-color="accent" class="aksel-form-summary__answer">
       <dt class="aksel-label">Fødselsnummer</dt>
-      <dd class="aksel-form-summary__value aksel-body-long aksel-body-long--medium">01010012345</dd>
+      <dd class="aksel-form-summary__value aksel-body-long aksel-body-long--medium">00000000000</dd>
     </div>
   </dl>
 </div>

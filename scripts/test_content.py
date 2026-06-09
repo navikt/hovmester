@@ -150,13 +150,15 @@ def test_no_real_fnr_in_dist():
     Skatteetatens syntetiske testserie (eksplisitt markert) kan allowlistes
     senere hvis behov oppstår.
     """
-    # 11-siffer som starter med 1-9 (ekskluderer 00000000000)
-    fnr_pattern = re.compile(r"\b[1-9]\d{10}\b")
+    # 11-siffer, uansett startsiffer (ekskluderer kun eksplisitt placeholder)
+    fnr_pattern = re.compile(r"\b\d{11}\b")
     violations = []
     for abspath, relpath in _iter_md_files(DIST):
         with open(abspath, encoding="utf-8") as f:
             for i, line in enumerate(f, 1):
                 for match in fnr_pattern.finditer(line):
+                    if match.group(0) == "00000000000":
+                        continue
                     violations.append(f"{relpath}:{i}: {match.group(0)} in: {line.strip()}")
     assert not violations, "possible real fnr (use 00000000000):\n" + "\n".join(violations)
 
@@ -300,8 +302,9 @@ def test_aksel_markup_fasit_present_and_wired():
     tmpl = os.path.join(prototype, "scripts", "frame-template.tmpl")
     with open(tmpl, encoding="utf-8") as f:
         tmpl_src = f.read()
-    assert 'aksel-theme light" data-color="accent"' in tmpl_src, (
-        "frame-template.tmpl setter ikke rot-konteksten på innholdet"
+    assert 'aksel-theme light" data-background="true" data-color="accent"' in tmpl_src, (
+        "frame-template.tmpl setter ikke rot-konteksten (skal matche fasitens "
+        '`aksel-theme light` + `data-background="true"` + `data-color="accent"`)'
     )
 
     # @layer-kontrakten (kritisk): ds-css v8 legger komponent-CSS i @layer, så en

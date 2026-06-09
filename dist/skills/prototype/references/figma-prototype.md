@@ -116,7 +116,7 @@ Aksel sine liste-/container-komponenter lar deg **ikke** appende barn. Antall ba
 | Komponent | Akse for antall | Verdier | Default |
 |---|---|---|---|
 | RadioGroup | `Options` | 2–6 | 2 |
-| Accordion | `Items` | 02–13 | 02 |
+| Accordion | `Items` | 02–14 | 02 |
 | Tabs | `Number of` | 2–5 | 2 |
 
 For N elementer: velg varianten med riktig antall, og fyll deretter de N likt-navngitte tekstnodene **per indeks** (de heter ofte det samme, så `findOne` på navn treffer kun første):
@@ -137,7 +137,7 @@ for (let i = 0; i < texts.length; i++) {
 
 Forhåndsvalgt tilstand (valgt radio/checkbox i en gruppe) finnes ikke som gruppe-akse — det må eventuelt settes via `setProperties` på en nestet sub-instans. For en skisse er det ofte godt nok å vise uvalgt.
 
-## Preflight (ALLTID før bygging)
+## Preflight (kun for komponenter katalogen ikke dekker)
 
 > **Sjekk katalogen først — den er fasiten.** Alle 45 aktive Aksel-Figma-komponenter er empirisk uttrukket (key, akser, default, tekst-node-navn, fonter, antall-akser, slot-feller). To formater, samme innhold:
 > - [`aksel-figma-katalog.json`](./aksel-figma-katalog.json) — **kilde til sannhet** (maskinlesbar; bruk feltene direkte: `key`, `axes[].default`, `countAxis`, `slot`, `textNodes`).
@@ -237,6 +237,8 @@ Aksel-komponentenes `componentProperties` har nøkler med instansspesifikke ID-s
 
 **Anbefalt tilnærming:** Bruk `findOne` med **eksakt** `name`-match på direkte instansen. **Du MÅ kjenne det faktiske nodenavnet fra preflight** — gjettede navn gir ingen feilmelding, de bare lar placeholder-teksten stå igjen.
 
+> I faktiske byggescript bør disse `findOne`-kallene gå gjennom den defensive `setText`-helperen fra **Byggrobusthet** (over) — eksemplene under viser kun riktig `name` per komponent, ikke feilhåndteringen.
+
 ```javascript
 // ✅ RIKTIG: Finn tekstnode med eksakt navn innenfor den spesifikke instansen
 const labelNode = instance.findOne(n => n.type === "TEXT" && n.name === "Label");
@@ -279,7 +281,7 @@ function synlig(node, root){
 }
 const verdier = ["1. juni 2025", "15 uker", "Nei"];
 let i = 0;
-for (const t of fs.findAll(n => n.type === "TEXT")){
+for (const t of fs.findAllWithCriteria({ types: ["TEXT"] })){
   if (t.name !== "Text" || !synlig(t, fs)) continue;
   await figma.loadFontAsync(t.fontName);
   t.characters = verdier[i++];
@@ -308,7 +310,7 @@ const instances = frame.children.filter(c => c.type === "INSTANCE");
 
 ```javascript
 // Logg alle tekstnoder i en instans for å finne riktig navn
-const textNodes = instance.findAll(n => n.type === "TEXT");
+const textNodes = instance.findAllWithCriteria({ types: ["TEXT"] });
 console.log(textNodes.map(n => ({ name: n.name, chars: n.characters, font: n.fontName })));
 ```
 
@@ -321,11 +323,12 @@ Modal og Accordion leveres med **synlig placeholder-innhold** som lekker inn i s
 
 ```javascript
 // Skjul placeholder + uønsket default i Modal/Accordion
-instance.findAll(n =>
-  n.name === "Slot" ||
-  /Erstatt med eget innhold/.test(n.name) ||
-  n.name === "Eyebrow heading"
-).forEach(n => { n.visible = false; });
+instance.findAllWithCriteria({ types: ["FRAME", "INSTANCE", "TEXT"] })
+  .filter(n =>
+    n.name === "Slot" ||
+    /Erstatt med eget innhold/.test(n.name) ||
+    n.name === "Eyebrow heading"
+  ).forEach(n => { n.visible = false; });
 ```
 
 ### Auto Layout-regler

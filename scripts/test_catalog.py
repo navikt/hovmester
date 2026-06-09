@@ -1,7 +1,7 @@
 # scripts/test_catalog.py
 """Vokter for Aksel Figma-katalogen.
 
-JSON (aksel-figma-katalog.json) er kilde til sannhet for verktoy/automasjon.
+JSON (aksel-figma-katalog.json) er kilde til sannhet for verktøy/automasjon.
 Markdown (aksel-figma-katalog.md) er det lesbare laget for agent-kontekst.
 Disse testene sikrer at de to ikke drifter fra hverandre, og at JSON er
 internt konsistent (gyldige akser, defaults, countAxis, slot, kind, keys).
@@ -110,7 +110,8 @@ def test_dekning_matches_actual_counts():
 def test_markdown_mirrors_json_components():
     """Hvert JSON-komponentnavn og hver key må finnes i markdown-katalogen."""
     d = _load()
-    md = open(MD_PATH, encoding="utf-8").read()
+    with open(MD_PATH, encoding="utf-8") as f:
+        md = f.read()
     for c in d["komponenter"]:
         assert re.search(rf"^\|\s*{re.escape(c['navn'])}\s*\|", md, re.M), (
             f"komponent {c['navn']} mangler som tabellrad i markdown"
@@ -121,7 +122,8 @@ def test_markdown_mirrors_json_components():
 
 def test_markdown_mirrors_json_kunkode():
     d = _load()
-    md = open(MD_PATH, encoding="utf-8").read()
+    with open(MD_PATH, encoding="utf-8") as f:
+        md = f.read()
     for c in d["kunKode"]:
         # navn kan ha parentes-suffix i md (f.eks. "Navpoleonskake (Breadcrumbs)")
         base = c["navn"].split(" (")[0]
@@ -130,14 +132,16 @@ def test_markdown_mirrors_json_kunkode():
 
 def test_markdown_dekning_line_matches_json():
     d = _load()
-    md = open(MD_PATH, encoding="utf-8").read()
+    with open(MD_PATH, encoding="utf-8") as f:
+        md = f.read()
     expected = f"{d['dekning']['iFigma']}/{d['dekning']['totalt']}"
     assert expected in md, f"markdown mangler dekningstall {expected}"
 
 
 def test_github_mirror_json_matches_dist():
-    if not os.path.isfile(GITHUB_JSON_PATH):
-        return  # speil kjøres av sync; ikke krav i alle kontekster
+    assert os.path.isfile(GITHUB_JSON_PATH), (
+        f"forventet .github-speil mangler: {GITHUB_JSON_PATH} (kjør self-sync)"
+    )
     with open(JSON_PATH, encoding="utf-8") as f:
         dist = f.read()
     with open(GITHUB_JSON_PATH, encoding="utf-8") as f:

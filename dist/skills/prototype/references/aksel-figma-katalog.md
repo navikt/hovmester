@@ -8,7 +8,7 @@ Komplett oppslag over **alle aktive Aksel-komponenter** i Figma-biblioteket `02 
 
 - **key** importeres med `importComponentSetByKeyAsync(key)` — bortsett fra rader merket `(component)` → bruk `importComponentByKeyAsync`.
 - **Variant-akser**: alle gyldige verdier listes; **fet** = default. Bygg variantstrengen fra `defaultVariant.name` og bytt ÉN akse (se `figma-prototype.md`).
-- **Antall-akser** (`Options`/`Amount`/`Items`/`Number of`/`Answers`/`Number of`) styrer **antall barn** — du kan ikke appende. Velg variant med riktig antall, fyll likt-navngitte tekstnoder per indeks.
+- **Antall-akser** (`Options`/`Amount`/`Items`/`Number of`/`Answers`) styrer **antall barn** — du kan ikke appende. Velg variant med riktig antall, fyll likt-navngitte tekstnoder per indeks.
 - **Tekstnoder**: eksakte `name`-verdier for `findOne`/`findAllWithCriteria`. Gjentatte navn = fyll per indeks.
 - **Font**: les alltid `node.fontName` dynamisk. Standard `Source Sans 3`; noen noder bruker fortsatt `Source Sans Pro`.
 - **Default er ofte «feil»** for status/tilstand (Error/Neutral/unchecked). Katalogen markerer kjente feller.
