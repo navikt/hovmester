@@ -23,7 +23,7 @@ Hjelp utviklere å lage en komplett Lumi-integrasjon: god survey, trygg payload,
 ## Arbeidsflyt
 
 1. **Kartlegg appen**: `package.json`, NAIS-manifest, style entry point, BFF/backend og eksisterende `lumi-survey`-bruk.
-2. **Installer ved behov**: legg til `@navikt:registry=https://npm.pkg.github.com` i `.npmrc`, installer `@navikt/lumi-survey`, og verifiser at pakken støtter v2 før nye surveys. Sikre `@navikt/ds-react`/`@navikt/ds-css` v8+.
+2. **Installer ved behov**: installer `@navikt/lumi-survey`. Hvis pakken hentes fra GitHub Packages, legg til `@navikt:registry=https://npm.pkg.github.com` og sørg for auth-token i CI. Verifiser at pakken støtter v2 før nye surveys. Sikre `@navikt/ds-react`/`@navikt/ds-css` v8+.
 3. **Velg survey**: anbefal rating/emoji som standard, men bruk discovery/topTasks/taskPriority når formålet tilsier det.
 4. **Lag konfig**: egen `survey.ts`, `satisfies LumiSurveyConfig`, konkrete norske spørsmål og stabile id-er.
 5. **Koble transport**: frontend kaller appens BFF; BFF utveksler token og videresender rå payload til Lumi API.
@@ -31,6 +31,8 @@ Hjelp utviklere å lage en komplett Lumi-integrasjon: god survey, trygg payload,
 7. **Valider**: submit happy case, feilet transport + retry, dashboard-synlighet, ingen PII, og ny `surveyId` ved strukturendring.
 
 ## Hurtigstart
+
+Legg CSS-importene i appens globale style entry point, for eksempel root/layout.
 
 ```tsx
 import "@navikt/ds-css";

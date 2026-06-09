@@ -36,7 +36,7 @@ export const survey = {
       required: true,
     },
     {
-      id: "lav_score_arsak",
+      id: "lavScoreArsak",
       type: "text",
       prompt: "Hva gjorde opplevelsen dårlig?",
       maxLength: 1000,
