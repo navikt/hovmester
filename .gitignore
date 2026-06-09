@@ -4,3 +4,7 @@ __pycache__/
 .idea/
 docs/superpowers/
 presentations/node_modules/
+
+# Visual Companion (prototype skill)
+.visual-companion/
+.playwright-mcp/
