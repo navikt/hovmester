@@ -42,6 +42,10 @@ Nyttige søk:
 - `LocalAlert`, `GlobalAlert`, `InlineMessage`, `InfoCard` (`Alert` er deprecated i kode — bruk Aksel-erstatningene selv om Alert finnes i Figma-biblioteket)
 - `Heading`, `BodyLong`, `BodyShort`, `Label`
 
+**Søk på enkelt komponentnavn — ikke beskrivende fraser.** `search_design_system("Select dropdown")` ga NULL Aksel-treff (kun ikoner); `"Select"` alene fant komponenten. Er et søk tomt, prøv synonymer (`Select`/`Combobox`/`Dropdown`), ikke lengre fraser.
+
+**Ferdige maler finnes.** `Aksel Templates`-biblioteket har sammensatte maler verdt å sjekke for hele flyter — f.eks. `Form-ButtonNavigation` (tilbake/neste-knapper i skjema) og sidemaler. Kan spare mye manuell bygging.
+
 ### Slik er Aksel-biblioteket faktisk strukturert (verifisert)
 
 Søk gir ofte flere treff enn forventet. Disse fakta er bekreftet mot biblioteket og sparer deg for feil-runder:
@@ -50,6 +54,18 @@ Søk gir ofte flere treff enn forventet. Disse fakta er bekreftet mot biblioteke
 - **Hopp over treff merket `🚨 OLD`, `[🚨Old]` eller `___Old_`.** Bruk alltid den nye komponenten med samme navn.
 - **Det finnes ingen enkelt `Table`-komponent** (se egen Tabell-seksjon under).
 - Tekst-primitives (`Heading`, `BodyLong`, `BodyShort`, `Label`) finnes som komponenter, men for skisser er det ofte enklere og mer stabilt å lage rene `figma.createText()`-noder med riktig font (se under).
+
+### Velg riktig Nav-komponent — les komponentens `description`
+
+`search_design_system` returnerer en `description` per komponent med Aksel sin «Egnet/Uegnet til»-guide. Les den — den avgjør ofte hvilken komponent som er riktig, selv når skissen viser et generisk mønster:
+
+| Skissen viser | Riktig Aksel-komponent | Ikke bruk |
+|---|---|---|
+| Søknadssteg / «Steg 2 av 4» | `FormProgress` | `Stepper` |
+| Tidkrevende prosess med fremdrift | `ProgressBar` | `Stepper` |
+| Generell sekvens/navigasjon | `Stepper` | — |
+
+`FormProgress` rendrer bevisst annerledes enn en horisontal stepper (fremdriftslinje + «Steg X av Y» + «Vis alle steg»-utvider) — det er det riktige Nav-mønsteret for søknadsdialog. Tekstnoder: `"333"` (gjeldende steg), `"999"` (totalt antall). Når Aksel har en mer spesifikk komponent enn skissens generiske mønster, velg Aksel-komponenten og forklar designeren avviket.
 
 ### Varianter: default er nesten alltid feil for status/tilstand
 
@@ -60,6 +76,8 @@ Søk gir ofte flere treff enn forventet. Disse fakta er bekreftet mot biblioteke
 | GlobalAlert / LocalAlert | `Variant=Error` (rød) | Et «vedlikehold»-varsel blir rødt feilvarsel |
 | Tag | `Color=Neutral, Variant=Outline` | Statusfarge mangler (grå outline) |
 | Checkbox | `Checked=False` | Avhuket checkbox vises tom |
+
+> **Alert-varianter:** `LocalAlert`/`GlobalAlert` har verdier `Error, Warning, Announcement, Success` — det finnes **ingen `Info`**; bruk `Announcement`. Tekstnoder: `Heading`, `paragraph`.
 
 **Velg variant eksplisitt** ut fra skissens semantikk. Bygg variantstrengen ved å starte fra `defaultVariant.name` og bytte ÉN akse — ikke skriv lange strenger for hånd (akser kan inneholde Unicode som `↳ Selected`):
 
@@ -90,6 +108,34 @@ I motsetning til tekst (se under) fungerer `setProperties` **bra** for variant-a
 const tag = card.findAllWithCriteria({ types: ["INSTANCE"] }).find(n => /tag/i.test(n.name));
 tag.setProperties({ "Color": "Warning", "Variant": "Moderate" }); // ✅ variant-akser er stabile nøkler
 ```
+
+### Antall barn er en variant-akse (lister og containere)
+
+Aksel sine liste-/container-komponenter lar deg **ikke** appende barn. Antall barn er kodet som en **variant-akse**, og default er alltid laveste antall:
+
+| Komponent | Akse for antall | Verdier | Default |
+|---|---|---|---|
+| RadioGroup | `Options` | 2–6 | 2 |
+| Accordion | `Items` | 02–13 | 02 |
+| Tabs | `Number of` | 2–5 | 2 |
+
+For N elementer: velg varianten med riktig antall, og fyll deretter de N likt-navngitte tekstnodene **per indeks** (de heter ofte det samme, så `findOne` på navn treffer kun første):
+
+```javascript
+const set = await figma.importComponentSetByKeyAsync(RADIOGROUP_KEY);
+const variant = set.children.find(c => /Options=3/.test(c.name)) || set.defaultVariant;
+const group = variant.createInstance();
+frame.appendChild(group);
+// Fyll de 3 radio-etikettene per indeks
+const labels = group.findAllWithCriteria({ types: ["TEXT"] }).filter(n => n.name === "label");
+const texts = ["Ja", "Nei", "Vet ikke"];
+for (let i = 0; i < texts.length; i++) {
+  await figma.loadFontAsync(labels[i].fontName);
+  labels[i].characters = texts[i];
+}
+```
+
+Forhåndsvalgt tilstand (valgt radio/checkbox i en gruppe) finnes ikke som gruppe-akse — det må eventuelt settes via `setProperties` på en nestet sub-instans. For en skisse er det ofte godt nok å vise uvalgt.
 
 ## Preflight (ALLTID før bygging)
 
@@ -190,6 +236,22 @@ const textNodes = instance.findAll(n => n.type === "TEXT");
 console.log(textNodes.map(n => ({ name: n.name, chars: n.characters, font: n.fontName })));
 ```
 
+### Modal og Accordion: erstatt slot-placeholdere
+
+Modal og Accordion leveres med **synlig placeholder-innhold** som lekker inn i skissen hvis du ikke fjerner det:
+- En `Slot`-node + en lang node ved navn `Erstatt med eget innhold ved å bytte ut denne med din egen komponent` (rosa stiplet) — skjul/erstatt med din egen frame.
+- Modal har i tillegg et default dokument-ikon ved tittelen og en `Eyebrow heading`-node — skjul hvis ikke ønsket.
+- Modal har tre innebygde footer-knapper (`Tertiary`/`Secondary`/`Primary`) som er **accent (blå)** med fast variant. For en danger-bekreftelse (rød): skjul de innebygde knappene og legg inn egne `Button Danger`-instanser i footeren — eller godta accent og noter avviket.
+
+```javascript
+// Skjul placeholder + uønsket default i Modal/Accordion
+instance.findAll(n =>
+  n.name === "Slot" ||
+  /Erstatt med eget innhold/.test(n.name) ||
+  n.name === "Eyebrow heading"
+).forEach(n => { n.visible = false; });
+```
+
 ### Auto Layout-regler
 
 ```javascript
@@ -234,6 +296,8 @@ mainFrame.itemSpacing = 24; // Mellom alle felt
 - `layoutSizingHorizontal = "FILL"` kan kun settes ETTER at noden er appended til auto-layout parent
 - `frame.children.filter(...)` for direkte barn — ALDRI `frame.findAll(...)` for instansvalg (inkluderer sub-instanser)
 - Button text node heter `"label"` (lowercase), Checkbox heter `"Label"` (uppercase)
+- Beskrivelsesliste (`dl`) finnes ikke som Aksel-komponent — bygg et custom tekst-grid. Fyll i leserekkefølge (rad-major), ikke kolonne-major, så par havner riktig.
+- `LinkCard` har innebygd Tag (`tag label`) + heading + paragraph — velegnet til sakskort/lenkekort, bedre enn å bygge kort fra scratch.
 
 ## Tabeller — det finnes ingen `Table`-komponent
 

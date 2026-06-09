@@ -149,11 +149,11 @@ Finnes den ikke? → Bygg custom, men med Aksel-tokens.
 
 - **Preflight først**: Importer + logg varianter, default og tekst-noder i ETT kall
 - **Bygg inkrementelt**: ett `use_figma`-kall per seksjon — `use_figma` er atomisk, så én feil ruller tilbake HELE kallet
-- **Eksakt navnematch** for variant. NB: `defaultVariant` er ofte feil farge/tilstand (GlobalAlert=Error/rød, Tag=Neutral, Checkbox=unchecked) — velg variant bevisst
+- **Eksakt navnematch** for variant. NB: `defaultVariant` er ofte feil (GlobalAlert/LocalAlert=Error/rød, Tag=Neutral, Checkbox=unchecked). Antall barn (RadioGroup/Accordion/Tabs) er også en variant-akse — velg bevisst
 - **Tekst**: `findOne`/`findAllWithCriteria` med eksakt name — IKKE `setProperties()` for tekst (ustabile nøkler). `setProperties` er derimot OK for variant-akser (Color/Variant/Size)
 - **Font**: les fonten fra noden og `loadFontAsync(node.fontName)` — aldri hardkod (Aksel = `Source Sans 3`, ikke Inter)
 - **`layoutSizingHorizontal = "FILL"`** kun etter append til auto-layout
-- **Tabell**: ingen `Table`-komponent finnes — komponer fra `Table cell` (se referanse)
+- **Riktig komponent + komposisjon**: søknadssteg→`FormProgress` (ikke Stepper); ingen `Table`-komponent (komponer fra `Table cell`); skjul Slot-placeholdere i Modal/Accordion — se referanse
 - **Farger**: Slå opp via `search_design_system` — aldri gjett RGB
 
 Se `references/figma-prototype.md` for fullstendige regler og eksempler.
