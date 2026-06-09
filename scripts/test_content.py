@@ -299,3 +299,22 @@ def test_aksel_markup_fasit_present_and_wired():
     assert 'aksel-theme light" data-color="accent"' in tmpl_src, (
         "frame-template.tmpl setter ikke rot-konteksten på innholdet"
     )
+
+    # @layer-kontrakten (kritisk): ds-css v8 legger komponent-CSS i @layer, så en
+    # ulagret reset slår Aksel uansett spesifisitet og fjerner padding/margin
+    # ("klint inntil"-buggen). vc-base MÅ deklareres FØR ds-css lastes, og den
+    # generiske reset-en MÅ ligge i et @layer-block (ikke ulagret).
+    layer_decl = tmpl_src.find("@layer vc-base;")
+    css_link = tmpl_src.find('href="/aksel.css"')
+    assert layer_decl != -1, "frame-template.tmpl mangler `@layer vc-base;`-deklarasjon"
+    assert css_link != -1, "frame-template.tmpl laster ikke /aksel.css"
+    assert layer_decl < css_link, (
+        "`@layer vc-base;` må deklareres FØR ds-css lastes, ellers rangerer den OVER Aksel"
+    )
+    reset = tmpl_src.find("margin: 0; padding: 0; box-sizing: border-box;")
+    assert reset != -1, "frame-template.tmpl mangler den generiske reset-en"
+    layer_block = tmpl_src.find("@layer vc-base {")
+    assert layer_block != -1 and layer_block < reset, (
+        "den generiske `*`-reset-en må ligge inne i `@layer vc-base { … }`, "
+        "ellers stripper den Aksel-padding (ulagret slår lagret)"
+    )

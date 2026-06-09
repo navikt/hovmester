@@ -36,8 +36,21 @@ primærknapper blir blå):
 Frame-malen setter denne automatisk. Komponenter som setter egen `data-color` (Alert,
 Tag, LocalAlert …) overstyrer rot-konteksten — det er meningen (nøstede fargekontekster).
 
+**Hvorfor frame-malen IKKE må ha en ulagret `* { padding:0 }`-reset (kritisk):**
+ds-css v8 legger *all* komponent-CSS i `@layer` (`aksel.components.*`). En ulagret regel
+slår en lagret regel **uansett spesifisitet** — så en vanlig `* { margin:0; padding:0 }`
+fjernet stilltiende all Aksel-padding (knapper/alerts ble `padding:0`, tekst klint inntil
+kanten). Fiks som er på plass i frame-malen: et `@layer vc-base;` deklareres **før**
+`ds-css` lastes, og malens generiske element-resets (`*`, `h2`, `h3`) ligger i det laget.
+Da vinner Aksel for alt `.aksel-*`-innhold, mens chrome-klasser (`.vc-*`, `.mock-*`) er
+ulagret = høyest prioritet. Endrer du frame-malen: behold dette laget — legg aldri til en
+ulagret regel som rører `padding`/`margin` på generiske selektorer.
+
 **Arbeidsflyt for HTML-mockups:**
 1. Hent komponent-markup fra `references/aksel-markup-fasit.md` (ekte `.aksel-*`).
+   Kopier **hele** snippeten — inkludert ikon-SVG-er og wrapper-divs — og bytt kun
+   teksten. Forenkler du for hånd (dropper f.eks. `aksel-alert__icon`-SVG-en),
+   mister komponenten deler av utseendet sitt.
 2. Trenger du spacing/token-detaljer utover fasiten: sjekk `/aksel-design`, og hent
    `https://aksel.nav.no/llm.md` ved første HTML-generering i sesjonen.
 3. `.mock-*`-klassene er kun for **ikke-Aksel-stillas** (egne layout-bokser uten en
