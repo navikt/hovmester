@@ -94,6 +94,8 @@ Se `references/visual-companion.md` for alle CSS-klasser og eksempler.
 - 2–4 alternativer per skjerm
 - Forklar spørsmålet på siden: «Hvilken tilnærming passer best?»
 - Skaler fidelitet etter spørsmålet — wireframe for layout, detaljer for detaljer
+- **Norske tegn (æ/ø/å) direkte som UTF-8** — aldri `\u00f8`-escapes; serveren skriver
+  ordrett, så escapen blir synlig tekst i skissen («m\u00f8te» i stedet for «møte»)
 
 ### Les brukervalg
 

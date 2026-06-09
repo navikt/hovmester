@@ -98,6 +98,8 @@ Gi designeren URL umiddelbart etter oppstart.
    - Bruk semantiske filnavn: `konsept-a.html`, `layout-v2.html`
    - Aldri gjenbruk filnavn — serveren viser nyeste fil
    - Skriv content fragments, IKKE fulle HTML-dokumenter
+   - Skriv norske tegn (æ/ø/å) direkte som UTF-8 — aldri `\u00f8`-escapes
+     (de blir stående som synlig tekst i skissen)
 
 2. **Si til designeren hva som vises:**
    > «Åpne lenken — du ser tre varianter for meldingsfunksjonen. Klikk den
