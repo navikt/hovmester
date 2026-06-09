@@ -9,6 +9,36 @@ For avanserte brukstilfeller (forgreningslogikk, steg-for-steg-flyter, egendefin
 **Events for analyseintegrasjon:**
 
 ```tsx
+import {
+  LumiSurveyDock,
+  type LumiSurveyConfig,
+  type LumiSurveyTransport,
+} from "@navikt/lumi-survey";
+
+const survey = {
+  type: "rating",
+  questions: [
+    {
+      id: "opplevelse",
+      type: "rating",
+      variant: "emoji",
+      prompt: "Hvordan var opplevelsen?",
+      required: true,
+    },
+  ],
+} satisfies LumiSurveyConfig;
+
+const transport: LumiSurveyTransport = {
+  async submit(submission) {
+    const response = await fetch("/api/lumi/feedback", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(submission.transportPayload),
+    });
+    if (!response.ok) throw new Error(`Lumi feedback feilet: ${response.status}`);
+  },
+};
+
 export function FeedbackSurvey() {
   return (
     <LumiSurveyDock
@@ -16,10 +46,18 @@ export function FeedbackSurvey() {
       survey={survey}
       transport={transport}
       events={{
-        onSubmitSuccess: () => analytics.track("survey_completed"),
-        onSubmitError: (cause) => logger.error("Survey submit failed", cause),
+        onSubmitSuccess: () => trackAnalyticsEvent("survey_completed"),
+        onSubmitError: (cause) => logSurveyError("Survey submit failed", cause),
       }}
     />
   );
+}
+
+function trackAnalyticsEvent(eventName: string) {
+  // Send kun lavkardinalitets eventnavn, ikke payload eller fritekst.
+}
+
+function logSurveyError(message: string, cause: unknown) {
+  // Logg teknisk feil uten payload, token eller PII.
 }
 ```
