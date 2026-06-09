@@ -5,6 +5,14 @@ under designutforsking.
 
 ## Aksel-korrekthet (VIKTIG)
 
+> **VC er en tilnærming, ikke fasit.** `.mock-*`-klassene gir riktig retning (ekte
+> tokens for farge og spacing), men de er *ikke* de ekte Aksel-komponentene og kan
+> villede på detaljnivå (skillelinjer, lenker, ikoner, eksakt kontrast). Bruk VC til å
+> utforske **layout, flyt, hierarki og innhold**. Spørsmålet «ser denne komponenten
+> riktig ut i Aksel?» besvares av **Figma-renderet** (ekte komponent fra katalogen) —
+> ikke av VC-skissen. Ikke bygg `.mock-*` for å etterligne en spesifikk komponent pixel
+> for pixel; vis strukturen, så kommer den tro stylingen i Figma.
+
 Serveren laster **ekte `@navikt/ds-css`** fra prosjektets node_modules, slik at
 alle Aksel-tokens (`--ax-*`) er definert. Disse tokenene er motoren bak `.mock-*`-klassene.
 
