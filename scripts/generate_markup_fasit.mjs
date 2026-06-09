@@ -1,9 +1,10 @@
 /**
  * Aksel markup-fasit generator.
  *
- * Renders every active Aksel component via @navikt/ds-react + react-dom/server
- * to EXACT static HTML, then writes a reference the Visual Companion agent uses
- * to author authentic Aksel markup (instead of .mock-* approximations).
+ * Renders a curated, representative set of commonly-used Aksel components via
+ * @navikt/ds-react + react-dom/server to EXACT static HTML, then writes a
+ * reference the Visual Companion agent uses to author authentic Aksel markup
+ * (instead of .mock-* approximations).
  *
  * The generated HTML is ds-react's own output, so it is guaranteed correct and
  * renders authentically with @navikt/ds-css loaded. Regenerate on Aksel upgrades:

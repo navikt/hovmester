@@ -1,8 +1,8 @@
 # Aksel Figma-katalog (empirisk uttrukket)
 
-Komplett oppslag over **alle aktive Aksel-komponenter** i Figma-biblioteket `02 Aksel Components`, uttrukket via preflight (import + instans-inspeksjon). Bruk denne i stedet for å gjette variant-navn, defaults, tekstnode-navn eller fonter — det fjerner preflight-runder og gjettefeil.
+Oppslag over alle **instansierbare** Aksel-komponenter i Figma-biblioteket `02 Aksel Components`, uttrukket via preflight (import + instans-inspeksjon). Bruk denne i stedet for å gjette variant-navn, defaults, tekstnode-navn eller fonter — det fjerner preflight-runder og gjettefeil.
 
-> Vår egen «manifest» inntil Aksel publiserer en maskinlesbar én (jf. Issue #58). Verdiene er hentet direkte fra biblioteket. **45 komponenter** dekket; 10 er kun kode/ikke i Figma (se bunn).
+> Vår egen «manifest» inntil Aksel publiserer en maskinlesbar én (jf. Issue #58). Verdiene er hentet direkte fra biblioteket. **45 komponenter** dekket i Figma; ytterligere 10 finnes kun i `@navikt/ds-react` (se bunn).
 
 ## Slik leser du katalogen
 
