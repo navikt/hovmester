@@ -1,8 +1,8 @@
-## Fase 6: NAIS-konfigurasjon
+## NAIS-konfigurasjon
 
 Legg til i NAIS-manifest(ene). **Merk:** Verdiene avhenger av auth-type og miljø.
 
-### 6a. Miljøvariabler
+### Miljøvariabler
 
 **TokenX (offentlige apper):**
 
@@ -63,7 +63,7 @@ spec:
       value: azuread
 ```
 
-### 6b. Tilgangspolicy (outbound)
+### Tilgangspolicy (outbound)
 
 ```yaml
 spec:
@@ -77,7 +77,7 @@ spec:
         #   namespace: team-esyfo
 ```
 
-### 6c. Bestill tilgang hos Lumi-teamet
+### Bestill tilgang hos Lumi-teamet
 
 Lumi API krever at din app er lagt til som **inbound**-regel i Lumi sitt NAIS-manifest. Denne endringen gjøres av Team eSyfo.
 
@@ -88,7 +88,7 @@ Lumi API krever at din app er lagt til som **inbound**-regel i Lumi sitt NAIS-ma
 
 Vent med å teste fullstendig flyt til inbound-tilgang er på plass — uten den vil du få 403 fra Lumi API.
 
-### 6d. Token-utveksling
+### Token-utveksling
 
 Hvis ikke allerede aktivert, legg til TokenX- eller Azure-konfig:
 
