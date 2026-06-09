@@ -1547,7 +1547,7 @@
         "Small text"
       ],
       "defaultPitfall": "Strong",
-      "merknad": "Liten metadata-tekst."
+      "merknad": "Liten metadata-tekst. NB: tekstnoden heter 'Small text' i Regular/Strong, men i Type=Caps heter den etter innholdet sitt — fyll den eneste tekstnoden direkte i stedet for navnematch."
     },
     {
       "navn": "Table",
@@ -1588,7 +1588,7 @@
       "textNodes": [
         "Content"
       ],
-      "merknad": "Ingen samlet Table — komponer fra Table row (def 7 celler) + Table cell. Variant=Header for overskriftsrad."
+      "merknad": "Ingen samlet Table. Table row INNEHOLDER allerede ~7 Content-celler i horisontal layout. Riktig bruk: instansier raden, fyll de første N Content-nodene og skjul resten — IKKE appendChild egne Table cell (de stables vertikalt). Variant=Header for overskriftsrad. Table cell finnes separat for spesialtilfeller."
     },
     {
       "navn": "DataGrid",

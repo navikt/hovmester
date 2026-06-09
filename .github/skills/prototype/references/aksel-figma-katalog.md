@@ -87,13 +87,13 @@ Komplett oppslag over **alle aktive Aksel-komponenter** i Figma-biblioteket `02 
 | Komponent | Figma-navn · key | Variant-akser (**default**) | Tekstnoder | Merknad |
 |---|---|---|---|---|
 | Heading | `Heading` `e543054997514a35914c483817b46e2abea6bc75` | Size(**XLarge**/Large/Medium/Small/XSmall) · Device(Mobile/**Desktop**) · Margin bottom(**True**/False) · State · Link | `heading` | Overskrifter. BodyShort/BodyLong/Label finnes tilsvarende |
-| Detail | `Detail` `9218664bfba6f01d2f83f5d5fa37744ff033d952` | Type(Regular/**Strong**/Caps) | `Small text` | Liten metadata-tekst |
+| Detail | `Detail` `9218664bfba6f01d2f83f5d5fa37744ff033d952` | Type(Regular/**Strong**/Caps) | `Small text` | Liten metadata-tekst. NB: node heter `Small text` i Regular/Strong, men i `Caps` heter den etter innholdet — fyll eneste tekstnode direkte |
 
 ## Data og tabeller
 
 | Komponent | Figma-navn · key | Variant-akser (**default**) | Tekstnoder | Merknad |
 |---|---|---|---|---|
-| Table | `Table row` `be74483645b989a166d7d6783c09d5f13c111e01` · `Table cell` `77d47ecf3bd48d90aeabd0cc7342a0a3b34ae770` | **row:** Variant(**Body**/Header) · Zebra · State · Selectable · Expandable. **cell:** Variant(**Body**/Header) · Size(Small/Medium/**Large**) · Interactive · State | `Content` per celle | **Ingen samlet Table-komponent** — komponer fra `Table row` (def 7 celler) + `Table cell`. `Variant=Header` for overskriftsrad |
+| Table | `Table row` `be74483645b989a166d7d6783c09d5f13c111e01` · `Table cell` `77d47ecf3bd48d90aeabd0cc7342a0a3b34ae770` | **row:** Variant(**Body**/Header) · Zebra · State · Selectable · Expandable. **cell:** Variant(**Body**/Header) · Size(Small/Medium/**Large**) · Interactive · State | `Content` per celle | **Ingen samlet Table.** `Table row` inneholder allerede ~7 `Content`-celler horisontalt — instansier raden, fyll de første N `Content`-nodene og skjul resten. **Ikke** `appendChild` egne celler (stables vertikalt). `Variant=Header` for overskriftsrad |
 | DataGrid | `DataGrid [PREVIEW]` `a92ac973a8c3f8d9860b7181d8da7d7ce8806cba` | Filter variant(**Simple**/Advanced) · Batch actions(**False**/True) | `heading`, `Label`, `Description`, `intput text`… | **PREVIEW** — kan endres. Delrad: `DataGrid/TableRow` |
 
 ## Kun i kode / ikke egne Figma-komponenter
