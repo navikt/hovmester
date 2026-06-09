@@ -39,7 +39,7 @@ search_design_system(query: "Button", fileKey: "<key>")
 Nyttige søk:
 - `Button`, `TextField`, `Select`, `Checkbox`, `Radio`
 - `Modal`, `Tabs`, `Accordion`, `Table`
-- `LocalAlert`, `GlobalAlert`, `InlineMessage`, `InfoCard` (`Alert` er deprecated i kode — bruk Aksel-erstatningene selv om Alert finnes i Figma-biblioteket)
+- `LocalAlert`, `GlobalAlert`, `InlineMessage`, `InfoCard` (`Alert` er **deprecated** i kode — bruk `LocalAlert`/`GlobalAlert`. Det finnes ingen frittstående `Alert` i Figma-biblioteket)
 - `Heading`, `BodyLong`, `BodyShort`, `Label`
 
 **Søk på enkelt komponentnavn — ikke beskrivende fraser.** `search_design_system("Select dropdown")` ga NULL Aksel-treff (kun ikoner); `"Select"` alene fant komponenten. Er et søk tomt, prøv synonymer (`Select`/`Combobox`/`Dropdown`), ikke lengre fraser.

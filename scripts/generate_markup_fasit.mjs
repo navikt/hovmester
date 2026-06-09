@@ -73,7 +73,6 @@ function render(name, el) {
 
 const {
   Accordion,
-  Alert,
   BodyLong,
   BodyShort,
   Box,
@@ -329,30 +328,42 @@ const entries = [
   ],
 
   // --- Tilbakemelding og status ---
+  // MERK: `Alert` (@navikt/ds-react) er deprecated. Bruk LocalAlert (lokalt
+  // varsel) eller GlobalAlert (hele løsningen). Begge bruker `status`
+  // (announcement | success | warning | error) — det finnes INGEN "info";
+  // `announcement` er det nøytrale/informative varselet.
   [
     "Tilbakemelding og status",
-    "Alert",
-    "variant: info | success | warning | error. Inline-melding i kontekst.",
+    "LocalAlert",
+    "Lokalt varsel nær en hendelse. status: announcement | success | warning | error (ingen 'info' — announcement = nøytral/info). Erstatter deprecated Alert. Komponer med .Header/.Title/.Content.",
     h(
       "div",
       { style: { display: "flex", flexDirection: "column", gap: "12px" } },
-      h(Alert, { variant: "info" }, "Vi har mottatt søknaden din."),
-      h(Alert, { variant: "success" }, "Søknaden er sendt."),
-      h(Alert, { variant: "warning" }, "Sjekk svarene før du sender."),
-      h(Alert, { variant: "error" }, "Noe gikk galt. Prøv igjen."),
+      ...[
+        ["announcement", "Vi har mottatt søknaden din", "Du hører fra oss innen tre uker."],
+        ["success", "Søknaden er sendt", "Du kan logge inn for å se status."],
+        ["warning", "Fristen nærmer seg", "Du har tre dager igjen på å svare."],
+        ["error", "Noe gikk galt", "Vi kunne ikke lagre svaret. Prøv igjen."],
+      ].map(([status, title, body]) =>
+        h(
+          LocalAlert,
+          { status, key: status },
+          h(LocalAlert.Header, null, h(LocalAlert.Title, null, title)),
+          h(LocalAlert.Content, null, body),
+        ),
+      ),
     ),
   ],
   [
     "Tilbakemelding og status",
-    "LocalAlert",
-    "Seksjons-varsel. variant: info | success | warning | error.",
-    h(LocalAlert, { variant: "warning" }, "Fristen er om 3 dager."),
-  ],
-  [
-    "Tilbakemelding og status",
     "GlobalAlert",
-    "Hele bredden, øverst i løsningen.",
-    h(GlobalAlert, { variant: "info" }, "Planlagt vedlikehold lørdag kl. 02–04."),
+    "Varsel for hele løsningen — full bredde, øverst. status: announcement | success | warning | error. Komponer med .Header/.Title/.Content.",
+    h(
+      GlobalAlert,
+      { status: "announcement" },
+      h(GlobalAlert.Header, null, h(GlobalAlert.Title, { as: "h2" }, "Planlagt vedlikehold")),
+      h(GlobalAlert.Content, null, "Tjenesten er nede lørdag kl. 02–04. Søknader lagres som kladd."),
+    ),
   ],
   [
     "Tilbakemelding og status",
@@ -689,8 +700,8 @@ riktige farger, fasonger, ikoner og struktur — uten React, build eller CDN.
    primærknapper blir blå). \`@navikt/ds-css\` lastes via \`/aksel.css\` (allerede i
    frame-malen).
 2. Lim inn komponentens markup fra tabellen under, bytt teksten til ditt innhold.
-3. Komponenter som setter egen \`data-color\` (Alert, Tag, LocalAlert …) overstyrer
-   rot-konteksten — det er meningen (nøstede fargekontekster).
+3. Komponenter som setter egen \`data-color\` (LocalAlert, GlobalAlert, Tag …)
+   overstyrer rot-konteksten — det er meningen (nøstede fargekontekster).
 4. Ikon-SVG-er er inkludert for eksakthet; bytt fritt til andre Aksel-ikoner.
 
 ### Rot-kontekst (wrap alt innhold i denne)

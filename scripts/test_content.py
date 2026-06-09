@@ -281,8 +281,12 @@ def test_aksel_markup_fasit_present_and_wired():
         "fasiten mangler rot-konteksten (aksel-theme light / data-color=accent)"
     )
     # Kjernekomponenter skal være dekket.
-    for comp in ("### Button", "### FormSummary", "### Alert", "### TextField"):
+    for comp in ("### Button", "### FormSummary", "### LocalAlert", "### TextField"):
         assert comp in fasit_md, f"fasiten mangler {comp}"
+    # `Alert` er deprecated i kode — fasiten skal IKKE lære den lenger.
+    assert "\n### Alert\n" not in fasit_md, (
+        "fasiten lærer fortsatt deprecated Alert — bruk LocalAlert/GlobalAlert"
+    )
     # Ekte ds-react-output (ikke .mock-*) skal være kilden.
     assert "aksel-button" in fasit_md, "fasiten ser ikke ut til å ha ekte .aksel-*-markup"
 

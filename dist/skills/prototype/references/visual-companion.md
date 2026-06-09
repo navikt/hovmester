@@ -33,8 +33,9 @@ primærknapper blir blå):
 </div>
 ```
 
-Frame-malen setter denne automatisk. Komponenter som setter egen `data-color` (Alert,
-Tag, LocalAlert …) overstyrer rot-konteksten — det er meningen (nøstede fargekontekster).
+Frame-malen setter denne automatisk. Komponenter som setter egen `data-color`
+(LocalAlert, GlobalAlert, Tag …) overstyrer rot-konteksten — det er meningen
+(nøstede fargekontekster).
 
 **Hvorfor frame-malen IKKE må ha en ulagret `* { padding:0 }`-reset (kritisk):**
 ds-css v8 legger *all* komponent-CSS i `@layer` (`aksel.components.*`). En ulagret regel

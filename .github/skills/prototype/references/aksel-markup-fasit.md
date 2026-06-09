@@ -15,8 +15,8 @@ riktige farger, fasonger, ikoner og struktur — uten React, build eller CDN.
    primærknapper blir blå). `@navikt/ds-css` lastes via `/aksel.css` (allerede i
    frame-malen).
 2. Lim inn komponentens markup fra tabellen under, bytt teksten til ditt innhold.
-3. Komponenter som setter egen `data-color` (Alert, Tag, LocalAlert …) overstyrer
-   rot-konteksten — det er meningen (nøstede fargekontekster).
+3. Komponenter som setter egen `data-color` (LocalAlert, GlobalAlert, Tag …)
+   overstyrer rot-konteksten — det er meningen (nøstede fargekontekster).
 4. Ikon-SVG-er er inkludert for eksakthet; bytt fritt til andre Aksel-ikoner.
 
 ### Rot-kontekst (wrap alt innhold i denne)
@@ -535,64 +535,94 @@ Hjelpetekst i popover (trigger vises; innhold er interaktivt).
 
 ## Tilbakemelding og status
 
-### Alert
+### LocalAlert
 
-variant: info | success | warning | error. Inline-melding i kontekst.
+Lokalt varsel nær en hendelse. status: announcement | success | warning | error (ingen 'info' — announcement = nøytral/info). Erstatter deprecated Alert. Komponer med .Header/.Title/.Content.
 
 ```html
 <div style="display:flex;flex-direction:column;gap:12px">
-  <div data-color="info" data-variant="info" class="aksel-alert aksel-alert--info aksel-alert--medium">
-    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 24 24" focusable="false" role="img" aria-labelledby="title-R9" class="aksel-alert__icon">
-      <title id="title-R9">Informasjon</title>
-      <path fill="currentColor" fill-rule="evenodd" d="M3.25 4A.75.75 0 0 1 4 3.25h16a.75.75 0 0 1 .75.75v16a.75.75 0 0 1-.75.75H4a.75.75 0 0 1-.75-.75zM11 7.75a1 1 0 1 1 2 0 1 1 0 0 1-2 0m-1.25 3a.75.75 0 0 1 .75-.75H12a.75.75 0 0 1 .75.75v4.75h.75a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1 0-1.5h.75v-4h-.75a.75.75 0 0 1-.75-.75" clip-rule="evenodd">
-    </path>
-  </svg>
-  <div class="aksel-alert__wrapper aksel-alert__wrapper--maxwidth aksel-body-long aksel-body-long--medium">Vi har mottatt søknaden din.</div>
-</div>
-<div data-color="success" data-variant="success" class="aksel-alert aksel-alert--success aksel-alert--medium">
-  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 24 24" focusable="false" role="img" aria-labelledby="title-Ra" class="aksel-alert__icon">
-    <title id="title-Ra">Suksess</title>
-    <path fill="currentColor" fill-rule="evenodd" d="M12 21.75c5.385 0 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25 2.25 6.615 2.25 12s4.365 9.75 9.75 9.75m4.954-12.475a.813.813 0 0 0-1.24-1.05l-5.389 6.368L7.7 11.967a.812.812 0 0 0-1.15 1.15l3.25 3.25a.81.81 0 0 0 1.195-.05z" clip-rule="evenodd">
-  </path>
-</svg>
-<div class="aksel-alert__wrapper aksel-alert__wrapper--maxwidth aksel-body-long aksel-body-long--medium">Søknaden er sendt.</div>
-</div>
-<div data-color="warning" data-variant="warning" class="aksel-alert aksel-alert--warning aksel-alert--medium">
-  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 24 24" focusable="false" role="img" aria-labelledby="title-Rb" class="aksel-alert__icon">
-    <title id="title-Rb">Advarsel</title>
-    <path fill="currentColor" fill-rule="evenodd" d="M12 2.25a.75.75 0 0 1 .656.387l9.527 17.25A.75.75 0 0 1 21.526 21H2.474a.75.75 0 0 1-.657-1.113l9.526-17.25A.75.75 0 0 1 12 2.25M12 8.75a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0v-4a.75.75 0 0 1 .75-.75m-1 7.75a1 1 0 1 1 2 0 1 1 0 0 1-2 0" clip-rule="evenodd">
-  </path>
-</svg>
-<div class="aksel-alert__wrapper aksel-alert__wrapper--maxwidth aksel-body-long aksel-body-long--medium">Sjekk svarene før du sender.</div>
-</div>
-<div data-color="danger" data-variant="error" class="aksel-alert aksel-alert--error aksel-alert--medium">
-  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 24 24" focusable="false" role="img" aria-labelledby="title-Rc" class="aksel-alert__icon">
-    <title id="title-Rc">Feil</title>
-    <path fill="currentColor" fill-rule="evenodd" d="M7.742 2.47a.75.75 0 0 1 .53-.22h7.456a.75.75 0 0 1 .53.22l5.272 5.272c.141.14.22.331.22.53v7.456a.75.75 0 0 1-.22.53l-5.272 5.272a.75.75 0 0 1-.53.22H8.272a.75.75 0 0 1-.53-.22L2.47 16.258a.75.75 0 0 1-.22-.53V8.272a.75.75 0 0 1 .22-.53zm1.288 5.5a.75.75 0 0 0-1.06 1.06L10.94 12l-2.97 2.97a.75.75 0 1 0 1.06 1.06L12 13.06l2.97 2.97a.75.75 0 1 0 1.06-1.06L13.06 12l2.97-2.97a.75.75 0 0 0-1.06-1.06L12 10.94z" clip-rule="evenodd">
-  </path>
-</svg>
-<div class="aksel-alert__wrapper aksel-alert__wrapper--maxwidth aksel-body-long aksel-body-long--medium">Noe gikk galt. Prøv igjen.</div>
-</div>
-</div>
-```
-
-### LocalAlert
-
-Seksjons-varsel. variant: info | success | warning | error.
-
-```html
-<section variant="warning" class="aksel-base-alert" data-size="medium" data-variant="strong" data-global="false">
-  <div role="alert">Fristen er om 3 dager.</div>
+  <section aria-label="Kunngjøring" class="aksel-base-alert" data-size="medium" data-color="neutral" data-variant="strong" data-global="false">
+    <div role="alert">
+      <div data-color="neutral" class="aksel-base-alert__header">
+        <div class="aksel-base-alert__icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 24 24" focusable="false" role="img" aria-hidden="true">
+            <path fill="currentColor" fill-rule="evenodd" d="M19.03 6.03a.75.75 0 0 0-1.06-1.06l-1.5 1.5a.75.75 0 0 0 1.06 1.06zm-4.743-.723A.75.75 0 0 1 14.75 6v12a.75.75 0 0 1-1.28.53l-.615-.614a7.26 7.26 0 0 0-3.89-2.017.256.256 0 0 1-.215-.251V8.352c0-.125.091-.23.214-.251a7.3 7.3 0 0 0 3.891-2.017l.615-.614a.75.75 0 0 1 .817-.163M6 15.75a3.75 3.75 0 1 1 0-7.5h1a.25.25 0 0 1 .25.25v7a.25.25 0 0 1-.25.25zm-.46.978a.26.26 0 0 0-.29.256V19c0 .414.336.75.75.75h2a.75.75 0 0 0 .75-.75v-1.985a.16.16 0 0 0-.137-.16l-.432-.061a4 4 0 0 0-.614-.044H6q-.232 0-.46-.022M18.25 12a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75m-.72 4.47a.75.75 0 1 0-1.06 1.06l1.5 1.5a.75.75 0 1 0 1.06-1.06z" clip-rule="evenodd">
+          </path>
+        </svg>
+      </div>
+      <p id="R1" aria-hidden="true" class="aksel-body-short aksel-body-short--medium aksel-typo--visually-hidden">Kunngjøring: </p>
+      <h2 id="R6p" aria-labelledby="R1 R6p" class="aksel-base-alert__title aksel-body-short aksel-body-short--large aksel-typo--semibold">Vi har mottatt søknaden din</h2>
+    </div>
+    <div data-color="accent" class="aksel-base-alert__content aksel-body-long aksel-body-long--medium">Du hører fra oss innen tre uker.</div>
+  </div>
 </section>
+<section aria-label="Suksess" class="aksel-base-alert" data-size="medium" data-color="success" data-variant="strong" data-global="false">
+  <div role="alert">
+    <div data-color="success" class="aksel-base-alert__header">
+      <div class="aksel-base-alert__icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 24 24" focusable="false" role="img" aria-hidden="true">
+          <path fill="currentColor" fill-rule="evenodd" d="M12 21.75c5.385 0 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25 2.25 6.615 2.25 12s4.365 9.75 9.75 9.75m4.954-12.475a.813.813 0 0 0-1.24-1.05l-5.389 6.368L7.7 11.967a.812.812 0 0 0-1.15 1.15l3.25 3.25a.81.81 0 0 0 1.195-.05z" clip-rule="evenodd">
+        </path>
+      </svg>
+    </div>
+    <p id="R2" aria-hidden="true" class="aksel-body-short aksel-body-short--medium aksel-typo--visually-hidden">Suksess: </p>
+    <h2 id="R6q" aria-labelledby="R2 R6q" class="aksel-base-alert__title aksel-body-short aksel-body-short--large aksel-typo--semibold">Søknaden er sendt</h2>
+  </div>
+  <div data-color="accent" class="aksel-base-alert__content aksel-body-long aksel-body-long--medium">Du kan logge inn for å se status.</div>
+</div>
+</section>
+<section aria-label="Advarsel" class="aksel-base-alert" data-size="medium" data-color="warning" data-variant="strong" data-global="false">
+  <div role="alert">
+    <div data-color="warning" class="aksel-base-alert__header">
+      <div class="aksel-base-alert__icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 24 24" focusable="false" role="img" aria-hidden="true">
+          <path fill="currentColor" fill-rule="evenodd" d="M12 2.25a.75.75 0 0 1 .656.387l9.527 17.25A.75.75 0 0 1 21.526 21H2.474a.75.75 0 0 1-.657-1.113l9.526-17.25A.75.75 0 0 1 12 2.25M12 8.75a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0v-4a.75.75 0 0 1 .75-.75m-1 7.75a1 1 0 1 1 2 0 1 1 0 0 1-2 0" clip-rule="evenodd">
+        </path>
+      </svg>
+    </div>
+    <p id="R3" aria-hidden="true" class="aksel-body-short aksel-body-short--medium aksel-typo--visually-hidden">Advarsel: </p>
+    <h2 id="R6r" aria-labelledby="R3 R6r" class="aksel-base-alert__title aksel-body-short aksel-body-short--large aksel-typo--semibold">Fristen nærmer seg</h2>
+  </div>
+  <div data-color="accent" class="aksel-base-alert__content aksel-body-long aksel-body-long--medium">Du har tre dager igjen på å svare.</div>
+</div>
+</section>
+<section aria-label="Feil" class="aksel-base-alert" data-size="medium" data-color="danger" data-variant="strong" data-global="false">
+  <div role="alert">
+    <div data-color="danger" class="aksel-base-alert__header">
+      <div class="aksel-base-alert__icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 24 24" focusable="false" role="img" aria-hidden="true">
+          <path fill="currentColor" fill-rule="evenodd" d="M7.742 2.47a.75.75 0 0 1 .53-.22h7.456a.75.75 0 0 1 .53.22l5.272 5.272c.141.14.22.331.22.53v7.456a.75.75 0 0 1-.22.53l-5.272 5.272a.75.75 0 0 1-.53.22H8.272a.75.75 0 0 1-.53-.22L2.47 16.258a.75.75 0 0 1-.22-.53V8.272a.75.75 0 0 1 .22-.53zm1.288 5.5a.75.75 0 0 0-1.06 1.06L10.94 12l-2.97 2.97a.75.75 0 1 0 1.06 1.06L12 13.06l2.97 2.97a.75.75 0 1 0 1.06-1.06L13.06 12l2.97-2.97a.75.75 0 0 0-1.06-1.06L12 10.94z" clip-rule="evenodd">
+        </path>
+      </svg>
+    </div>
+    <p id="R4" aria-hidden="true" class="aksel-body-short aksel-body-short--medium aksel-typo--visually-hidden">Feil: </p>
+    <h2 id="R6s" aria-labelledby="R4 R6s" class="aksel-base-alert__title aksel-body-short aksel-body-short--large aksel-typo--semibold">Noe gikk galt</h2>
+  </div>
+  <div data-color="accent" class="aksel-base-alert__content aksel-body-long aksel-body-long--medium">Vi kunne ikke lagre svaret. Prøv igjen.</div>
+</div>
+</section>
+</div>
 ```
 
 ### GlobalAlert
 
-Hele bredden, øverst i løsningen.
+Varsel for hele løsningen — full bredde, øverst. status: announcement | success | warning | error. Komponer med .Header/.Title/.Content.
 
 ```html
-<section variant="info" data-centered="true" class="aksel-base-alert" data-size="medium" data-variant="strong" data-global="true">
-  <div role="alert">Planlagt vedlikehold lørdag kl. 02–04.</div>
+<section aria-label="Kunngjøring" data-centered="true" class="aksel-base-alert" data-size="medium" data-color="neutral" data-variant="strong" data-global="true">
+  <div role="alert">
+    <div data-color="neutral" class="aksel-base-alert__header">
+      <div class="aksel-base-alert__icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 24 24" focusable="false" role="img" aria-hidden="true">
+          <path fill="currentColor" fill-rule="evenodd" d="M19.03 6.03a.75.75 0 0 0-1.06-1.06l-1.5 1.5a.75.75 0 0 0 1.06 1.06zm-4.743-.723A.75.75 0 0 1 14.75 6v12a.75.75 0 0 1-1.28.53l-.615-.614a7.26 7.26 0 0 0-3.89-2.017.256.256 0 0 1-.215-.251V8.352c0-.125.091-.23.214-.251a7.3 7.3 0 0 0 3.891-2.017l.615-.614a.75.75 0 0 1 .817-.163M6 15.75a3.75 3.75 0 1 1 0-7.5h1a.25.25 0 0 1 .25.25v7a.25.25 0 0 1-.25.25zm-.46.978a.26.26 0 0 0-.29.256V19c0 .414.336.75.75.75h2a.75.75 0 0 0 .75-.75v-1.985a.16.16 0 0 0-.137-.16l-.432-.061a4 4 0 0 0-.614-.044H6q-.232 0-.46-.022M18.25 12a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75m-.72 4.47a.75.75 0 1 0-1.06 1.06l1.5 1.5a.75.75 0 1 0 1.06-1.06z" clip-rule="evenodd">
+        </path>
+      </svg>
+    </div>
+    <p id="R0" aria-hidden="true" class="aksel-body-short aksel-body-short--medium aksel-typo--visually-hidden">Kunngjøring: </p>
+    <h2 id="Rr" aria-labelledby="R0 Rr" class="aksel-base-alert__title aksel-body-short aksel-body-short--large aksel-typo--semibold">Planlagt vedlikehold</h2>
+  </div>
+  <div data-color="accent" class="aksel-base-alert__content aksel-body-long aksel-body-long--medium">Tjenesten er nede lørdag kl. 02–04. Søknader lagres som kladd.</div>
+</div>
 </section>
 ```
 
@@ -1171,7 +1201,7 @@ Header for interne Nav-flater.
 
 ## Dekning og vedlikehold
 
-Generert fra 49 representative komponent-eksempler som speiler
+Generert fra 48 representative komponent-eksempler som speiler
 `aksel-figma-katalog.md`. Interaktive overlegg (Modal/Tooltip/HelpText/Combobox)
 vises i åpen/statisk tilstand — i VC viser du dem inline. Komponenter som krever
 hooks (DatePicker/MonthPicker) rendrer som et felt med kalenderknapp; selve
