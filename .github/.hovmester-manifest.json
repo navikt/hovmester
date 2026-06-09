@@ -1,6 +1,6 @@
 {
   "source": "navikt/hovmester",
-  "source_sha": "76fd999c0c7e58fb4ace08d7c9db0735d259b598",
+  "source_sha": "d6bfd7b8717e76caae0042d0c58c303651378c8f",
   "files": [
     ".github/ISSUE_TEMPLATE/bug.yml",
     ".github/ISSUE_TEMPLATE/config.yml",

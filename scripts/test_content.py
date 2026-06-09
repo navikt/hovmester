@@ -298,14 +298,20 @@ def test_aksel_markup_fasit_present_and_wired():
         with open(p, encoding="utf-8") as f:
             assert "aksel-markup-fasit.md" in f.read(), f"{rel} refererer ikke fasiten"
 
-    # Frame-malen skal sette rot-konteksten.
+    # Frame-malen skal sette rot-konteksten. Sjekk at samme rot-element (<main>)
+    # bærer alle tre markørene, uavhengig av attributt-rekkefølge/whitespace.
     tmpl = os.path.join(prototype, "scripts", "frame-template.tmpl")
     with open(tmpl, encoding="utf-8") as f:
         tmpl_src = f.read()
-    assert 'aksel-theme light" data-background="true" data-color="accent"' in tmpl_src, (
-        "frame-template.tmpl setter ikke rot-konteksten (skal matche fasitens "
-        '`aksel-theme light` + `data-background="true"` + `data-color="accent"`)'
+    root_match = re.search(
+        r'<main[^>]*\bclass="[^"]*aksel-theme light[^"]*"[^>]*>', tmpl_src
     )
+    assert root_match, "frame-template.tmpl mangler rot-element med `aksel-theme light`"
+    root_tag = root_match.group(0)
+    for marker in ('data-background="true"', 'data-color="accent"'):
+        assert marker in root_tag, (
+            f"frame-template.tmpl rot-kontekst mangler {marker} (skal matche fasitens Theme-root)"
+        )
 
     # @layer-kontrakten (kritisk): ds-css v8 legger komponent-CSS i @layer, så en
     # ulagret reset slår Aksel uansett spesifisitet og fjerner padding/margin
