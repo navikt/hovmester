@@ -10,20 +10,20 @@ Hjelp utviklere å lage en komplett Lumi-integrasjon: god survey, trygg payload,
 ## Agentregler
 
 - Kartlegg før kode: rammeverk, Aksel-versjon, eksisterende survey, BFF/backend, auth i NAIS-manifest og hvor globale styles importeres.
-- Bruk `@navikt/lumi-survey` v2-kontrakten: widgeten lager `schemaVersion: 2`, `definition` og `deduplicationKey`.
-- Ikke be utvikleren fylle ut `definition` eller `deduplicationKey`; BFF skal videresende `submission.transportPayload`.
+- Krev en `@navikt/lumi-survey`-versjon som faktisk støtter v2 før nye surveys. Hvis installert pakke bare sender `schemaVersion: 1`, stopp og be om oppgradering eller avvent release.
+- Når v2 er støttet, lager widgeten `schemaVersion: 2`, `definition` og `deduplicationKey`. Ikke be utvikleren fylle disse ut selv.
 - Bruk ny `surveyId` når survey-strukturen endres: nye/fjernede/omdøpte spørsmål, ny type eller endrede options.
 - Bruk stabile, maskinvennlige `id`/`value`-er: bokstaver/tall/`_`/`-`, maks 200 tegn. Ikke bruk punktum, slash, mellomrom eller brukerdata.
-- Ikke legg PII i `surveyId`, `fieldId`, option values, `context.tags`, `context.debug`, URL eller pathname. Ikke aktiver `collectLocation` på dynamiske ruter med ID-er.
+- Ikke legg PII i `surveyId`, `fieldId`, option values, `context.tags`, `context.debug`, URL eller pathname. Ikke aktiver `behavior.collectLocation` på dynamiske ruter med ID-er.
 - Stopp hvis appen bruker Aksel v7 eller lavere. Lumi Survey krever Aksel v8+; oppgradering er egen oppgave.
 - Velg TokenX eller AzureAD fra manifestet når det er entydig. Spør bare når auth er uklar.
-- Bruk `storageStrategy: "localStorage"` for interne apper uten Nav-dekoratøren. Standard `consent` passer offentlige nav.no-flater med dekoratør.
+- Bruk `behavior.storageStrategy: "localStorage"` for interne apper uten Nav-dekoratøren. Standard `consent` passer offentlige nav.no-flater med dekoratør.
 - Hvis appen allerede bruker Lumi, endre eksisterende integrasjon i stedet for å lage parallell widget.
 
 ## Arbeidsflyt
 
 1. **Kartlegg appen**: `package.json`, NAIS-manifest, style entry point, BFF/backend og eksisterende `lumi-survey`-bruk.
-2. **Installer ved behov**: legg til `@navikt:registry=https://npm.pkg.github.com` i `.npmrc` og installer `@navikt/lumi-survey` med repoets pakkebehandler. Sikre `@navikt/ds-react`/`@navikt/ds-css` v8+.
+2. **Installer ved behov**: legg til `@navikt:registry=https://npm.pkg.github.com` i `.npmrc`, installer `@navikt/lumi-survey`, og verifiser at pakken støtter v2 før nye surveys. Sikre `@navikt/ds-react`/`@navikt/ds-css` v8+.
 3. **Velg survey**: anbefal rating/emoji som standard, men bruk discovery/topTasks/taskPriority når formålet tilsier det.
 4. **Lag konfig**: egen `survey.ts`, `satisfies LumiSurveyConfig`, konkrete norske spørsmål og stabile id-er.
 5. **Koble transport**: frontend kaller appens BFF; BFF utveksler token og videresender rå payload til Lumi API.

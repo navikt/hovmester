@@ -69,6 +69,8 @@ spec:
 
 ### Tilgangspolicy (outbound)
 
+**TokenX og AzureAD prod går direkte til `lumi-api`:**
+
 ```yaml
 spec:
   accessPolicy:
@@ -76,14 +78,22 @@ spec:
       rules:
         - application: lumi-api
           namespace: team-esyfo
-        # I dev med AzureAD, legg også til:
-        # - application: lumi-submission-proxy
-        #   namespace: team-esyfo
+```
+
+**AzureAD dev går via `lumi-submission-proxy`:**
+
+```yaml
+spec:
+  accessPolicy:
+    outbound:
+      rules:
+        - application: lumi-submission-proxy
+          namespace: team-esyfo
 ```
 
 ### Bestill tilgang hos Lumi-teamet
 
-Lumi API krever at din app er lagt til som **inbound**-regel i Lumi sitt NAIS-manifest. Denne endringen gjøres av Team eSyfo.
+Lumi krever at din app er lagt til som **inbound**-regel hos riktig mottaker. TokenX og AzureAD prod legges i `lumi-api`; AzureAD dev legges i `lumi-submission-proxy`.
 
 **Opprett et issue eller kontakt Team eSyfo** med:
 - Appnavn og namespace

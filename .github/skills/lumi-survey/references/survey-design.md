@@ -55,7 +55,7 @@ export const survey = {
   type: "topTasks",
   questions: [
     {
-      id: "oppgave",
+      id: "task",
       type: "singleChoice",
       prompt: "Hva kom du hit for å gjøre?",
       randomize: true,
@@ -67,14 +67,14 @@ export const survey = {
       ],
     },
     {
-      id: "fullfort",
+      id: "taskSuccess",
       type: "singleChoice",
       prompt: "Fikk du gjort det?",
       required: true,
       options: [
-        { value: "ja", label: "Ja" },
-        { value: "delvis", label: "Delvis" },
-        { value: "nei", label: "Nei" },
+        { value: "yes", label: "Ja" },
+        { value: "partial", label: "Delvis" },
+        { value: "no", label: "Nei" },
       ],
     },
   ],

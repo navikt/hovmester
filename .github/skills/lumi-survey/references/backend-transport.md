@@ -5,11 +5,11 @@ Widgeten sender til appens egen BFF. BFF-en utveksler token og videresender rå 
 ## Prinsipper
 
 - Videresend hele `submission.transportPayload` uendret uten å bygge egen payload.
-- Behold blant annet `schemaVersion`, `surveyId`, `surveyType`, `submittedAt`, `definition`, `deduplicationKey`, `answers` og `context`.
+- Sjekk faktisk payload-type i installert `@navikt/lumi-survey`. For v2: behold blant annet `schemaVersion`, `surveyId`, `surveyType`, `submittedAt`, `definition`, `deduplicationKey`, `answers` og `context`. For legacy v1: behold faktiske v1-felt og ikke legg til v2-felt selv.
 - Ikke logg rå payload eller tokens.
 - Returner feilstatus fra Lumi API slik at widgeten kan retrye.
-- `deduplicationKey` er idempotency for retry etter transportfeil. Den ligger ikke i localStorage.
-- Hvis brukeren refresher siden etter transportfeil før nytt forsøk, får ny widget-instans ny `deduplicationKey`; det blir en ny innsending.
+- I v2 er `deduplicationKey` idempotency for retry etter transportfeil. Den ligger ikke i localStorage.
+- Hvis brukeren refresher siden etter transportfeil før nytt forsøk, får ny widget-instans ny `deduplicationKey`; det blir en ny innsending. Dette gjelder bare når payloaden faktisk har `deduplicationKey`.
 
 ## Node.js BFF
 
@@ -60,18 +60,23 @@ post("/api/lumi/feedback") {
         ?: return@post call.respond(HttpStatusCode.Unauthorized)
 
     val payload = call.receiveText()
+    val identityProvider = requireNotNull(System.getenv("LUMI_IDENTITY_PROVIDER"))
+    val audience = requireNotNull(System.getenv("LUMI_AUDIENCE"))
+    val lumiApiHost = requireNotNull(System.getenv("LUMI_API_HOST"))
+    val feedbackPath = requireNotNull(System.getenv("LUMI_FEEDBACK_PATH"))
+
     val texasResponse = httpClient.post("http://localhost:3000/api/v1/token/exchange") {
         contentType(ContentType.Application.Json)
         setBody(
             TexasTokenRequest(
-                identity_provider = System.getenv("LUMI_IDENTITY_PROVIDER"),
-                target = System.getenv("LUMI_AUDIENCE"),
+                identity_provider = identityProvider,
+                target = audience,
                 user_token = userToken,
             )
         )
     }
 
-    val lumiResponse = httpClient.post("${System.getenv("LUMI_API_HOST")}${System.getenv("LUMI_FEEDBACK_PATH")}") {
+    val lumiResponse = httpClient.post("$lumiApiHost$feedbackPath") {
         contentType(ContentType.Application.Json)
         bearerAuth(texasResponse.body<TexasTokenResponse>().access_token)
         setBody(payload)
@@ -91,6 +96,6 @@ post("/api/lumi/feedback") {
 ## Testflyt
 
 - Happy case: submit og se svar i Lumi-dashboard.
-- Retry: la BFF returnere 500 første gang og 204 andre gang. Samme widget-instans skal sende samme `deduplicationKey`, og backend skal ikke lage duplikat.
-- Ny submission: etter success/reset/ny sidevisning skal ny innsending få ny `deduplicationKey` og lagres som ny tilbakemelding.
+- Retry: la BFF returnere 500 første gang og 204 andre gang. Med v2 skal samme widget-instans sende samme `deduplicationKey`, og backend skal ikke lage duplikat.
+- Ny submission: etter success/reset/ny sidevisning skal ny v2-innsending få ny `deduplicationKey` og lagres som ny tilbakemelding.
 - Dashboard: dev `https://lumi-dashboard.ansatt.dev.nav.no`, prod `https://lumi-dashboard.ansatt.nav.no/`.
