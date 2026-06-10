@@ -150,13 +150,15 @@ def test_no_real_fnr_in_dist():
     Skatteetatens syntetiske testserie (eksplisitt markert) kan allowlistes
     senere hvis behov oppstår.
     """
-    # 11-siffer som starter med 1-9 (ekskluderer 00000000000)
-    fnr_pattern = re.compile(r"\b[1-9]\d{10}\b")
+    # 11-siffer, uansett startsiffer (ekskluderer kun eksplisitt placeholder)
+    fnr_pattern = re.compile(r"\b\d{11}\b")
     violations = []
     for abspath, relpath in _iter_md_files(DIST):
         with open(abspath, encoding="utf-8") as f:
             for i, line in enumerate(f, 1):
                 for match in fnr_pattern.finditer(line):
+                    if match.group(0) == "00000000000":
+                        continue
                     violations.append(f"{relpath}:{i}: {match.group(0)} in: {line.strip()}")
     assert not violations, "possible real fnr (use 00000000000):\n" + "\n".join(violations)
 
@@ -263,4 +265,69 @@ def test_github_mirror_parity_with_dist():
         "Kjør: python3 scripts/sync.py --source . --target . "
         "--output /tmp/sync.json --source-sha $(git rev-parse HEAD) "
         "--collections hovmester,backend,frontend\n\n" + "\n\n".join(problems)
+    )
+
+
+def test_aksel_markup_fasit_present_and_wired():
+    """VC-markup-fasiten skal finnes, ha rot-konteksten og dekke kjernekomponenter,
+    og skill-filene + frame-malen skal peke på/sette den opp. Regenerer med
+    `node scripts/generate_markup_fasit.mjs` hvis fasiten mangler/er utdatert."""
+    prototype = os.path.join(DIST, "skills", "prototype")
+    fasit = os.path.join(prototype, "references", "aksel-markup-fasit.md")
+    assert os.path.isfile(fasit), "aksel-markup-fasit.md mangler — kjør generatoren"
+    with open(fasit, encoding="utf-8") as f:
+        fasit_md = f.read()
+
+    # Rot-konteksten som gjør at ekte Aksel-markup rendrer autentisk.
+    assert 'class="aksel-theme light"' in fasit_md and 'data-color="accent"' in fasit_md, (
+        "fasiten mangler rot-konteksten (aksel-theme light / data-color=accent)"
+    )
+    # Kjernekomponenter skal være dekket.
+    for comp in ("### Button", "### FormSummary", "### LocalAlert", "### TextField"):
+        assert comp in fasit_md, f"fasiten mangler {comp}"
+    # `Alert` er deprecated i kode — fasiten skal IKKE lære den lenger.
+    assert "\n### Alert\n" not in fasit_md, (
+        "fasiten lærer fortsatt deprecated Alert — bruk LocalAlert/GlobalAlert"
+    )
+    # Ekte ds-react-output (ikke .mock-*) skal være kilden.
+    assert "aksel-button" in fasit_md, "fasiten ser ikke ut til å ha ekte .aksel-*-markup"
+
+    # Skill-filene skal peke på fasiten.
+    for rel in ("SKILL.md", os.path.join("references", "visual-companion.md")):
+        p = os.path.join(prototype, rel)
+        with open(p, encoding="utf-8") as f:
+            assert "aksel-markup-fasit.md" in f.read(), f"{rel} refererer ikke fasiten"
+
+    # Frame-malen skal sette rot-konteksten. Sjekk at samme rot-element (<main>)
+    # bærer alle tre markørene, uavhengig av attributt-rekkefølge/whitespace.
+    tmpl = os.path.join(prototype, "scripts", "frame-template.tmpl")
+    with open(tmpl, encoding="utf-8") as f:
+        tmpl_src = f.read()
+    root_match = re.search(
+        r'<main[^>]*\bclass="[^"]*aksel-theme light[^"]*"[^>]*>', tmpl_src
+    )
+    assert root_match, "frame-template.tmpl mangler rot-element med `aksel-theme light`"
+    root_tag = root_match.group(0)
+    for marker in ('data-background="true"', 'data-color="accent"'):
+        assert marker in root_tag, (
+            f"frame-template.tmpl rot-kontekst mangler {marker} (skal matche fasitens Theme-root)"
+        )
+
+    # @layer-kontrakten (kritisk): ds-css v8 legger komponent-CSS i @layer, så en
+    # ulagret reset slår Aksel uansett spesifisitet og fjerner padding/margin
+    # ("klint inntil"-buggen). vc-base MÅ deklareres FØR ds-css lastes, og den
+    # generiske reset-en MÅ ligge i et @layer-block (ikke ulagret).
+    layer_decl = tmpl_src.find("@layer vc-base;")
+    css_link = tmpl_src.find('href="/aksel.css"')
+    assert layer_decl != -1, "frame-template.tmpl mangler `@layer vc-base;`-deklarasjon"
+    assert css_link != -1, "frame-template.tmpl laster ikke /aksel.css"
+    assert layer_decl < css_link, (
+        "`@layer vc-base;` må deklareres FØR ds-css lastes, ellers rangerer den OVER Aksel"
+    )
+    reset = tmpl_src.find("margin: 0; padding: 0; box-sizing: border-box;")
+    assert reset != -1, "frame-template.tmpl mangler den generiske reset-en"
+    layer_block = tmpl_src.find("@layer vc-base {")
+    assert layer_block != -1 and layer_block < reset, (
+        "den generiske `*`-reset-en må ligge inne i `@layer vc-base { … }`, "
+        "ellers stripper den Aksel-padding (ulagret slår lagret)"
     )
