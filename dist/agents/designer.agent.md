@@ -59,7 +59,7 @@ Bruk `/klarsprak` for brukerrettet tekst og labels.
 
 **Nåtilstand** (kun for eksisterende flater — hopp over for ny flate / ren utforsking):
 
-Klassifiser oppgaven selv: endring/forbedring/ny komponent på kjent side, issue i en eksisterende app, eller ønske om kontekst = eksisterende flate. Ved tvil, anta eksisterende flate til det er avklart.
+Klassifiser oppgaven selv. Bruk issue-/oppgavetekst når det finnes; ellers bruk prompt, side-/rutenavn, komponentnavn og appkontekst. Endring/forbedring/ny komponent på kjent side eller ønske om kontekst = eksisterende flate. Ved tvil, anta eksisterende flate til det er avklart.
 
 For eksisterende flater er nåtilstand en gate før første skisse:
 - Hent faktisk visuell nåtilstand etter prioritert rekkefølge under.
