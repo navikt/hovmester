@@ -126,7 +126,7 @@ Figma MCP-verktøy tilgjengelig.
 ### Flyt
 
 1. `whoami` → finn planKey
-2. `create_new_file` → opprett fil, del URL når relevant kontekstgate er passert
+2. `create_new_file` → opprett fil, del Figma-lenke når relevant kontekstgate er passert
 3. `search_design_system` → finn relevante Aksel-komponenter
 4. `use_figma` **preflight** → importer + logg varianter, default-variant, tekst-node-navn og fonter (se referanse)
 5. `use_figma` → bygg skissen **inkrementelt, én seksjon per kall** med eksakte variant-navn og node-navn fra preflight
