@@ -46,6 +46,8 @@ Interaktivt nettleserverktøy for å utforske designkonsepter med Aksel-styling.
 
 ### Eksisterende flate: nåtilstand først
 
+Klassifiser selv: endring/forbedring/ny komponent på kjent side eller issue i en eksisterende app = eksisterende flate. Ved tvil, anta eksisterende flate.
+
 For eksisterende løsning er dette en gate før første visuelle forslag, også ved Figma/chat:
 1. Hent faktisk side med Playwright/lokal app først; alternativt Figma, demo-URL eller manuelt skjermbilde.
 2. Verifiser riktig side og fjern/stubb lokal cookie-, login- og modalstøy før screenshot.
