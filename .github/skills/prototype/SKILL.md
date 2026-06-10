@@ -55,7 +55,7 @@ For eksisterende løsning er dette en gate før første visuelle forslag, også 
 4. Åpne Visual Companion selv før deling og sjekk at skjermbilder laster (`naturalWidth > 0`).
 5. Aldri rekonstruer eksisterende side fra kode og presenter den som nåtilstand.
 
-### Tilby visual companion
+### Tilby Visual Companion
 
 Spør designeren én gang om nettleservisning når innholdet er visuelt.
 Hvis nei — jobb kun med tekst og Figma.
