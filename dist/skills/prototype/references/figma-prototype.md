@@ -438,11 +438,12 @@ For eksisterende flater vil designere ofte se modulen i **ekte sidekontekst** (p
    ```
 2. **Injiser et tomt felt** (spacer) med modulens omtrentlige høyde der modulen skal stå, så innholdet under flyter naturlig ned. **Aldri håndkod en HTML-tilnærming av selve modulen** for skjermbildet — det gir drift (feil knapper, feil alert, ulik tekst) fordi tilnærmingen sklir fra den ekte komponenten. Bare et tomt felt.
 3. **Knips innholdsregionen** (`#maincontent` e.l.) — ekskluder dekoratør-krom som ofte rendrer ustylet lokalt.
-4. **I Figma**: legg skjermbildet som frame-bakgrunn (`scaleMode: FILL`), og plasser den **redigerbare** Aksel-komponent-instansen oppi det tomme feltet. Skaler instansen til kolonnebredden:
+4. **I Figma**: lag en frame med **samme dimensjon/aspektforhold** som skjermbildet (ellers cropper `FILL` bildet og offsetene treffer feil), legg skjermbildet som frame-bakgrunn (`scaleMode: FILL`), og plasser den **redigerbare** Aksel-komponent-instansen oppi det tomme feltet. Match kolonnebredden med `resize` (ikke `rescale`):
    ```javascript
    inst.x = kolonneX; inst.y = kolonneY;
-   inst.rescale(kolonneBredde / inst.width);
+   inst.resize(kolonneBredde, inst.height); // auto-layout reflyter; tekst/spacing/tokens beholdes
    ```
+   > **Ikke bruk `node.rescale(factor)`** her — den skalerer hele objektet (typografi, spacing, strokes) som Figmas Scale-verktøy, og gir drift fra Aksel-tokenene. `resize` lar komponentens auto-layout reflyte ved riktig bredde uten å skalere innholdet.
 
 Resultat: ekte sidekontekst + en modul som fortsatt kan redigeres (den er en instans, ikke et bilde), uten overlapping. Endrer du komponentens høyde vesentlig, må spacer/bakgrunn knipses på nytt.
 
