@@ -135,7 +135,7 @@ Figma MCP-verktøy tilgjengelig.
 
 **Sjekk katalogen først — den er fasiten.** Alle 45 aktive Aksel-komponenter har key, akser, defaults, tekst-noder og feller ferdig uttrukket i `references/aksel-figma-katalog.json` (maskinlesbar kilde) og `.md` (lesbar). For layouten rundt komponentene (luft, farger, kanter, typografi) bruk `references/aksel-figma-tokens.md`. Drift-validert — hopp over preflight for det katalogen dekker. Detaljer i `references/figma-prototype.md`.
 
-Bygg kun den nye komponenten/endringen — ikke hele siden. Bruk ekte Aksel-komponenter, riktige tokens, og vis varianter som egne frames.
+Komponenten (ikke hele siden) er enheten du bygger — men for **eksisterende flater** gir du kontekst via **bakgrunn + redigerbar overlay**: skjermbilde av den ekte siden med et injisert tomt felt, og den redigerbare komponent-instansen plassert oppi (se `references/figma-prototype.md`). Aldri håndkod en tilnærming av modulen inn i skjermbildet — det gir drift; den ekte komponenten er eneste fasit. Lever tilstander som **én variant-komponent** (`Tilstand`-akse), ikke løse statiske rammer, og slå sammen nesten-like tilstander.
 
 ### Komponent-gate
 
@@ -155,6 +155,7 @@ Finnes den ikke? → Bygg custom, men med Aksel-tokens.
 - **`defaultVariant` er ofte feil**: GlobalAlert/LocalAlert=Error, Tag=Neutral, Checkbox=unchecked. Antall barn (RadioGroup/Accordion/Tabs) er også en variant-akse — velg bevisst
 - **Tekst** via `findOne`/`findAllWithCriteria` med eksakt name (ikke `setProperties()` for tekst); les font med `loadFontAsync(node.fontName)` — Aksel = `Source Sans 3`
 - **Komposisjon**: søknadssteg→`FormProgress`; bygg `Table` fra `Table cell`; skjul Slot-placeholdere; `layoutSizingHorizontal="FILL"` kun etter append; farger via `search_design_system` — aldri gjett RGB
+- **Leveranse**: samle tilstander i én variant-komponent (`Tilstand`-akse) via `combineAsVariants` — Figma- og Figma Make-vennlig. For sidekontekst: skjermbilde-bakgrunn + redigerbar overlay (aldri håndkodet modul i bildet). Se `references/figma-prototype.md`
 
 Se `references/figma-prototype.md` for fullstendige regler og eksempler.
 

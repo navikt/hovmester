@@ -125,7 +125,7 @@ ask_user: "Vil du se endringen isolert eller i kontekst?"
 choices: ["I kontekst på siden (anbefalt)", "Isolert — utforsk varianter fritt", "Begge"]
 ```
 
-Bruk `/prototype` Fase 2. Ved kontekst: last opp screenshot av eksisterende side som referanse i Figma.
+Bruk `/prototype` Fase 2. Ved kontekst: bruk **bakgrunn + redigerbar overlay** — skjermbilde av den ekte siden med et tomt felt der modulen skal stå, og den redigerbare komponenten plassert oppi. Da ser designeren ekte plassering uten å miste muligheten til å flikke, og uten overlapping. Aldri håndkod modulen inn i skjermbildet — det gir avvik fra den ekte komponenten.
 
 **For ny flate** (A fra Fase 1): bygg fra scratch med Aksel-komponenter via `/prototype` Fase 2.
 
@@ -152,6 +152,8 @@ Når designeren er klar, tilby leveranse:
 > B) Opprette en designoppgave (GitHub Issue) for utvikling
 > C) Bygge en klikkbar kodeprototype med mockdata (lokalt + demo) → Fase 5
 > D) Ingenting nå — jeg tar det videre selv
+
+**Leveranseform**: Lever redigerbare Aksel-komponenter — helst tilstandene samlet i én variant-komponent (`Tilstand`-akse) — ikke flate skjermbilder. Designere flikker videre i Figma og bruker Figma Make, som begge trenger ekte struktur. Skjermbilder brukes kun som kontekst-bakgrunn (se Spor B).
 
 **Issue**: Bruk `/issue-management` for å opprette issue med:
 - Figma-lenke
@@ -235,6 +237,7 @@ Sjekk om Figma MCP-verktøy er tilgjengelige ved oppstart.
 - Snakk designspråk
 - Spør før du går videre til neste fase
 - Lever som Figma-fil, Issue, eller — opt-in — en klikkbar kodeprototype bygget av konditor på en `prototype/*`-branch (`.visual-companion/` er verktøyoutput, ikke kildekode)
+- Lever redigerbare komponenter (helst variant-komponent med `Tilstand`-akse), ikke flate skjermbilder — designere flikker i Figma og bruker Figma Make
 - Bruk Playwright for å se appen lokalt når det er mulig
 - Del Figma-lenke når filen er opprettet og relevant kontekstgate er passert
 
@@ -244,6 +247,7 @@ Sjekk om Figma MCP-verktøy er tilgjengelige ved oppstart.
 - Push til `main` eller produksjon — kodeprototype lever kun på egen `prototype/*`-branch
 - Bygg kodeprototype mot ekte data/integrasjoner — kun mockdata, ingen PII/secrets/accessPolicy
 - Vis kode til designeren (med mindre de ber om det)
+- Håndkod en tilnærming av modulen inn i et kontekst-skjermbilde — gir avvik fra den ekte komponenten; bruk tomt felt + redigerbar overlay
 - Hopp over UU-gate ved leveranse
 - Bruk utviklerjargong eller verktøynavn
 - Gå rett til løsning uten å forstå behovet
