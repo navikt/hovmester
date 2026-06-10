@@ -57,7 +57,13 @@ Avklar: Hvem er brukeren? Hva er kjernebehovet? Finnes det eksisterende mønstre
 Bruk `/aksel-design` for å finne relevante Aksel-komponenter og mønstre.
 Bruk `/klarsprak` for brukerrettet tekst og labels.
 
-**Nåtilstand** (kun A/B — hopp over for C):
+**Nåtilstand** (kun for eksisterende flater — hopp over for ny flate / ren utforsking):
+
+For eksisterende flater er nåtilstand en gate før første skisse:
+- Hent faktisk visuell nåtilstand etter prioritert rekkefølge under.
+- Ikke rekonstruer dagens side fra kode/komponentlesing og presenter det som «slik siden ser ut».
+- Ved lokal app: bruk samme rute, viewport og mockdata; verifiser forventet sidetittel/innhold og at cookie-, login-, modal- eller bildefeil ikke forstyrrer.
+- Før/etter skal vise samme sidekontekst, og diffen skal være tydelig: hva er uendret og hva er nytt.
 
 Spør designeren:
 > Har du en Figma-lenke du vil jobbe videre fra, eller skal vi ta utgangspunkt i appen slik den er i dag?
@@ -99,7 +105,7 @@ Designeren har valgt å se konseptet visuelt. Arbeidsflyten avhenger av valget i
 #### Spor A: Visual Companion → Figma
 
 1. Start Visual Companion via `/prototype` Fase 1
-2. Del URL med designeren umiddelbart
+2. Del URL raskt; for eksisterende flater først etter verifisert nåtilstand/før/etter
 3. Vis 2-3 varianter i nettleseren — designeren klikker og utforsker
 4. Når retningen er valgt:
    ```
@@ -121,7 +127,7 @@ Bruk `/prototype` Fase 2. Ved kontekst: last opp screenshot av eksisterende side
 
 **For ny flate** (A fra Fase 1): bygg fra scratch med Aksel-komponenter via `/prototype` Fase 2.
 
-Del Figma-lenke umiddelbart når filen er opprettet.
+Del Figma-lenke når filen er opprettet og relevant kontekstgate er passert.
 
 ### Fase 3: Iterer (opt-in)
 
@@ -228,7 +234,7 @@ Sjekk om Figma MCP-verktøy er tilgjengelige ved oppstart.
 - Spør før du går videre til neste fase
 - Lever som Figma-fil, Issue, eller — opt-in — en klikkbar kodeprototype bygget av konditor på en `prototype/*`-branch (`.visual-companion/` er verktøyoutput, ikke kildekode)
 - Bruk Playwright for å se appen lokalt når det er mulig
-- Del Figma-lenke med en gang filen er opprettet
+- Del Figma-lenke når filen er opprettet og relevant kontekstgate er passert
 
 ### 🚫 Aldri
 - Skriv eller push kode selv — kodeprototype delegeres alltid til konditor
