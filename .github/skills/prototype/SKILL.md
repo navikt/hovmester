@@ -50,7 +50,7 @@ Klassifiser selv. Bruk issue-/oppgavetekst når det finnes; ellers bruk prompt, 
 
 For eksisterende løsning er dette en gate før første visuelle forslag, også ved Figma/chat:
 1. Hent faktisk side med Playwright/lokal app først; alternativt Figma, demo-URL eller manuelt skjermbilde.
-2. Verifiser riktig side og fjern/stubb lokal cookie-, login- og modalstøy før screenshot.
+2. Verifiser riktig side og fjern/stubb lokal cookie-, login- og modalstøy før skjermbilde.
 3. Vis før/etter med samme viewport, data og sidekontekst; forklar hva som er endret og uendret.
 4. Åpne Visual Companion selv før deling og sjekk at skjermbilder laster (`naturalWidth > 0`).
 5. Aldri rekonstruer eksisterende side fra kode og presenter den som nåtilstand.
