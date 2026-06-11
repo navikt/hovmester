@@ -50,12 +50,12 @@ Klassifiser selv. Bruk issue-/oppgavetekst når det finnes; ellers bruk prompt, 
 
 For eksisterende løsning er dette en gate før første visuelle forslag, også ved Figma/chat:
 1. Hent faktisk side med Playwright/lokal app først; alternativt Figma, demo-URL eller manuelt skjermbilde.
-2. Verifiser riktig side og fjern/stubb lokal cookie-, login- og modalstøy før skjermbilde.
+2. Verifiser riktig side og fjern/stubb lokal cookie-, login- og modalstøy før screenshot.
 3. Vis før/etter med samme viewport, data og sidekontekst; forklar hva som er endret og uendret.
 4. Åpne Visual Companion selv før deling og sjekk at skjermbilder laster (`naturalWidth > 0`).
 5. Aldri rekonstruer eksisterende side fra kode og presenter den som nåtilstand.
 
-### Tilby Visual Companion
+### Tilby visual companion
 
 Spør designeren én gang om nettleservisning når innholdet er visuelt.
 Hvis nei — jobb kun med tekst og Figma.
@@ -126,7 +126,7 @@ Figma MCP-verktøy tilgjengelig.
 ### Flyt
 
 1. `whoami` → finn planKey
-2. `create_new_file` → opprett fil, del Figma-lenke når relevant kontekstgate er passert
+2. `create_new_file` → opprett fil, del URL når relevant kontekstgate er passert
 3. `search_design_system` → finn relevante Aksel-komponenter
 4. `use_figma` **preflight** → importer + logg varianter, default-variant, tekst-node-navn og fonter (se referanse)
 5. `use_figma` → bygg skissen **inkrementelt, én seksjon per kall** med eksakte variant-navn og node-navn fra preflight
