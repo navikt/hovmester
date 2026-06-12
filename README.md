@@ -71,6 +71,7 @@ graph TD
 | *@konditor* 🎂 | *(intern)* Frontend-utvikler — UI, Aksel, tilgjengelighet, state | Claude Sonnet 4.6 |
 | *@souschef* 📋 | *(intern)* Planlegger — utforsker kodebasen, lager implementasjonsplaner | Opus 4.8 |
 | **@designer** ✏️ | Designer-agent — designhjelp, Figma-skisser og visuelle konsepter | Opus 4.8 |
+| **@doctor-who** 🕰️ | Produktleder-agent — teamstatus, prioritering, oppgaver, OKR, workshops/teamhelse og discovery | Opus 4.8 |
 | *@inspektor-claude* 🔬 | *(intern)* Kryssmodell-reviewer — Opus 4.8 gjennomgår GPT-kode | Opus 4.8 |
 | *@inspektor-gpt* 🔬 | *(intern)* Kryssmodell-reviewer — GPT gjennomgår Claude-kode | GPT 5.5 |
 
@@ -99,6 +100,7 @@ Collections grupperer instruksjoner, skills og agenter i navngitte pakker du vel
 | `collections` | Kommaseparert liste over collections (`backend`, `frontend`, eller `backend,frontend`). `hovmester` er alltid inkludert. | Ja |
 | `exclude` | Kommaseparert liste over ting som skal utelates, f.eks. `"kafka-topic,epic"`. | Nei |
 | `github_project` | Valgfritt GitHub Project i format `owner/number`, f.eks. `"navikt/123"`. Fjern linjen hvis teamet ikke bruker GitHub Projects. | Nei |
+| `team_repo` | Valgfritt fellesrepo for teamets mål og tavle-guide i format `owner/repo`, f.eks. `"navikt/team-esyfo"`. Brukes av @doctor-who. Fjern linjen hvis teamet ikke har et fellesrepo. | Nei |
 | `pr_app_id` | GitHub App ID for PR-opprettelse. Anbefalt når du bruker auto-merge eller har required CI-checks. | Nei |
 
 | Secret | Beskrivelse |
@@ -326,6 +328,10 @@ Workflowen endrer aldri filer utenfor `.github/`, og `.github/workflows/` er all
 ## For designere
 
 Er du designer og vil bruke Copilot? Se [Copilot for designere — kom i gang](docs/designer-oppsett.md).
+
+## For produktledere
+
+Er du produktleder og vil bruke Copilot? Se [Copilot for produktledere — kom i gang](docs/produktleder-oppsett.md).
 
 ## Bidra
 

@@ -12,6 +12,7 @@ hovmester:
     - konditor
     - inspektor-claude
     - inspektor-gpt
+    - doctor-who
   instructions:
     - security
     - docker
@@ -34,6 +35,10 @@ hovmester:
     - readme-update
     - security-review
     - tdd
+    - team-status
+    - okr
+    - workshop-design
+    - produktledelse
     - repo-sync
   issue_templates:
     - config
