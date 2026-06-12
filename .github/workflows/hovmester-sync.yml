@@ -28,6 +28,11 @@ on:
         type: string
         required: false
         default: ''
+      team_repo:
+        description: "Teamets fellesrepo for mål og tavle-guide (e.g. 'navikt/team-esyfo'). If empty, team repo references are stripped from agents/skills."
+        type: string
+        required: false
+        default: ''
       pr_app_id:
         description: "GitHub App ID for PR creation. Recommended when using auto-merge or required CI."
         type: string
@@ -71,6 +76,7 @@ jobs:
           COLLECTIONS: ${{ inputs.collections }}
           EXCLUDE: ${{ inputs.exclude }}
           GITHUB_PROJECT: ${{ inputs.github_project }}
+          TEAM_REPO: ${{ inputs.team_repo }}
         run: |
           ARGS=(--source /tmp/source --target . --output /tmp/sync-result.json --source-sha "$SOURCE_SHA")
 
@@ -84,6 +90,10 @@ jobs:
 
           if [ -n "$GITHUB_PROJECT" ]; then
             ARGS+=(--github-project "$GITHUB_PROJECT")
+          fi
+
+          if [ -n "$TEAM_REPO" ]; then
+            ARGS+=(--team-repo "$TEAM_REPO")
           fi
 
           python3 /tmp/source/scripts/sync.py "${ARGS[@]}"
