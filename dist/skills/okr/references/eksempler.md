@@ -20,9 +20,9 @@ Generiske eksempler til bruk ved formulering og lint. Tilpass språket til teame
 
 **Nøkkelresultater:**
 - Median saksbehandlingstid synker fra 21 til 10 dager.
-- Andel saker som behandles helautomatisk øker fra 30 % til 50 %.
+- Andel saker som behandles helautomatisk øker fra 30 % til 50 %, slik at brukerne får svar raskere.
 
-*Hvorfor god:* Begge KR er målbare utfall med startpunkt. Automatisering er formulert som utfall (andel saker), ikke som teknisk leveranse.
+*Hvorfor god:* Begge KR er målbare utfall med startpunkt. Automatiseringen er koblet til brukergevinsten — raskere svar — ikke formulert som et teknisk mål i seg selv.
 
 ### 3. Internt verktøy
 
@@ -72,7 +72,7 @@ Generiske eksempler til bruk ved formulering og lint. Tilpass språket til teame
 Kommentar per endring:
 
 - **«Lansere …» → «Andel brukere som …»** — aktiviteten er byttet ut med endringen hos brukeren. Lanseringen blir et middel, ikke målet i seg selv.
-- **Frist fjernet, baseline og måltall lagt til** — «fra 78 % til 92 %» kan graderes underveis i tertialet; en lanseringsdato kan bare være nådd eller ikke nådd.
+- **Frist fjernet, baseline og måltall lagt til** — «fra 78 % til 92 %» kan graderes underveis i tertialet; en lanseringsdato kan bare være nådd eller ikke nådd. KR-et har fortsatt en tertialhorisont — det er fristen som suksesskriterium vi fjerner, ikke tidsrammen.
 - **Måleplanen er realistisk** — innloggingsforsøk logges allerede, så målingen krever ingen ny infrastruktur. Sjekk alltid dette før KR-et vedtas.
 
 ## Sjekkliste (lint-reglene, kompakt)

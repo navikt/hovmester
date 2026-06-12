@@ -33,6 +33,7 @@ Kjør disse sjekkene på ALLE utkast. Presenter funn per regel med et konkret fo
 | For mange mål? | Mer enn 3 Objectives, eller mer enn 3 KR per O → foreslå hva som kuttes |
 | Drift inkludert? | Foreslå å skille driftsoppgavene ut av OKR-settet |
 | Mangler verdi-kobling? | Hvilken bruker- eller samfunnsverdi peker målet mot? |
+| Måler vi en proxy? | Beskriver tallet faktisk verdien — eller bare noe som er lett å telle? Et høyere tall er ikke alltid bedre |
 
 ## Tertialrytme
 
