@@ -13,7 +13,7 @@ Navs veiledning: https://aksel.nav.no/god-praksis/artikler/retro
 
 ### Først: forrige retros tiltak
 
-**Start ALLTID med å følge opp tiltakene fra forrige retro.** Ble de gjennomført? Hadde de effekt? En retro der tiltak aldri følges opp lærer teamet at retroen ikke betyr noe — da dør den. Ikke gå videre til ny datainnsamling før dette er gjort.
+✅ **Start ALLTID med å følge opp tiltakene fra forrige retro.** Ble de gjennomført? Hadde de effekt? En retro der tiltak aldri følges opp lærer teamet at retroen ikke betyr noe — da dør den. Ikke gå videre til ny datainnsamling før dette er gjort.
 
 ### Fasemodellen
 
@@ -63,7 +63,7 @@ Fem faser (Derby/Larsen, jf. Retromat): **sett scenen → samle data → generer
 
 ## Del 2: Spotify Health Check
 
-Selvvurderingsmodell med ~11 indikatorer. Teamet vurderer hver indikator med **trafikklys** (grønn/gul/rød) og **trendpil** (↑ → ↓) — trenden er ofte viktigere enn fargen.
+Selvvurderingsmodell med 11 indikatorer. Teamet vurderer hver indikator med **trafikklys** (grønn/gul/rød) og **trendpil** (↑ → ↓) — trenden er ofte viktigere enn fargen.
 
 | Indikator | Spørsmålet bak |
 |---|---|
@@ -81,7 +81,7 @@ Selvvurderingsmodell med ~11 indikatorer. Teamet vurderer hver indikator med **t
 
 Per indikator brukes et **«strålende vs. elendig»-kort** som samtalestøtte: en kort beskrivelse av hvordan strålende ser ut og hvordan elendig ser ut. Teamet snakker seg frem til hvor de er — kortet kalibrerer samtalen, fasiten finnes ikke.
 
-**VIKTIG: dette er selvvurdering for samtale i teamet — ALDRI et rapporteringsverktøy oppover.** I det øyeblikket fargene blir måltall til ledelsen, begynner teamene å pynte på dem, og ærligheten dør. Hvis noen ber om å «samle inn health check-resultatene», si fra om dette eksplisitt.
+🚫 **VIKTIG: dette er selvvurdering for samtale i teamet — ALDRI et rapporteringsverktøy oppover.** I det øyeblikket fargene blir måltall til ledelsen, begynner teamene å pynte på dem, og ærligheten dør. Hvis noen ber om å «samle inn health check-resultatene», si fra om dette eksplisitt.
 
 ### Mural-oppsett som tekst
 

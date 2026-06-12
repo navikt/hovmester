@@ -19,7 +19,7 @@ Design workshops, retroer og møter med tydelig flyt, reell involvering og tilta
 4. **Tidsramme:** hvor mye tid har dere?
 5. **Fysisk, digitalt eller hybrid?**
 
-Alle innkallinger og kjøreplaner starter med en **BØRA-blokk** (Bakgrunn, Ønsket Resultat, Agenda). Merk hvert agendapunkt som informasjons-, diskusjons- eller beslutningssak. Ønsket resultat er også suksesskriteriet etterpå: ble det faktisk annerledes?
+Alle innkallinger og kjøreplaner starter med en **BØRA-blokk** (Bakgrunn, Ønsket Resultat, Agenda — BØRA er en videreutvikling av HØRA — Hensikt, Ønsket Resultat, Agenda — der bakgrunn erstatter hensikt; akronymet dekker tre ledd). Merk hvert agendapunkt som informasjons-, diskusjons- eller beslutningssak. Ønsket resultat er også suksesskriteriet etterpå: ble det faktisk annerledes?
 
 ## Design-prinsipper
 
@@ -28,7 +28,7 @@ Alle innkallinger og kjøreplaner starter med en **BØRA-blokk** (Bakgrunn, Øns
 - **Beslutter-rolle ved behov:** beslutninger flyter til én person — ikke demokrati i alle saker.
 - **Tiltak festes SMART** med eier og frist før workshopen slutter.
 - **Parkeringsplass** for avsporinger — synlig underveis, gjennomgås på slutten.
-- **Energi:** pauser, varierte formater, maks ~45 min per økt uten brudd.
+- **Energi:** pauser, varierte formater, maks ~45 min per økt uten brudd (strukturerte økter med innebygde individuelle faser, som i foundation sprint, kan være lengre).
 
 ## Leveranse
 

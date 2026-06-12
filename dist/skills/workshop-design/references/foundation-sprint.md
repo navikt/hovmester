@@ -44,6 +44,8 @@ Hver oppgave kjøres med samme mønster:
 
 09:00–15:30-mønster. Tilpass tidene til teamets BØRA — dette er skjelettet, ikke fasiten.
 
+Skjelettet er tidsrammen — berik hver økt med fasilitatornotater (hva fasilitator sier og gjør, materiell, fallgruver) etter malen i SKILL.md.
+
 **Dag 1 — grunnelementene**
 
 | Tid | Økt |
