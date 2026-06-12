@@ -821,3 +821,34 @@ class TestSyncWithTeamRepo:
         written = (target / ".github" / "agents" / "dw.agent.md").read_text(encoding="utf-8")
         assert "${TEAM_REPO}" not in written
         assert "resten" in written
+
+    def test_idempotent_with_same_team_repo(self, tmp_path: Path) -> None:
+        source = tmp_path / "src"
+        target = tmp_path / "tgt"
+        _write(
+            source / "dist" / "agents" / "dw.agent.md",
+            "# A\n- Fellesrepo: `${TEAM_REPO}`\n",
+        )
+        target.mkdir()
+
+        mapping = build_file_mapping(source)
+        apply_sync(mapping, target, team_repo="navikt/team-x")
+        diff = apply_sync(mapping, target, team_repo="navikt/team-x")
+
+        assert diff.changed == []
+        assert diff.added == []
+
+    def test_team_repo_change_detected_as_changed(self, tmp_path: Path) -> None:
+        source = tmp_path / "src"
+        target = tmp_path / "tgt"
+        _write(
+            source / "dist" / "agents" / "dw.agent.md",
+            "# A\n- Fellesrepo: `${TEAM_REPO}`\n",
+        )
+        target.mkdir()
+
+        mapping = build_file_mapping(source)
+        apply_sync(mapping, target, team_repo="navikt/team-x")
+        diff = apply_sync(mapping, target, team_repo="navikt/team-y")
+
+        assert diff.changed == [".github/agents/dw.agent.md"]
