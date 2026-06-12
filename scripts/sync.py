@@ -143,22 +143,25 @@ def build_file_mapping(source: Path) -> dict[str, tuple[Path, str]]:
 
 
 def _read_source_content(
-    source_path: Path, source_rel: str, github_project: str
+    source_path: Path, source_rel: str, github_project: str, team_repo: str = ""
 ) -> bytes:
     """Read source file content, applying template transforms where applicable.
 
-    For files under dist/issue-templates/ with a .yml or .yaml extension,
-    applies transform_issue_template() to substitute or strip the
-    ${GITHUB_PROJECT} placeholder. All other files are returned as raw bytes.
-
-    source_rel is the path relative to the source repo root (e.g.
-    'dist/issue-templates/bug.yml'), used to decide whether to apply
-    transforms. It is NOT the target path.
+    - dist/issue-templates/*.yml|yaml: transform_issue_template (${GITHUB_PROJECT})
+    - dist/agents/**/*.md og dist/skills/**/*.md: transform_team_repo (${TEAM_REPO})
+    All other files are returned as raw bytes.
     """
     content = source_path.read_bytes()
     if source_rel.startswith("dist/issue-templates/") and source_path.suffix in (".yml", ".yaml"):
         text = content.decode("utf-8")
         transformed = transform_issue_template(text, github_project)
+        return transformed.encode("utf-8")
+    if (
+        source_rel.startswith(("dist/agents/", "dist/skills/"))
+        and source_path.suffix == ".md"
+    ):
+        text = content.decode("utf-8")
+        transformed = transform_team_repo(text, team_repo)
         return transformed.encode("utf-8")
     return content
 
@@ -171,6 +174,7 @@ def compute_diff(
     mapping: dict[str, tuple[Path, str]],
     target_root: Path,
     github_project: str = "",
+    team_repo: str = "",
 ) -> SyncDiff:
     """Compare SHA-256 hashes of source vs target files.
 
@@ -183,7 +187,7 @@ def compute_diff(
     diff = SyncDiff()
     for target_rel, (source_path, source_rel) in mapping.items():
         target_path = target_root / target_rel
-        source_content = _read_source_content(source_path, source_rel, github_project)
+        source_content = _read_source_content(source_path, source_rel, github_project, team_repo)
         if not target_path.exists():
             diff.added.append(target_rel)
         elif _sha256(source_content) != _sha256(target_path.read_bytes()):
@@ -430,9 +434,10 @@ def apply_sync(
     target_root: Path,
     source_sha: str = "",
     github_project: str = "",
+    team_repo: str = "",
 ) -> SyncDiff:
     """Apply the full sync: copy new/changed, remove stale, write manifest."""
-    diff = compute_diff(mapping, target_root, github_project)
+    diff = compute_diff(mapping, target_root, github_project, team_repo)
     current_files = set(mapping.keys())
 
     manifest_files = read_manifest(target_root)
@@ -448,7 +453,7 @@ def apply_sync(
         target_path = target_root / target_rel
         target_path.parent.mkdir(parents=True, exist_ok=True)
         try:
-            content = _read_source_content(source_path, source_rel, github_project)
+            content = _read_source_content(source_path, source_rel, github_project, team_repo)
             target_path.write_bytes(content)
         except OSError as e:
             print(f"WARNING: Failed to copy {target_rel}: {e}", file=sys.stderr)
@@ -523,6 +528,10 @@ def main() -> None:
         "--github-project", type=str, default="",
         help="GitHub project reference (e.g. 'navikt/123') for issue template substitution. If empty, the projects line is stripped from templates.",
     )
+    parser.add_argument(
+        "--team-repo", type=str, default="",
+        help="Teamets fellesrepo (e.g. 'navikt/team-esyfo') for ${TEAM_REPO} substitution in agents/skills. If empty, placeholder lines are stripped.",
+    )
     args = parser.parse_args()
 
     source: Path = args.source.resolve()
@@ -546,7 +555,8 @@ def main() -> None:
     mapping = filter_mapping_by_exclude(mapping, args.exclude)
 
     diff = apply_sync(
-        mapping, target, source_sha=args.source_sha, github_project=args.github_project
+        mapping, target, source_sha=args.source_sha, github_project=args.github_project,
+        team_repo=args.team_repo,
     )
 
     result = asdict(diff)

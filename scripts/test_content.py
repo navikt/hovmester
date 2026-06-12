@@ -243,9 +243,13 @@ def _collect_parity_pairs():
 
 def test_github_mirror_parity_with_dist():
     """Hver fil under dist/{skills,agents,instructions}/ skal ha identisk motpart
-    under .github/. Kjør `python3 scripts/sync.py --source . --target .` hvis testen
-    feiler. GITHUB_ONLY_SKILLS-allowlisten er for repo-lokale meta-skills som kun
+    under .github/. dist-innholdet normaliseres med transform_team_repo("") fordi
+    self-sync kjører uten --team-repo og stripper ${TEAM_REPO}-linjer i speilet.
+    Kjør `python3 scripts/sync.py --source . --target .` hvis testen feiler.
+    GITHUB_ONLY_SKILLS-allowlisten er for repo-lokale meta-skills som kun
     finnes i .github/."""
+    from sync import transform_team_repo
+
     missing = []
     mismatched = []
     for dist_path, gh_path, relpath in _collect_parity_pairs():
@@ -253,7 +257,7 @@ def test_github_mirror_parity_with_dist():
             missing.append(relpath)
             continue
         with open(dist_path, encoding="utf-8") as a, open(gh_path, encoding="utf-8") as b:
-            if a.read() != b.read():
+            if transform_team_repo(a.read(), "") != b.read():
                 mismatched.append(relpath)
     problems = []
     if missing:
