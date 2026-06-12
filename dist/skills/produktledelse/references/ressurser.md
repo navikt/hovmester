@@ -27,7 +27,7 @@ Kun offentlig tilgjengelige ressurser; bøker er oppgitt med forfatter og tittel
 ## Mulighetsrom
 
 - [Elements of AI](https://www.elementsofai.com/no/) — gratis norsk grunnkurs i kunstig intelligens
-- [KI i offentlig sektor — Digdir](https://www.digdir.no/kunstig-intelligens/kunstig-intelligens/4132) — veiledning for ansvarlig bruk av KI i forvaltningen
+- [Nasjonal strategi for kunstig intelligens](https://www.regjeringen.no/no/dokumenter/nasjonal-strategi-for-kunstig-intelligens/id2685594/) — rammene for ansvarlig bruk av KI i forvaltningen
 - Inga Strümke: «Maskiner som tenker» — lettlest norsk innføring i hva KI faktisk kan og ikke kan
 - [Stimulab](https://www.digdir.no/innovasjon/stimulab/1706) — støtteordning for brukerorientert innovasjon i offentlig sektor
 
