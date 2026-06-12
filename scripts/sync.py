@@ -79,6 +79,21 @@ def transform_issue_template(content: str, github_project: str) -> str:
     )
 
 
+def transform_team_repo(content: str, team_repo: str) -> str:
+    """Substitute or strip the ${TEAM_REPO} placeholder in agent/skill files.
+
+    Content files use the placeholder on self-contained lines, e.g.:
+        - Teamets fellesrepo: `${TEAM_REPO}`
+    When team_repo is set, the placeholder is substituted in place. When it is
+    empty, every line containing the placeholder is stripped — surrounding
+    content must therefore be written so each placeholder line can disappear
+    without breaking the text (fallback instructions on separate lines).
+    """
+    if team_repo:
+        return content.replace("${TEAM_REPO}", team_repo)
+    return re.sub(r"^.*\$\{TEAM_REPO\}.*\n?", "", content, flags=re.MULTILINE)
+
+
 def _is_excluded_target_path(rel: str) -> bool:
     """Return True when rel is inside an excluded target directory."""
     return any(rel == excl or rel.startswith(f"{excl}/") for excl in EXCLUDED_TARGET_DIRS)

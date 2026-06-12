@@ -572,6 +572,40 @@ class TestTransformIssueTemplate:
         assert result == content
 
 
+class TestTransformTeamRepo:
+    def test_substitutes_placeholder_when_team_repo_set(self) -> None:
+        from sync import transform_team_repo
+
+        content = "# Agent\n- Teamets fellesrepo: `${TEAM_REPO}`\n## Neste\n"
+        result = transform_team_repo(content, "navikt/team-esyfo")
+        assert "`navikt/team-esyfo`" in result
+        assert "${TEAM_REPO}" not in result
+
+    def test_strips_placeholder_lines_when_empty(self) -> None:
+        from sync import transform_team_repo
+
+        content = "# Agent\n- Teamets fellesrepo: `${TEAM_REPO}`\n## Neste\n"
+        result = transform_team_repo(content, "")
+        assert "${TEAM_REPO}" not in result
+        assert "fellesrepo" not in result
+        assert "# Agent" in result
+        assert "## Neste" in result
+
+    def test_strips_multiple_placeholder_lines(self) -> None:
+        from sync import transform_team_repo
+
+        content = "A\nles ${TEAM_REPO} her\nB\nog ${TEAM_REPO} der\nC\n"
+        result = transform_team_repo(content, "")
+        assert result == "A\nB\nC\n"
+
+    def test_no_placeholder_content_unchanged(self) -> None:
+        from sync import transform_team_repo
+
+        content = "# Agent uten plassholder\n"
+        assert transform_team_repo(content, "navikt/x") == content
+        assert transform_team_repo(content, "") == content
+
+
 # ---------------------------------------------------------------------------
 # Source content reading
 # ---------------------------------------------------------------------------
