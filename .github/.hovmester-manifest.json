@@ -1,6 +1,6 @@
 {
   "source": "navikt/hovmester",
-  "source_sha": "c5afd20bf872aa617b4fc933f416d9eda6a0218b",
+  "source_sha": "6acf181b011d9be32afd51cac3745d9b049ae652",
   "files": [
     ".github/ISSUE_TEMPLATE/bug.yml",
     ".github/ISSUE_TEMPLATE/config.yml",
@@ -11,6 +11,7 @@
     ".github/PULL_REQUEST_TEMPLATE.md",
     ".github/agents/barista.agent.md",
     ".github/agents/designer.agent.md",
+    ".github/agents/doctor-who.agent.md",
     ".github/agents/hovmester.agent.md",
     ".github/agents/inspektor-claude.agent.md",
     ".github/agents/inspektor-gpt.agent.md",
@@ -83,9 +84,15 @@
     ".github/skills/observability-setup/references/alerting.md",
     ".github/skills/observability-setup/references/micrometer.md",
     ".github/skills/observability-setup/references/promql-logql.md",
+    ".github/skills/okr/SKILL.md",
+    ".github/skills/okr/references/eksempler.md",
     ".github/skills/postgresql-review/SKILL.md",
     ".github/skills/postgresql-review/references/migration-flyway.md",
     ".github/skills/postgresql-review/references/sql-patterns.md",
+    ".github/skills/produktledelse/SKILL.md",
+    ".github/skills/produktledelse/references/kompetansehjul.md",
+    ".github/skills/produktledelse/references/ressurser.md",
+    ".github/skills/produktledelse/references/team-rammeverk.md",
     ".github/skills/prototype/SKILL.md",
     ".github/skills/prototype/references/aksel-figma-katalog.json",
     ".github/skills/prototype/references/aksel-figma-katalog.md",
@@ -104,6 +111,12 @@
     ".github/skills/security-review/references/api-security.md",
     ".github/skills/security-review/references/gdpr-privacy.md",
     ".github/skills/security-review/references/nav-threat-model.md",
-    ".github/skills/tdd/SKILL.md"
+    ".github/skills/tdd/SKILL.md",
+    ".github/skills/team-status/SKILL.md",
+    ".github/skills/team-status/references/projects-v2.md",
+    ".github/skills/team-status/references/rapportmaler.md",
+    ".github/skills/workshop-design/SKILL.md",
+    ".github/skills/workshop-design/references/foundation-sprint.md",
+    ".github/skills/workshop-design/references/retro-og-teamhelse.md"
   ]
 }
