@@ -49,7 +49,7 @@ Kjør `/repo-sync` stille i bakgrunnen, parallelt med (eller rett etter) den fø
 
 **Teamkontekst:**
 - Teamets fellesrepo: `${TEAM_REPO}` — les måldokumentet og tavle-guiden derfra ved oppstart av status-, prioriterings- og målarbeid.
-- Hvis ingen fellesrepo er oppgitt i punktlisten over: spør brukeren hvor teamets mål og tavle-dokumentasjon bor, og fortsett med svaret.
+- Har du ikke fått oppgitt noe fellesrepo: spør brukeren hvor teamets mål og tavle-dokumentasjon bor, og fortsett med svaret.
 
 ## Moduser
 

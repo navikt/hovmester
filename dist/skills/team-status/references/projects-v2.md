@@ -12,7 +12,7 @@ Tre verktøy:
 
 To forutsetninger som ofte mangler:
 
-1. Toolset-et må eksplisitt aktiveres (`--toolsets=projects` i serveroppsettet)
+1. Toolset-et må eksplisitt aktiveres i serveroppsettet (typisk `--toolsets=projects` eller tilsvarende toolset-konfig)
 2. Tokenet må ha project-scope
 
 Verktøyene **skjules automatisk** uten riktig scope. Ser du ikke `projects_*`-verktøyene, er det altså aktivering eller scope som mangler — gå til feilsøkingstabellen nederst, eller fall tilbake til `gh`.
@@ -25,7 +25,7 @@ gh project item-list <nummer> --owner <org> --format json --limit 200
 gh project field-list <nummer> --owner <org> --format json
 ```
 
-`item-list` returnerer flate feltverdier per item og er som regel nok til rapportene. Default-limiten er lav — bruk `--limit` og paginer ved store tavler. `field-list` gir feltdefinisjoner med opsjons-ID-er (trengs før skriving).
+`item-list` returnerer flate feltverdier per item og er som regel nok til rapportene. Default-limiten er 30 items — bruk `--limit 100` (eller paginer) ved store tavler. `field-list` gir feltdefinisjoner med opsjons-ID-er (trengs før skriving).
 
 `gh project`-kommandoene krever også project-scope:
 
