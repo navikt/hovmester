@@ -13,7 +13,7 @@ Hjelp teamet å formulere, kvalitetssikre og vedlikeholde tertialvise OKR-er. St
 - **Bruker- og samfunnsverdi, ikke omsetning.** Verdispråket i offentlig sektor er effekt for brukere og samfunn (gevinstrealisering) — aldri salg eller inntekt.
 - **1–3 Objectives à 2–3 Key Results.** Færre mål gir mer fokus — foreslå gjerne ett enkelt Objective for team som er nye på målarbeid.
 - **O er kvalitativt og motiverende; KR er målbart utfall** — alltid med baseline → mål («fra X til Y»).
-- **Drift holdes utenfor** OKR-settet, eller skilles eksplisitt ut. OKR dekker utviklingsmålene, ikke 100 % av arbeidet.
+- **Ordinær drift holdes utenfor** OKR-settet, eller skilles eksplisitt ut. Men målbare forbedringer i tjenestekvalitet (svartid, oppetid, feilrate, etterlevelse) fra en baseline kan være reelle utfall og høre hjemme som KR. Skillet går på forbedringsambisjon: drift uten forbedringsmål holdes utenfor; en målbar løft fra X til Y kan være OKR.
 - **Norske termer er helt ok** og senker terskelen: ambisjon (O) og nøkkelresultat (KR).
 
 Eksempelpar:
@@ -46,6 +46,7 @@ Kjør disse sjekkene på ALLE utkast. Presenter funn per regel med et konkret fo
 
 ## Måldokument og tavle
 
+- Teamets måldokument bor i fellesrepoet `navikt/team-esyfo` — les det før formulering, og foreslå oppdateringer som PR eller issue dit (spør først).
 - Har du ikke fått oppgitt noe måldokument: spør hvor målene bor, og tilby å etablere et måldokument.
 
 Nye tertialmål skal ofte inn som opsjoner i målfeltet på teamets GitHub Projects-tavle. Feltdefinisjoner kan ikke endres via API — foreslå de nye opsjonene som tekst, og pek på at et menneske må legge dem inn manuelt. Detaljer om tavle-tilgang: projects-v2-referansen i `/team-status`-skillen.

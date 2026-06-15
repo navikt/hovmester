@@ -24,6 +24,7 @@ Hent felter og opsjoner dynamisk fra prosjektet (oppskrifter i `references/proje
 
 Feltene sier hva tavla *inneholder*. Semantikken — hva kolonnene og feltene *betyr* — kommer fra teamets tavle-guide:
 
+- Tavle-guide og måldokument: se teamets fellesrepo `navikt/team-esyfo`.
 - Finnes ingen tavle-guide eller måldokument du har fått oppgitt: spør brukeren om teamet har en tavle-guide, og hvor den bor.
 
 #### Tavle-guide mangler?

@@ -61,7 +61,7 @@ Generiske eksempler til bruk ved formulering og lint. Tilpass språket til teame
 
 **Ambisjon 1:** Raskere saksbehandling. **Ambisjon 2:** Bedre selvbetjening. **Ambisjon 3:** Mer fornøyde medarbeidere. **Ambisjon 4:** Stabil drift med oppetid 99,9 %.
 
-*Hvorfor dårlig:* Fire ambisjoner gir null fokus — teamet prioriterer i praksis ingenting. Oppetid er dessuten drift og hører ikke hjemme i OKR-settet; det gjelder uansett.
+*Hvorfor dårlig:* Fire ambisjoner gir null fokus — teamet prioriterer i praksis ingenting. «Stabil drift med oppetid 99,9 %» er dessuten formulert som en driftstilstand uten forbedringsambisjon eller baseline; det gjelder uansett. (Et målbart løft fra en faktisk baseline — f.eks. «oppetid fra 99,2 % til 99,9 %» — kunne derimot vært et legitimt KR.)
 
 ## Før/etter: fra aktivitet til utfall
 

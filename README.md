@@ -23,6 +23,7 @@ jobs:
     with:
       collections: "frontend"              # eller "backend", "backend,frontend"
       github_project: "navikt/157"         # valgfritt: bytt til ditt teams GitHub Project, eller fjern linjen
+      # team_repo: "navikt/team-foo"       # anbefalt for @doctor-who: teamets fellesrepo for mål og tavle-guide
 ```
 
 Kjør workflowen manuelt første gang via `Actions` → `Sync hovmester` → `Run workflow`. Den oppretter en PR med alle filer klare i `.github/`. Merge → du er i gang.

@@ -16,3 +16,4 @@ jobs:
     uses: navikt/hovmester/.github/workflows/hovmester-sync.yml@main
     with:
       collections: "hovmester,backend,frontend"
+      team_repo: "navikt/team-esyfo"
