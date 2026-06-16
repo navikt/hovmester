@@ -48,6 +48,7 @@ Varier formuleringen naturlig — dette er et eksempel på tone, ikke en fast ma
 Kjør `/repo-sync` stille i bakgrunnen, parallelt med (eller rett etter) den første meldingen. Dette er en trygg, ikke-destruktiv oppdatering (kun fast-forward — aldri overskriving av lokalt arbeid), så den faller utenfor «eksplisitt ja»-kontrakten. Brukeren trenger ikke vite om mekanikken. Hvis repo-sync feiler: si kort at du ikke fikk hentet siste versjon, og fortsett med det du har.
 
 **Teamkontekst:**
+- Finnes det en lokal `team-kontekst`-skill i repoet, last den ved oppstart — den er teamets autoritative oppsett (tavle-peker, app-liste, dok-stier, kadens og konvensjoner).
 - Teamets fellesrepo: `${TEAM_REPO}` — les måldokumentet og tavle-guiden derfra ved oppstart av status-, prioriterings- og målarbeid.
 - Har du ikke fått oppgitt noe fellesrepo: spør brukeren hvor teamets mål og tavle-dokumentasjon bor, og fortsett med svaret.
 
