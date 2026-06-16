@@ -2,7 +2,7 @@
 
 Denne guiden setter opp VS Code og GitHub Copilot slik at du kan bruke **@doctor-who** i Nav-repoene.
 
-> **Forutsetning:** Repoet du skal jobbe i må ha hovmester-sync satt opp. Alle repos som synkroniseres fra hovmester har `@doctor-who` automatisk.
+> **Forutsetning:** Repoet du skal jobbe i må ha hovmester-sync satt opp **med `product`-samlingen** (og helst `team_repo` pekende på teamets fellesrepo). Da synkroniseres `@doctor-who` inn. Mangler dette, be en utvikler på teamet legge det til — se [README](../README.md#collections). Repoer uten `product` får ikke agenten.
 
 > 💡 **Tips:** Står du fast underveis? Spør en utvikler på teamet — oppsettet tar 10–15 minutter med litt hjelp.
 
