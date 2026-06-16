@@ -21,9 +21,9 @@ jobs:
   sync:
     uses: navikt/hovmester/.github/workflows/hovmester-sync.yml@main
     with:
-      collections: "frontend"              # eller "backend", "backend,frontend"
+      collections: "frontend"              # eller "backend", "backend,frontend", "product"
       github_project: "navikt/157"         # valgfritt: bytt til ditt teams GitHub Project, eller fjern linjen
-      # team_repo: "navikt/team-foo"       # anbefalt for @doctor-who: teamets fellesrepo for mål og tavle-guide
+      # team_repo: "navikt/team-foo"       # for @doctor-who (krever collections: "product"): teamets fellesrepo for mål og tavle-guide
 ```
 
 Kjør workflowen manuelt første gang via `Actions` → `Sync hovmester` → `Run workflow`. Den oppretter en PR med alle filer klare i `.github/`. Merge → du er i gang.
@@ -87,21 +87,23 @@ Collections grupperer instruksjoner, skills og agenter i navngitte pakker du vel
 | `hovmester` *(alltid inkludert)* | Orkestrator-agentene, felles instruksjoner (sikkerhet, Docker, GitHub Actions), generiske skills og issue-/PR-templates |
 | `backend` | Kotlin-instruksjon + 7 backend-skills (Ktor, Spring, Flyway, Kafka, Postgres, API-design, auth) |
 | `frontend` | Frontend- og tilgjengelighets-instruksjoner + 7 frontend-skills (accessibility-review, Aksel, auth, dulting, Figma-workflow, Lumi, prototype) + designer-agent |
+| `product` | Produktleder-agenten @doctor-who + 4 PM-skills (team-status, OKR, workshop-design, produktledelse). Beregnet på teamets produkt-/fellesrepo — sett gjerne `team_repo` sammen med denne |
 
 **Eksempler:**
 - `"backend"` — backend-repo
 - `"frontend"` — frontend-repo
 - `"backend,frontend"` — fullstack-repo
+- `"product"` — produkt-/fellesrepo med @doctor-who (sett `team_repo` til samme repo)
 - *(ingen collection utover hovmester)* — bare orkestratoren og generiske skills
 
 ## Konfigurasjon
 
 | Input | Beskrivelse | Påkrevd |
 |---|---|---|
-| `collections` | Kommaseparert liste over collections (`backend`, `frontend`, eller `backend,frontend`). `hovmester` er alltid inkludert. | Ja |
+| `collections` | Kommaseparert liste over collections (`backend`, `frontend`, `product`, eller en kombinasjon). `hovmester` er alltid inkludert. | Ja |
 | `exclude` | Kommaseparert liste over ting som skal utelates, f.eks. `"kafka-topic,epic"`. | Nei |
 | `github_project` | Valgfritt GitHub Project i format `owner/number`, f.eks. `"navikt/123"`. Fjern linjen hvis teamet ikke bruker GitHub Projects. | Nei |
-| `team_repo` | Valgfritt fellesrepo for teamets mål og tavle-guide i format `owner/repo`, f.eks. `"navikt/team-esyfo"`. Brukes av @doctor-who. Fjern linjen hvis teamet ikke har et fellesrepo. | Nei |
+| `team_repo` | Valgfritt fellesrepo for teamets mål og tavle-guide i format `owner/repo`, f.eks. `"navikt/team-esyfo"`. Brukes av @doctor-who (`product`-collectionen). Fjern linjen hvis teamet ikke har et fellesrepo. | Nei |
 | `pr_app_id` | GitHub App ID for PR-opprettelse. Anbefalt når du bruker auto-merge eller har required CI-checks. | Nei |
 
 | Secret | Beskrivelse |

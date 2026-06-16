@@ -287,7 +287,7 @@ def test_github_mirror_parity_with_dist():
         ".github/-mirror er ikke i sync med dist/. "
         "Kjør: python3 scripts/sync.py --source . --target . "
         "--output /tmp/sync.json --source-sha $(git rev-parse HEAD) "
-        "--collections hovmester,backend,frontend\n\n" + "\n\n".join(problems)
+        "--collections hovmester,backend,frontend,product\n\n" + "\n\n".join(problems)
     )
 
 
