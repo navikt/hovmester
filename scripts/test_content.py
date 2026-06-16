@@ -283,11 +283,13 @@ def test_github_mirror_parity_with_dist():
         problems.append("mangler i .github/:\n  " + "\n  ".join(missing))
     if mismatched:
         problems.append("innhold divergerer fra dist/:\n  " + "\n  ".join(mismatched))
+    team_repo_flag = f" --team-repo {team_repo}" if team_repo else ""
     assert not problems, (
         ".github/-mirror er ikke i sync med dist/. "
         "Kjør: python3 scripts/sync.py --source . --target . "
         "--output /tmp/sync.json --source-sha $(git rev-parse HEAD) "
-        "--collections hovmester,backend,frontend,product\n\n" + "\n\n".join(problems)
+        f"--collections hovmester,backend,frontend,product{team_repo_flag}\n\n"
+        + "\n\n".join(problems)
     )
 
 
