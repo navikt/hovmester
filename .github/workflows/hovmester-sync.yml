@@ -29,7 +29,7 @@ on:
         required: false
         default: ''
       team_repo:
-        description: "Teamets fellesrepo for mål og tavle-guide (e.g. 'navikt/team-esyfo'). If empty, team repo references are stripped from agents/skills."
+        description: "Team repository for goals and board guides (e.g. 'navikt/team-esyfo'). If empty, team repo references are stripped from agents/skills."
         type: string
         required: false
         default: ''
