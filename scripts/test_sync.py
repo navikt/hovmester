@@ -572,6 +572,40 @@ class TestTransformIssueTemplate:
         assert result == content
 
 
+class TestTransformTeamRepo:
+    def test_substitutes_placeholder_when_team_repo_set(self) -> None:
+        from sync import transform_team_repo
+
+        content = "# Agent\n- Teamets fellesrepo: `${TEAM_REPO}`\n## Neste\n"
+        result = transform_team_repo(content, "navikt/team-esyfo")
+        assert "`navikt/team-esyfo`" in result
+        assert "${TEAM_REPO}" not in result
+
+    def test_strips_placeholder_lines_when_empty(self) -> None:
+        from sync import transform_team_repo
+
+        content = "# Agent\n- Teamets fellesrepo: `${TEAM_REPO}`\n## Neste\n"
+        result = transform_team_repo(content, "")
+        assert "${TEAM_REPO}" not in result
+        assert "fellesrepo" not in result
+        assert "# Agent" in result
+        assert "## Neste" in result
+
+    def test_strips_multiple_placeholder_lines(self) -> None:
+        from sync import transform_team_repo
+
+        content = "A\nles ${TEAM_REPO} her\nB\nog ${TEAM_REPO} der\nC\n"
+        result = transform_team_repo(content, "")
+        assert result == "A\nB\nC\n"
+
+    def test_no_placeholder_content_unchanged(self) -> None:
+        from sync import transform_team_repo
+
+        content = "# Agent uten plassholder\n"
+        assert transform_team_repo(content, "navikt/x") == content
+        assert transform_team_repo(content, "") == content
+
+
 # ---------------------------------------------------------------------------
 # Source content reading
 # ---------------------------------------------------------------------------
@@ -628,6 +662,38 @@ class TestReadSourceContent:
         src.write_bytes(b"# PR\nProjects: ${GITHUB_PROJECT} (should not change)\n")
         result = _read_source_content(src, "dist/PULL_REQUEST_TEMPLATE.md", "navikt/123")
         assert b"${GITHUB_PROJECT}" in result
+
+    def test_transforms_agent_md_with_team_repo(self, tmp_path: Path) -> None:
+        from sync import _read_source_content
+
+        src = tmp_path / "doctor-who.agent.md"
+        src.write_text("# A\n- Fellesrepo: `${TEAM_REPO}`\n", encoding="utf-8")
+        result = _read_source_content(
+            src, "dist/agents/doctor-who.agent.md", "", team_repo="navikt/team-esyfo"
+        )
+        assert b"`navikt/team-esyfo`" in result
+        assert b"${TEAM_REPO}" not in result
+
+    def test_strips_team_repo_lines_in_skill_md_when_empty(self, tmp_path: Path) -> None:
+        from sync import _read_source_content
+
+        src = tmp_path / "SKILL.md"
+        src.write_text("# S\nles `${TEAM_REPO}`\nresten\n", encoding="utf-8")
+        result = _read_source_content(
+            src, "dist/skills/team-status/SKILL.md", "", team_repo=""
+        )
+        assert b"${TEAM_REPO}" not in result
+        assert b"resten" in result
+
+    def test_team_repo_not_applied_outside_agents_and_skills(self, tmp_path: Path) -> None:
+        from sync import _read_source_content
+
+        src = tmp_path / "bug.yml"
+        src.write_text("name: Bug\nx: ${TEAM_REPO}\n", encoding="utf-8")
+        result = _read_source_content(
+            src, "dist/issue-templates/bug.yml", "", team_repo="navikt/x"
+        )
+        assert b"${TEAM_REPO}" in result
 
 
 # ---------------------------------------------------------------------------
@@ -719,3 +785,70 @@ class TestSyncWithGithubProject:
 
         agent_result = (target / ".github" / "agents" / "bot.agent.md").read_text(encoding="utf-8")
         assert agent_result == "agent content\n"
+
+
+class TestSyncWithTeamRepo:
+    def test_substitutes_team_repo_in_written_skill(self, tmp_path: Path) -> None:
+        source = tmp_path / "src"
+        target = tmp_path / "tgt"
+        _write(
+            source / "dist" / "skills" / "team-status" / "SKILL.md",
+            "---\nname: team-status\n---\nles `${TEAM_REPO}`\n",
+        )
+        target.mkdir()
+
+        mapping = build_file_mapping(source)
+        apply_sync(mapping, target, team_repo="navikt/team-esyfo")
+
+        written = (target / ".github" / "skills" / "team-status" / "SKILL.md").read_text(
+            encoding="utf-8"
+        )
+        assert "`navikt/team-esyfo`" in written
+        assert "${TEAM_REPO}" not in written
+
+    def test_strips_team_repo_lines_when_empty(self, tmp_path: Path) -> None:
+        source = tmp_path / "src"
+        target = tmp_path / "tgt"
+        _write(
+            source / "dist" / "agents" / "dw.agent.md",
+            "# A\n- Fellesrepo: `${TEAM_REPO}`\nresten\n",
+        )
+        target.mkdir()
+
+        mapping = build_file_mapping(source)
+        apply_sync(mapping, target)
+
+        written = (target / ".github" / "agents" / "dw.agent.md").read_text(encoding="utf-8")
+        assert "${TEAM_REPO}" not in written
+        assert "resten" in written
+
+    def test_idempotent_with_same_team_repo(self, tmp_path: Path) -> None:
+        source = tmp_path / "src"
+        target = tmp_path / "tgt"
+        _write(
+            source / "dist" / "agents" / "dw.agent.md",
+            "# A\n- Fellesrepo: `${TEAM_REPO}`\n",
+        )
+        target.mkdir()
+
+        mapping = build_file_mapping(source)
+        apply_sync(mapping, target, team_repo="navikt/team-x")
+        diff = apply_sync(mapping, target, team_repo="navikt/team-x")
+
+        assert diff.changed == []
+        assert diff.added == []
+
+    def test_team_repo_change_detected_as_changed(self, tmp_path: Path) -> None:
+        source = tmp_path / "src"
+        target = tmp_path / "tgt"
+        _write(
+            source / "dist" / "agents" / "dw.agent.md",
+            "# A\n- Fellesrepo: `${TEAM_REPO}`\n",
+        )
+        target.mkdir()
+
+        mapping = build_file_mapping(source)
+        apply_sync(mapping, target, team_repo="navikt/team-x")
+        diff = apply_sync(mapping, target, team_repo="navikt/team-y")
+
+        assert diff.changed == [".github/agents/dw.agent.md"]

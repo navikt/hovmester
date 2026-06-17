@@ -241,11 +241,30 @@ def _collect_parity_pairs():
             yield abspath, os.path.join(gh_root, relpath), f"{subtree}/{relpath}"
 
 
+def _self_sync_team_repo():
+    """Les team_repo-inputen som self-sync.yml sender til den reusable workflowen.
+
+    Returnerer tom streng hvis ikke satt, slik at paritetstesten normaliserer
+    dist-innholdet med samme team_repo som self-sync faktisk bruker."""
+    path = os.path.join(GITHUB, "workflows", "self-sync.yml")
+    with open(path, encoding="utf-8") as f:
+        data = yaml.safe_load(f)
+    return data["jobs"]["sync"].get("with", {}).get("team_repo", "") or ""
+
+
 def test_github_mirror_parity_with_dist():
     """Hver fil under dist/{skills,agents,instructions}/ skal ha identisk motpart
-    under .github/. Kjør `python3 scripts/sync.py --source . --target .` hvis testen
-    feiler. GITHUB_ONLY_SKILLS-allowlisten er for repo-lokale meta-skills som kun
+    under .github/. dist-innholdet for agents/ og skills/ normaliseres med
+    transform_team_repo(dist_content, team_repo) der team_repo leses fra
+    self-sync.yml (tom streng stripper ${TEAM_REPO}-linjer); instructions/
+    sammenlignes rått uten normalisering.
+    Kjør `python3 scripts/sync.py --source . --target .` (med samme --team-repo
+    som self-sync.yml) hvis testen feiler.
+    GITHUB_ONLY_SKILLS-allowlisten er for repo-lokale meta-skills som kun
     finnes i .github/."""
+    from sync import transform_team_repo
+
+    team_repo = _self_sync_team_repo()
     missing = []
     mismatched = []
     for dist_path, gh_path, relpath in _collect_parity_pairs():
@@ -253,18 +272,24 @@ def test_github_mirror_parity_with_dist():
             missing.append(relpath)
             continue
         with open(dist_path, encoding="utf-8") as a, open(gh_path, encoding="utf-8") as b:
-            if a.read() != b.read():
+            dist_content = a.read()
+            gh_content = b.read()
+            if relpath.startswith(("agents/", "skills/")):
+                dist_content = transform_team_repo(dist_content, team_repo)
+            if dist_content != gh_content:
                 mismatched.append(relpath)
     problems = []
     if missing:
         problems.append("mangler i .github/:\n  " + "\n  ".join(missing))
     if mismatched:
         problems.append("innhold divergerer fra dist/:\n  " + "\n  ".join(mismatched))
+    team_repo_flag = f" --team-repo {team_repo}" if team_repo else ""
     assert not problems, (
         ".github/-mirror er ikke i sync med dist/. "
         "Kjør: python3 scripts/sync.py --source . --target . "
         "--output /tmp/sync.json --source-sha $(git rev-parse HEAD) "
-        "--collections hovmester,backend,frontend\n\n" + "\n\n".join(problems)
+        f"--collections hovmester,backend,frontend,product{team_repo_flag}\n\n"
+        + "\n\n".join(problems)
     )
 
 

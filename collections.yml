@@ -70,3 +70,12 @@ frontend:
     - figma-workflow
     - lumi-survey
     - prototype
+
+product:
+  agents:
+    - doctor-who
+  skills:
+    - team-status
+    - okr
+    - workshop-design
+    - produktledelse
