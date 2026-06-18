@@ -9,10 +9,9 @@ REPO_ROOT = os.path.join(os.path.dirname(__file__), "..")
 DIST = os.path.join(REPO_ROOT, "dist")
 GITHUB = os.path.join(REPO_ROOT, ".github")
 
-# Pre-existing violations som ikke skal blokkere nav-pilot-adopsjon.
-# Disse skal splittes opp i egen oppfølging.
-LINE_CAP_ALLOWLIST = {"lumi-survey"}  # pre-existing; split in follow-up
-TRIGGER_DESCRIPTION_ALLOWLIST = {"lumi-survey"}  # handled with the lumi follow-up
+# Midlertidige allowlists for migreringer. Skal normalt være tomme.
+LINE_CAP_ALLOWLIST = set()
+TRIGGER_DESCRIPTION_ALLOWLIST = set()
 
 # Skills som lever KUN i .github/ (hovmester-repoets egen Copilot-config)
 # og ikke i dist/. Disse parity-testen ignorerer.
@@ -201,9 +200,7 @@ def test_no_unpinned_actions_in_dist():
 def test_skill_line_cap():
     """SKILL.md hard-cap på 200 linjer.
 
-    Innhold som krever mer skal splittes til references/. lumi-survey er
-    pre-existing violation (422 linjer) og allowlistet — skal splittes i
-    egen follow-up PR.
+    Innhold som krever mer skal splittes til references/.
     """
     skills_dir = os.path.join(DIST, "skills")
     violations = []

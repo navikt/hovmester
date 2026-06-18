@@ -1,8 +1,8 @@
-## Fase 6: NAIS-konfigurasjon
+## NAIS-konfigurasjon
 
 Legg til i NAIS-manifest(ene). **Merk:** Verdiene avhenger av auth-type og miljø.
 
-### 6a. Miljøvariabler
+### Miljøvariabler
 
 **TokenX (offentlige apper):**
 
@@ -19,6 +19,8 @@ spec:
       value: "dev-gcp:team-esyfo:lumi-api"
     - name: LUMI_FEEDBACK_PATH
       value: /api/tokenx/v1/feedback
+    - name: LUMI_IDENTITY_PROVIDER  # Kun for Kotlin/Texas
+      value: tokenx
 ```
 
 ```yaml
@@ -31,6 +33,8 @@ spec:
       value: "prod-gcp:team-esyfo:lumi-api"
     - name: LUMI_FEEDBACK_PATH
       value: /api/tokenx/v1/feedback
+    - name: LUMI_IDENTITY_PROVIDER  # Kun for Kotlin/Texas
+      value: tokenx
 ```
 
 **AzureAD (interne apper):**
@@ -63,7 +67,9 @@ spec:
       value: azuread
 ```
 
-### 6b. Tilgangspolicy (outbound)
+### Tilgangspolicy (outbound)
+
+**TokenX og AzureAD prod går direkte til `lumi-api`:**
 
 ```yaml
 spec:
@@ -72,14 +78,22 @@ spec:
       rules:
         - application: lumi-api
           namespace: team-esyfo
-        # I dev med AzureAD, legg også til:
-        # - application: lumi-submission-proxy
-        #   namespace: team-esyfo
 ```
 
-### 6c. Bestill tilgang hos Lumi-teamet
+**AzureAD dev går via `lumi-submission-proxy`:**
 
-Lumi API krever at din app er lagt til som **inbound**-regel i Lumi sitt NAIS-manifest. Denne endringen gjøres av Team eSyfo.
+```yaml
+spec:
+  accessPolicy:
+    outbound:
+      rules:
+        - application: lumi-submission-proxy
+          namespace: team-esyfo
+```
+
+### Bestill tilgang hos Lumi-teamet
+
+Lumi krever at din app er lagt til som **inbound**-regel hos riktig mottaker. TokenX og AzureAD prod legges i `lumi-api`; AzureAD dev legges i `lumi-submission-proxy`.
 
 **Opprett et issue eller kontakt Team eSyfo** med:
 - Appnavn og namespace
@@ -88,7 +102,7 @@ Lumi API krever at din app er lagt til som **inbound**-regel i Lumi sitt NAIS-ma
 
 Vent med å teste fullstendig flyt til inbound-tilgang er på plass — uten den vil du få 403 fra Lumi API.
 
-### 6d. Token-utveksling
+### Token-utveksling
 
 Hvis ikke allerede aktivert, legg til TokenX- eller Azure-konfig:
 
