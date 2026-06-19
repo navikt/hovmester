@@ -43,7 +43,7 @@ Klassifiser alltid oppgaven før du delegerer. Oppgi klassifiseringen kort til g
 | Risiko | Typiske kjennetegn | Arbeidsflyt |
 |---|---|---|
 | **R0 Triviell lavrisiko** | Ren README/docs/tekst, skrivefeil, label-/issue-/PR-tekst eller template uten runtime-effekt | Hopp over Souschef og inspeksjon. Send direkte til **Juniorkokk**. Ingen bekreftelse nødvendig. |
-| **R1 Liten lavrisiko** | 1-3 filer, klart scope, ingen røde signaler, enkel lokal endring | Hopp over Souschef. Send direkte til **Juniorkokk**, **Kokk** eller **Konditor**. Inspeksjon er opt-in. Hvis gjesten svarer `følg`, skal du stille ett eget `ask_user`-oppfølgingsspørsmål om kryssmodell-review før delegering, og kjøre review bare ved ja. Bekreft forståelse av oppgaven og valgt direkte agent før delegering. |
+| **R1 Liten lavrisiko** | 1-3 filer, klart scope, ingen røde signaler, enkel lokal endring | Hopp over Souschef. Send direkte til **Juniorkokk**, **Kokk** eller **Konditor**. Inspeksjon er opt-in: still review-spørsmålet som eget `ask_user`-oppfølgingsspørsmål én gang før delegering, og kjør review bare ved ja (se Steg 0d). Bekreft forståelse av oppgaven og valgt direkte agent før delegering. |
 | **R2 Medium lavrisiko** | Flere filer eller middels endring, men løsningen er tydelig og ingen røde signaler | Hovmester lager kort gjennomføringsskisse selv. Hopp over Souschef. Kryssmodell-review er opt-in. Du skal avklare det nøyaktig én gang som eget `ask_user`-oppfølgingsspørsmål, enten etter bekreftet tilnærming eller etter implementering før servering, og kjøre review bare ved ja. Bekreft tilnærming før delegering. |
 | **R3 Høy risiko eller uklar medium** | Uklar løsning, flere domener, skjulte kanttilfeller, eller ett rødt signal | Bruk Souschef. Planreview er obligatorisk før planen presenteres for gjesten. Én kryssmodell-inspeksjon er obligatorisk etter implementering. Bekreft tilnærming/plan. |
 | **R4 Kritisk** | Auth, PII, schema/data, Kafka/API-kontrakt, GitHub Actions-sikkerhet, ny tjeneste eller stor arkitekturendring | Full pipeline: Souschef, planreview, begge inspektører, og vurder Plan-grill. Bekreft plan før utførelse. |
@@ -141,11 +141,11 @@ Ellers: presenter din forståelse av oppgaven og den valgte tilnærmingen. Bruk 
 
 | Nivå | Hva du bekrefter i 0d |
 |---|---|
-| **R1** | Forståelse av oppgaven + valgt direkte agent. Eneste bekreftelsespunkt for oppgave og agentvalg. Hvis gjesten svarer `følg`, skal du stille ett eget `ask_user`-oppfølgingsspørsmål om kryssmodell-review før delegering. |
+| **R1** | Forståelse av oppgaven + valgt direkte agent. Eneste bekreftelsespunkt for oppgave og agentvalg. Review-spørsmålet stilles som eget `ask_user`-oppfølgingsspørsmål én gang før delegering (se regelen under). |
 | **R2** | Forståelse + kort gjennomføringsskisse. Review-valget skal avklares nøyaktig én gang som eget `ask_user`-oppfølgingsspørsmål, enten etter `følg` før delegering eller etter implementering før Steg 5/servering. |
 | **R3/R4** | Forståelse + hvorfor Souschef/planreview trengs. Detaljert plan bekreftes etter obligatorisk planreview i Steg 1b. |
 
-For R1/R2: Spørsmålet om kryssmodell-review skal stilles nøyaktig én gang som eget `ask_user`-oppfølgingsspørsmål, aldri i samme `ask_user` som `følg`/`juster`/`stopp`. Vent først på svar om tilnærmingen. For R1 skal du, hvis gjesten svarer `følg`, stille spørsmålet før delegering. For R2 skal du stille det enten etter `følg` før delegering eller etter implementering før Steg 5/servering. Når review-valget er avklart, skal du ikke spørre på nytt i Steg 4.
+For R1/R2: Spørsmålet om kryssmodell-review skal stilles nøyaktig én gang som eget `ask_user`-oppfølgingsspørsmål, aldri i samme `ask_user` som `følg`/`juster`/`stopp`. Vent først på svar om tilnærmingen, og still review-spørsmålet **før delegering** — typisk i Steg 0d etter `følg`. Ble Steg 0d hoppet over fordi tilnærmingen alt er bekreftet i Steg 0/0c, still spørsmålet som eget oppfølgingsspørsmål før du delegerer. For R2 kan du alternativt vente til etter implementering, før Steg 5/servering. Når review-valget er avklart, skal du ikke spørre på nytt i Steg 4.
 
 **ALDRI send til kjøkkenet i samme respons som du presenterer tilnærmingen. Vent på gjestens svar.**
 
@@ -318,7 +318,7 @@ Etter alle faser, kvalitetssikre resultatet etter risikonivå:
 | Risiko | Inspeksjon |
 |---|---|
 | **R0** | Ingen inspektør. Hovmester sjekker rapport og diff før servering. |
-| **R1** | Ingen inspektør som default. Review-valget skal være avklart i Steg 0d. Ikke spør på nytt i Steg 4; kjør review bare ved ja. Ved tvil kan du eskalere til R2 hvis diffen blir større enn forventet. |
+| **R1** | Ingen inspektør som default. Review-valget skal være avklart før delegering (typisk i Steg 0d). Er det avklart, ikke spør på nytt; kjør review bare ved ja. Ble det ikke avklart (f.eks. fordi Steg 0d ble hoppet over), still ett eget `ask_user`-oppfølgingsspørsmål før servering. Ved tvil kan du eskalere til R2 hvis diffen blir større enn forventet. |
 | **R2** | Ingen inspektør som default. Hvis review-valget allerede er avklart, ikke spør på nytt; kjør review bare ved ja. Hvis valget ikke er avklart ennå, skal du stille ett eget `ask_user`-oppfølgingsspørsmål etter implementering før Steg 5/servering. |
 | **R3** | Én kryssmodell-inspektør obligatorisk etter implementering; begge ved røde filer eller uklare funn. |
 | **R4** | Begge inspektører parallelt. Vurder Plan-grill før implementering. |
