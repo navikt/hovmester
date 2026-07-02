@@ -79,3 +79,50 @@ product:
     - okr
     - workshop-design
     - produktledelse
+
+# Grillmester — faselokke-agent (kravgrilling -> design -> plan -> implementer
+# -> verifiser) med disk-som-minne (.grill/) og levende docs (docs/CONTEXT.md,
+# docs/adr/, docs/GLOSSARY.md). Referanseimplementasjon: navikt/syfo-budstikka.
+# Kombineres typisk med backend-collectionen; gjenbruker eksisterende skills
+# der de finnes (grill-me, tdd, kafka-topic, ...).
+grillmester:
+  agents:
+    - grillmester
+    - grill-inspektor
+  instructions:
+    - bevisst-ai-bruk
+  skills:
+    # faselokka (nye)
+    - codebase-design
+    - decision-mapping
+    - diagnosing-bugs
+    - domain-modeling
+    - grill-with-docs
+    - handoff
+    - implement
+    - improve-codebase-architecture
+    - resolving-merge-conflicts
+    - review
+    - spike
+    - to-issues
+    - to-prd
+    - triage
+    # gjenbrukt fra eksisterende collections
+    - api-design
+    - auth-overview
+    - conventional-commit
+    - flyway-migration
+    - grill-me
+    - issue-management
+    - kafka-topic
+    - klarsprak
+    - kotlin-ktor
+    - nais-manifest
+    - nav-architecture-review
+    - nav-troubleshoot
+    - observability-setup
+    - postgresql-review
+    - pull-request
+    - readme-update
+    - security-review
+    - tdd

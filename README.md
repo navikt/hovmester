@@ -88,19 +88,21 @@ Collections grupperer instruksjoner, skills og agenter i navngitte pakker du vel
 | `backend` | Kotlin-instruksjon + 7 backend-skills (Ktor, Spring, Flyway, Kafka, Postgres, API-design, auth) |
 | `frontend` | Frontend- og tilgjengelighets-instruksjoner + 7 frontend-skills (accessibility-review, Aksel, auth, dulting, Figma-workflow, Lumi, prototype) + designer-agent |
 | `product` | Produktleder-agenten @doctor-who + 4 PM-skills (team-status, OKR, workshop-design, produktledelse). Beregnet på teamets produkt-/fellesrepo — sett gjerne `team_repo` sammen med denne |
+| `grillmester` *(eksperimentell)* | Faseløkke-agenten @grillmester (grill → design → plan → implementer → verifiser) + grill-inspektor (read-only kryssmodell-review) + 14 flyt-skills + `bevisst-ai-bruk`-instruksjonen. Kombineres med `backend`. Se [docs/grillmester-oppsett.md](docs/grillmester-oppsett.md) |
 
 **Eksempler:**
 - `"backend"` — backend-repo
 - `"frontend"` — frontend-repo
 - `"backend,frontend"` — fullstack-repo
 - `"product"` — produkt-/fellesrepo med @doctor-who (sett `team_repo` til samme repo)
+- `"backend,grillmester"` — backend-repo med grillmester-faseløkka (eksperimentell)
 - *(ingen collection utover hovmester)* — bare orkestratoren og generiske skills
 
 ## Konfigurasjon
 
 | Input | Beskrivelse | Påkrevd |
 |---|---|---|
-| `collections` | Kommaseparert liste over collections (`backend`, `frontend`, `product`, eller en kombinasjon). `hovmester` er alltid inkludert. | Ja |
+| `collections` | Kommaseparert liste over collections (`backend`, `frontend`, `product`, `grillmester`, eller en kombinasjon). `hovmester` er alltid inkludert. | Ja |
 | `exclude` | Kommaseparert liste over ting som skal utelates, f.eks. `"kafka-topic,epic"`. | Nei |
 | `github_project` | Valgfritt GitHub Project i format `owner/number`, f.eks. `"navikt/123"`. Fjern linjen hvis teamet ikke bruker GitHub Projects. | Nei |
 | `team_repo` | Valgfritt fellesrepo for teamets mål og tavle-guide i format `owner/repo`, f.eks. `"navikt/team-esyfo"`. Brukes av @doctor-who (`product`-collectionen). Fjern linjen hvis teamet ikke har et fellesrepo. | Nei |

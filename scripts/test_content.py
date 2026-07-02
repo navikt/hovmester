@@ -111,7 +111,9 @@ def test_skill_descriptions_are_trigger_oriented():
 
 def test_all_references_exist():
     skills_dir = os.path.join(DIST, "skills")
-    ref_pattern = re.compile(r"references/([a-z0-9\-]+\.md)")
+    # (?<!/) unntar kryss-skill-stier som `../annen-skill/references/x.md` —
+    # de eies og sjekkes hos skillen som har filen.
+    ref_pattern = re.compile(r"(?<!/)references/([a-z0-9\-]+\.md)")
     for skill_name in os.listdir(skills_dir):
         skill_md = os.path.join(skills_dir, skill_name, "SKILL.md")
         if not os.path.isfile(skill_md):
