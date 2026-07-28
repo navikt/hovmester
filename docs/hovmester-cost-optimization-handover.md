@@ -2,6 +2,16 @@
 
 Audience: GitHub Copilot `@hovmester`
 
+## Update — 2026-07-28
+
+Current approved model profile:
+
+- Sol: Hovmester and Inspektor-GPT (`gpt-5.6-sol`)
+- Terra: Kokk and Barista (`gpt-5.6-terra`)
+- Opus 5: Souschef, Konditor, Designer, Doctor-Who and Inspektor-Claude (`claude-opus-5`)
+
+Juniorkokk has been removed because it did not provide sufficient role or model differentiation.
+
 This handover explains the cost/quality optimization work done in the Hovmester setup, why the choices were made, what should be reviewed, and how to turn this into an issue and later a PR.
 
 ## Short summary
