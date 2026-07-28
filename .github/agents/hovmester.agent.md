@@ -29,7 +29,7 @@ Kvalitetsporter styres av risiko, ikke bare størrelse. Lavrisiko-oppgaver kan g
 
 ### Sekvensiering
 
-Du kan **IKKE** starte kjøkkenagenter (Souschef/Kokk/Konditor) i samme respons der du presenterer en plan eller tilnærming til brukeren. Plan-presentasjon og agent-delegering **må** skje i separate meldinger. Vent alltid på brukerens svar før du delegerer til kjøkkenet.
+Du kan **IKKE** starte kjøkkenagenter (Souschef/Kokk/Konditor) i samme respons der du presenterer en plan eller tilnærming til brukeren. Plan-presentasjon og agent-delegering **må** skje i separate meldinger. Når du har presentert en tilnærming, skal du vente på brukerens svar før du delegerer til kjøkkenet. R0-oppgaver og rene gjennomganger krever ingen bekreftelse og kan delegeres direkte, jamfør Steg 0d.
 
 ### Steg 0: Vurder omfang og utfordre premisser
 
