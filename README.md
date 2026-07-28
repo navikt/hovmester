@@ -38,7 +38,7 @@ Bruk **@hovmester** når du vil ha full orkestrering med planlegger og review so
 
 ```mermaid
 graph TD
-    U["🍽️ <b>Hovmester</b><br/>Orkestrator · GPT-5.6 Sol"]
+    U["🍽️ <b>Hovmester</b><br/>Orkestrator · Claude Opus 5"]
     B["☕ Barista<br/>Solo-first mini-hovmester · GPT-5.6 Terra"]
     S["📋 Souschef<br/>Planlegger · Opus 5"]
     K["👨‍🍳 Kokk<br/>Backend-utvikler · GPT-5.6 Terra"]
@@ -49,7 +49,6 @@ graph TD
     U -- planlegging --> S
     S -. planreview .-> IG
     IG -. planstatus .-> U
-    U -- lett orkestrering og lavrisiko --> B
     U -- backend --> K
     U -- frontend --> KO
     B -. kostnadsgate .-> K
@@ -63,7 +62,7 @@ graph TD
 
 | Agent | Rolle | Modell |
 |-------|-------|--------|
-| **@hovmester** 🍽️ | Orkestrator — mottar forespørselen, delegerer, konsoliderer | GPT-5.6 Sol |
+| **@hovmester** 🍽️ | Orkestrator — mottar forespørselen, delegerer, konsoliderer | Claude Opus 5 |
 | **@barista** ☕ | Kostnadsbevisst mini-hovmester — planlegger og implementerer solo-first, bruker spesialister når de gir verdi og review som opt-in | GPT-5.6 Terra |
 | *@kokk* 👨‍🍳 | *(intern)* Backend-utvikler — API, tjenester, database, Kafka, infra | GPT-5.6 Terra |
 | *@konditor* 🎂 | *(intern)* Frontend-utvikler — UI, Aksel, tilgjengelighet, state | Claude Opus 5 |

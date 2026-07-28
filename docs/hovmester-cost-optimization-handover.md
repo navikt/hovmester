@@ -6,11 +6,13 @@ Audience: GitHub Copilot `@hovmester`
 
 Current approved model profile:
 
-- Sol: Hovmester and Inspektor-GPT (`gpt-5.6-sol`)
+- Sol: Inspektor-GPT (`gpt-5.6-sol`)
 - Terra: Kokk and Barista (`gpt-5.6-terra`)
-- Opus 5: Souschef, Konditor, Designer, Doctor-Who and Inspektor-Claude (`claude-opus-5`)
+- Opus 5: Hovmester, Souschef, Konditor, Designer, Doctor-Who and Inspektor-Claude (`claude-opus-5`)
 
 Juniorkokk has been removed because it did not provide sufficient role or model differentiation.
+
+Barista is a standalone user-invocable agent and is not part of Hovmester's routing.
 
 This handover explains the cost/quality optimization work done in the Hovmester setup, why the choices were made, what should be reviewed, and how to turn this into an issue and later a PR.
 
