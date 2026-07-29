@@ -2,7 +2,23 @@
 
 Audience: GitHub Copilot `@hovmester`
 
-This handover explains the cost/quality optimization work done in the Hovmester setup, why the choices were made, what should be reviewed, and how to turn this into an issue and later a PR.
+Dette dokumentet har to deler: Gjeldende modellprofil står øverst. Historikken nedenfor beskriver den opprinnelige kostnadsoptimaliseringen og er ikke gjeldende konfigurasjon.
+
+## Update — 2026-07-28
+
+Gjeldende godkjente modellprofil:
+
+- GPT-5.6 Sol: Inspektor-GPT (`gpt-5.6-sol`)
+- GPT-5.6 Terra: Kokk og Barista (`gpt-5.6-terra`)
+- Claude Opus 5: Hovmester, Souschef, Konditor, Designer, Doctor-Who og Inspektor-Claude (`claude-opus-5`)
+
+Juniorkokk er fjernet fordi agenten ikke skilte seg nok ut fra de andre i rolle eller modell.
+
+Barista kan kalles direkte av brukeren og inngår ikke i Hovmesters routing.
+
+## Historikk (før 2026-07-28)
+
+Innholdet nedenfor dokumenterer den opprinnelige kostnadsoptimaliseringen. Det beskriver ikke gjeldende konfigurasjon.
 
 ## Short summary
 

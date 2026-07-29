@@ -1,6 +1,6 @@
 # hovmester 🍽️
 
-Multi-agent Copilot-orkestrering for Nav-team. Én workflow gir repoet ditt en orkestrator (hovmester), en planlegger (souschef), en lavrisiko-vedlikeholder (juniorkokk), spesialister (kokk/konditor) og kryssmodell-reviewere (inspektører) — pluss felles instruksjoner, skills og issue-/PR-templates.
+Multi-agent Copilot-orkestrering for Nav-team. Én workflow gir repoet ditt en orkestrator (hovmester), en solo-first mini-hovmester (barista), en planlegger (souschef), spesialister (kokk/konditor) og kryssmodell-reviewere (inspektører) — pluss felles instruksjoner, skills og issue-/PR-templates.
 
 ## Kom i gang
 
@@ -38,20 +38,17 @@ Bruk **@hovmester** når du vil ha full orkestrering med planlegger og review so
 
 ```mermaid
 graph TD
-    U["🍽️ <b>Hovmester</b><br/>Orkestrator · GPT 5.5"]
-    B["☕ Barista<br/>Solo-first mini-hovmester · GPT 5.4"]
-    S["📋 Souschef<br/>Planlegger · Opus 4.8"]
-    J["🧑‍🍳 Juniorkokk<br/>Lavrisiko vedlikehold · GPT-5.4 mini"]
-    K["👨‍🍳 Kokk<br/>Backend-utvikler · GPT-5.4"]
-    KO["🎂 Konditor<br/>Frontend-utvikler · Claude Sonnet 4.6"]
-    IC["🔬 Inspektor-Claude<br/>Reviewer for GPT-kode · Opus 4.8"]
-    IG["🔬 Inspektor-GPT<br/>Reviewer for Claude-kode · GPT 5.5"]
+    U["🍽️ <b>Hovmester</b><br/>Orkestrator · Claude Opus 5"]
+    B["☕ Barista<br/>Solo-first mini-hovmester · GPT-5.6 Terra"]
+    S["📋 Souschef<br/>Planlegger · Claude Opus 5"]
+    K["👨‍🍳 Kokk<br/>Backend-utvikler · GPT-5.6 Terra"]
+    KO["🎂 Konditor<br/>Frontend-utvikler · Claude Opus 5"]
+    IC["🔬 Inspektor-Claude<br/>Reviewer for GPT-kode · Claude Opus 5"]
+    IG["🔬 Inspektor-GPT<br/>Reviewer for Claude-kode · GPT-5.6 Sol"]
 
     U -- planlegging --> S
     S -. planreview .-> IG
     IG -. planstatus .-> U
-    U -- lett orkestrering --> B
-    U -- lavrisiko --> J
     U -- backend --> K
     U -- frontend --> KO
     B -. kostnadsgate .-> K
@@ -65,16 +62,15 @@ graph TD
 
 | Agent | Rolle | Modell |
 |-------|-------|--------|
-| **@hovmester** 🍽️ | Orkestrator — mottar forespørselen, delegerer, konsoliderer | GPT 5.5 |
-| **@barista** ☕ | Kostnadsbevisst mini-hovmester — planlegger og implementerer solo-first, bruker spesialister når de gir verdi og review som opt-in | GPT 5.4 |
-| *@juniorkokk* 🧑‍🍳 | *(intern)* Lavrisiko vedlikeholder — docs, tekst, templates, små config-endringer | GPT-5.4 mini |
-| *@kokk* 👨‍🍳 | *(intern)* Backend-utvikler — API, tjenester, database, Kafka, infra | GPT-5.4 |
-| *@konditor* 🎂 | *(intern)* Frontend-utvikler — UI, Aksel, tilgjengelighet, state | Claude Sonnet 4.6 |
-| *@souschef* 📋 | *(intern)* Planlegger — utforsker kodebasen, lager implementasjonsplaner | Opus 4.8 |
-| **@designer** ✏️ | Designer-agent — designhjelp, Figma-skisser og visuelle konsepter | Opus 4.8 |
-| **@doctor-who** 🕰️ | Produktleder-agent — teamstatus, prioritering, oppgaver, OKR, workshops/teamhelse og discovery | Opus 4.8 |
-| *@inspektor-claude* 🔬 | *(intern)* Kryssmodell-reviewer — Opus 4.8 gjennomgår GPT-kode | Opus 4.8 |
-| *@inspektor-gpt* 🔬 | *(intern)* Kryssmodell-reviewer — GPT gjennomgår Claude-kode | GPT 5.5 |
+| **@hovmester** 🍽️ | Orkestrator — mottar forespørselen, delegerer, konsoliderer | Claude Opus 5 |
+| **@barista** ☕ | Kostnadsbevisst mini-hovmester — planlegger og implementerer solo-first, bruker spesialister når de gir verdi og review som opt-in | GPT-5.6 Terra |
+| *@kokk* 👨‍🍳 | *(intern)* Backend-utvikler — API, tjenester, database, Kafka, infra | GPT-5.6 Terra |
+| *@konditor* 🎂 | *(intern)* Frontend-utvikler — UI, Aksel, tilgjengelighet, state | Claude Opus 5 |
+| *@souschef* 📋 | *(intern)* Planlegger — utforsker kodebasen, lager implementasjonsplaner | Claude Opus 5 |
+| **@designer** ✏️ | Designer-agent — designhjelp, Figma-skisser og visuelle konsepter | Claude Opus 5 |
+| **@doctor-who** 🕰️ | Produktleder-agent — teamstatus, prioritering, oppgaver, OKR, workshops/teamhelse og discovery | Claude Opus 5 |
+| *@inspektor-claude* 🔬 | *(intern)* Kryssmodell-reviewer — Claude Opus 5 gjennomgår GPT-kode | Claude Opus 5 |
+| *@inspektor-gpt* 🔬 | *(intern)* Kryssmodell-reviewer — GPT-5.6 Sol gjennomgår Claude-kode | GPT-5.6 Sol |
 
 > Én agent eier hele funksjonssnitt vertikalt. I ikke-trivielle arbeidsflyter fanger kryssmodell-review blindsoner: Claude gjennomgår GPT-kode, og GPT gjennomgår både Claude-kode og Souschef-planer for medium/store oppgaver før hovmester presenterer planen.
 
