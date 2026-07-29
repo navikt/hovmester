@@ -2,19 +2,23 @@
 
 Audience: GitHub Copilot `@hovmester`
 
+Dette dokumentet har to deler: Gjeldende modellprofil står øverst. Historikken nedenfor beskriver den opprinnelige kostnadsoptimaliseringen og er ikke gjeldende konfigurasjon.
+
 ## Update — 2026-07-28
 
-Current approved model profile:
+Gjeldende godkjente modellprofil:
 
-- Sol: Inspektor-GPT (`gpt-5.6-sol`)
-- Terra: Kokk and Barista (`gpt-5.6-terra`)
-- Opus 5: Hovmester, Souschef, Konditor, Designer, Doctor-Who and Inspektor-Claude (`claude-opus-5`)
+- GPT-5.6 Sol: Inspektor-GPT (`gpt-5.6-sol`)
+- GPT-5.6 Terra: Kokk og Barista (`gpt-5.6-terra`)
+- Claude Opus 5: Hovmester, Souschef, Konditor, Designer, Doctor-Who og Inspektor-Claude (`claude-opus-5`)
 
-Juniorkokk has been removed because it did not provide sufficient role or model differentiation.
+Juniorkokk er fjernet fordi agenten ikke skilte seg nok ut fra de andre i rolle eller modell.
 
-Barista is a standalone user-invocable agent and is not part of Hovmester's routing.
+Barista kan kalles direkte av brukeren og inngår ikke i Hovmesters routing.
 
-This handover explains the cost/quality optimization work done in the Hovmester setup, why the choices were made, what should be reviewed, and how to turn this into an issue and later a PR.
+## Historikk (før 2026-07-28)
+
+Innholdet nedenfor dokumenterer den opprinnelige kostnadsoptimaliseringen. Det beskriver ikke gjeldende konfigurasjon.
 
 ## Short summary
 
